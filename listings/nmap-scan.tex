@@ -1,0 +1,21 @@
+%! Author = chaorn
+%! Date = 10.03.24
+\lstdefinestyle{nmap}{
+    columns=fixed,
+}
+
+\begin{lstlisting}[style=nmap, language=bash, caption={Zeigt die Ausgabe des Portscans des Geräts mit nmap. Die hier verwendeten Flags \texttt{-sV -p-}
+                            bezwecken die Ausgabe der Version der Services aller Ports.},label={lst:nmap-scan}]
+$ sudo nmap -sV -p- 10.0.0.10
+Starting Nmap 7.93 (https://nmap.org) at 2023-10-31 14:31 CET
+Nmap scan report for 10.0.0.10
+Host is up (0.00030s latency).
+Not shown: 65529 closed tcp ports (reset)
+PORT       STATE  SERVICE      VERSION
+22/tcp     open   ssh          Dropbear sshd 2022.83
+80/tcp     open   http         Node.js Express framework
+3060/tcp   open   http         Node.js
+4352/tcp   open   pjlink       PJLink projector control
+7142/tcp   open   unknown
+41794/tcp  open   tcpwrapped
+\end{lstlisting}

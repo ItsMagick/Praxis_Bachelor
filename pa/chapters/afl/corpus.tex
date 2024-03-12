@@ -1,0 +1,35 @@
+%! Author = charon
+%! Date = 2/8/24
+
+\subsection{Auswahl des Korpus der Fuzzing Kampagne}\label{subsec:corpus}
+
+Der Korpus -- die von~\gls{afl} und~\gls{aflpp} verwendeten Inputs -- spielt eine zentrale Rolle in der Fuzzing-Kampagne.
+Er besteht aus Daten, die von dem zu untersuchenden Binary gelesen und verarbeitet werden.
+Sie dienen als Anhaltspunkt für~\gls{aflpp}, um das Programm zu starten und erfolgreich zu terminieren und somit möglichst viele Programmpfade abzulaufen.
+Der Korpus kann, je nach Anwendungsfall, unterschiedlich aussehen.
+Beispielsweise erwartet ein Programm wie Adobe Acrobat Reader, Dateien mit der Dateiendung \textit{.pdf}.
+Die interne Struktur der darin enthaltenen Daten muss in~\gls{pdf}-Syntax~\ref{lst:example.pdf} vorliegen.
+Ein~\gls{cli}-Programm erwartet andererseits Daten, die ihm bereits beim Start übergeben werden müssen (siehe Listing~\ref{lst:stdin_program.c}).
+\linebreak
+Der initiale Korpus beim Starten des Binarys mit~\gls{aflpp} kann aus mindestens einer Datei bestehen.
+Die optimale Dateigröße beträgt unter einem~\gls{kb}.
+Mehrere Dateien im Korpus sollen nur vorhanden sein, wenn diese auch verschiedene Programmpfade - also andere Zustände - des Programms erreichen.\\
+\linebreak
+Das Netzwerkprotokoll der zu untersuchenden Applikation verarbeitet Bytes.
+Hierbei können die an das Protokoll gesendeten Bytes in ihrer Länge variieren.
+So steht der Befehl \texttt{\textbackslash x02\textbackslash x00\textbackslash x00\textbackslash x00\textbackslash x00\textbackslash x02}
+für das Hochfahren des Gerätes.
+Bei solchen Standardbefehlen stehen alle Bytes bereits fest und müssen nicht manuell angepasst werden.
+Es existieren ebenfalls variable Befehle.
+Der Befehl \texttt{\textbackslash x03\textbackslash x9A\textbackslash x00\textbackslash x00\textbackslash x01\textbackslash<Var1>\textbackslash<CKS>}
+ist für die Anfrage der ~\ce{CO2} Ersparnisse einer speziellen Peripherie verantwortlich.
+Beim Senden dieses Befehls müssen vom Benutzer händisch eingetragene Werte mitgegeben werden.
+Das Symbol \texttt{<Var1>} steht für ein Byte und das Symbol \texttt{<CKS>} steht für die Prüfsumme.
+Sie besteht aus dem letzten Byte der Quersumme aller zu sendenden Bytes.
+In dem Protokoll, welches diese Befehle verarbeitet, existiert eine \textit{state machine}, welche das Programm anhand der gelieferten
+Daten in einen definierten Zustand versetzt. \\
+\linebreak\linebreak
+Mit dem Wissen ist ein Befehl in zwei Teile einteilbar.
+\input{listings/aufbau-befehl}
+Der zu sendende Befehl besteht mindestens aus fünf Bytes, gefolgt von der bereits beschriebenen Prüfsumme.
+

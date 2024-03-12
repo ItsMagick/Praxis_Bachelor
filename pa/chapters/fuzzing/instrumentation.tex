@@ -1,0 +1,15 @@
+%! Author = charon
+%! Date = 2/8/24
+\subsection{Instrumentation des Programms mit AFL++}\label{subsec: binary-only-instrumentation}
+Fuzzing mit~\gls{afl} folgt einer klaren Vorgehensweise.
+Da es sich bei der Umsetzung der Fuzzing Kampagne um ein Closed-Source-Binary handelt, wird der von ~\gls{afl}
+bereitgestellte~\gls{qemu} verwendet.
+\gls{qemu} ist eine Virtualisierungsumgebung, welche dafür verwendet wird, das Binary in einer emulierten
+Umgebung starten zu können.
+Aufgrund der hohen flexibilität von~\gls{qemu} ist es auch möglich, plattformunabhängig Binarys einer anderen Architektur auszuführen.
+Somit ist es möglich, auf einer~\gls{arm} Plattform Programme mit x86 Architektur und umgekehrt auszuführen.
+Die Plattformunterstützung muss beim Bau von~\gls{afl} manuell mitgegeben werden.
+Das kann durch das Bauen des~\gls{qemu}-Supports mithilfe des Komfortscripts \textit{build\_qemu\_support.sh} in Kombination des
+Setzens einer Umgebungsvariable \texttt{CPU\_TARGET=arm}~\ref{lst:build-qemu} erreicht werden~\cite{afl-build-qemu}. \\
+Dieser Modus ist beim Starten des Fuzzers mithilfe des \texttt{-Q} Flags benutzbar.
+Wie die~\gls{qemu} Umgebung mit der Firmware vorbereitet wird, ist in Abschnitt~\ref{subsec: bwrap} beschrieben.

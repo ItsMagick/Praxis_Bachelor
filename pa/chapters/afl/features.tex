@@ -1,0 +1,51 @@
+%! Author = charon
+%! Date = 2/8/24
+
+\subsection{Features von AFL++}\label{subsec:features-von-afl++}
+\gls{afl} ist ein sehr umfangreiches Werkzeug zum Testen der Stabilität von Programmen.
+Das volle Potenzial des Fuzzers wurde im Rahmen dieser Arbeit nicht ausgeschöpft, da es nicht den Anforderungen der Arbeit
+entspricht.
+Jedoch wurden einige Modi und Werkzeuge von \gls{afl} verwendet.
+Die in dieser Arbeit verwendeten Modi und Techniken von~\gls{afl} werden im Folgenden erläutert.
+Zuerst wird ein Überblick über den~\gls{qemu}-Mode zur allgemeinen Instrumentierung des zu untersuchenden Programms gegeben.
+Im Anschluss werden die Technologien und Ansätze des Fuzzings einer Netzwerkapplikation näher beschrieben, um
+ein grobes Verständnis der Aufgabenstellung zu schaffen.
+\subsubsection{QEMU-Mode zur Instrumentation von Binärdateien}
+Wie bereits in der Sektion~\ref{subsec:afl} beschrieben, werden beim Fuzzen des Zielbinarys die Instrumentationsinstruktionen
+für~\gls{afl} zur Laufzeit des Programms bereitgestellt.
+Für das Untersuchen eines Binarys, welches eine andere Architektur als das Hostsystem besitzt, stellt \gls{afl}
+einen Modus zum Emulieren eines anderen Systems zur Verfügung.
+Dieser Modus in \gls{afl} wird \textit{\gls{qemu}-Mode} genannt.\\
+\gls{qemu} ist ein Open-Source Emulations- und Virtualisierungsprogramm.
+Die in \gls{qemu} enthaltenen Emulationen beschränken sich auf zwei Modi~\cite{qemu}:
+\begin{itemize}
+    \item System Emulation
+    \item User Mode Emulation
+\end{itemize}
+In dem \textit{System Emulation} Modus wird ein komplettes System als virtualisiertes Modell bereitgestellt.
+Dazu gehören physische Komponenten wie \gls{cpu} und physischer Speicher.
+Die Besonderheit dieses Modus ist, dass die \gls{cpu} auch direkt mit dem Hostsystem von einem Hypervisor verwendet werden
+kann. \\
+Bei der \textit{User Mode Emulation} wird die \gls{cpu} immer vollständig emuliert.
+Dieser Modus ermöglicht, es ein Programm platformunabhängig in einer virtualisierten Umgebung, zu starten.
+\gls{afl} verwendet zur Untersuchung eines Binarys ohne Zugriff auf den dazugehörigen Quellcode eine eigene, leicht
+angepasste Version der User Mode Emulation~\cite{afl-qemu-how}.\\
+\linebreak
+Die von \gls{afl} benötigten Daten der Codepfadabdeckung werden über einen zwischen \gls{qemu} und dem Fuzzer geteilten
+Speicher an den Fuzzer übergeben.
+Dabei ist \gls{afl} für die Verwaltung des geteilten Speichers verantwortlich.
+Die von \gls{afl} angepasste Version von \gls{qemu} ist für das Sammeln und Befüllen des geteilten Speichers verantwortlich~\cite{afl-qemu-coverage}.
+\subsubsection{Fuzzing einer Netzwerkapplikation}\label{subsubsec:fuzzing-netzwerk-app}
+Das Fuzzen von Netzwerkapplikationen ist mit~\gls{afl} nicht vorgesehen.
+Benutzt man hierbei einen herkömmlichen Netzwerkchannel im Gegensatz zu der vorgesehenen Herangehensweise aus der Sektion\ref{subsec:afl},
+so muss mit Geschwindigkeitsverlusten von bis zu einem Faktor von 20 gerechnet werden.
+Um das Fuzzen von Netzwerkapplikationen zu ermöglichen, müssen einige Tricks verwendet werden.
+Dazu gehört die Anpassung des Sourcecodes, sodass die Applikation Eingaben über stdin oder über Filedeskriptoren statt über Netzwerksockets liest.
+\linebreak
+Möchte man dies realisieren, so gibt es die Möglichkeit, mithilfe einer \textit{preload library} den bereits
+implementierten Programmcode zu überschreiben.
+Von~\gls{afl} existiert bereits eine rudimentäre Implementierung einer solchen Bibliothek~\cite{afl-best-practice}, die für jedes Binary
+überschrieben werden muss.
+Dieser Bibliothek wurde in dieser Arbeit erweitert und auf die Anforderungen des zu untersuchenden Programmes
+angepasst.
+Die genauere Umsetzung der preload library wird in Abschnitt ~\ref{subsec: desocketing} beschrieben.

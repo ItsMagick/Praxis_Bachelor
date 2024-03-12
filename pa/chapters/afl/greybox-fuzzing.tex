@@ -1,0 +1,26 @@
+%! Author = charon
+%! Date = 2/8/24
+\subsection{Grey-Box-Fuzzing unter AFL++}\label{subsec:greybox-fuzzing}
+Ein Fuzzer kann in die Kategorien \textit{White-Box-Fuzzer}, \textit{Black-Box-Fuzzer} und \textit{Grey-Box-Fuzzer} eingeteilt werden.
+Diese Einteilung ergibt sich aus der Informationsgewinnung des zu untersuchenden Programms.\\
+\linebreak
+Ein White-Box-Fuzzer nutzt Informationen von vorhandenem Quellcode und der dessen Logik.
+Dadurch ist es mit einem White-Box-Fuzzer möglich, sehr komplexe Schwachstellen innerhalb eines Programms zu finden. \\
+Ein Black-Box-Fuzzer hingegen ist ein Fuzzer, der keine Verwendung des enthaltenen Quellcodes und der darin enthaltenen
+Logik macht.
+Er prüft lediglich, ob das zu untersuchende Programm den von ihm verwendeten Input akzeptiert\cite{iot-fuzzing}. \\
+\gls{aflpp} ist ein Werkzeug, das ursprünglich dazu vorgesehen ist, eigenen Code an jeder Zweigstelle (branch) im
+Programmcode eines zu untersuchenden Programms mithilfe des vorhandenen Quellcodes einzufügen.
+Diesen Prozess nennt man Instrumentation.
+Durch diesen Schritt kann die erreichte Tiefe (\textit{code coverage}) eines Inputs verfolgt werden~\cite{afl-instr}.
+Dieser Schritt wird bereits beim Kompilieren des Programms mithilfe eines angepassten Compilers von AFL ausgeführt.
+Da \gls{aflpp} die Informationen der erreichten Codepfade verwendet, um die Qualität des Inputs einzuschätzen,
+wird der Fuzzer als Grey-Box-Fuzzer eingestuft.\\
+Da in diesem Projekt eine Applikation untersucht wird, bei der kein Quellcode vorhanden ist, funktioniert ~\gls{aflpp}
+anders.
+\gls{aflpp} fügt während der Laufzeit einer emulierten Applikation Instruktionen zur Instrumentierung hinzu.
+Hierbei werden, ähnlich wie beim zuvor angesprochenen Ansatz, die basic blocks auf Byte-Ebene betrachtet.
+Dazu wird der Bytecode nicht angepasst.
+Stattdessen wird jedes Byte jeder Vergleichsinstruktion mithilfe von
+Hooks, die in \gls{aflpp} implementiert sind, verglichen.
+Dadurch wird ermittelt, ob ein neuer Pfad im Programm gefunden wurde~\cite[vgl.][6]{AFLplusplus-Woot20}.

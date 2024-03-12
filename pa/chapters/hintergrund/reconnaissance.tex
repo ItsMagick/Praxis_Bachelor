@@ -1,0 +1,35 @@
+%! Author = charon
+%! Date = 2/8/24
+
+\subsection{Reconnaissance}\label{subsec:reconnaissance}
+Um ein genaueres Bild des \gls{iot}-Geräts zu erhalten, wurden Informationen über das System gesammelt.
+Dieser Prozess wird in der Cyber Security auch als \textit{Reconnaissance} bezeichnet.
+Reconnaissance kann in die zwei Bereiche \textit{aktive} und \textit{passive} Reconnaissance eingeteilt werden.
+Aktive Reconnaissance beschäftigt sich dabei hauptsächlich mit der direkten Interaktion mit einem System.
+Bei der passiven Reconnaissance hingegen beschäftigt man sich mit der Recherche ohne Interaktion mit dem System.
+Dieses Kapitel macht Gebrauch von beiden Aspekten dieses Konzepts.\\
+\linebreak
+Die im Kapitel~\ref{sec:einleitung} beschriebene Path-Traversal-Schwachstelle resultierte darin, dass ein Snapshot des ~\gls{iot}-
+Geräts und somit auch der Firmware gemacht werden konnte.
+Die Firmware beinhaltet ein Hauptbinary mit dem Namen \textit{mmapp}, das für alle Benutzerfunktionen des Geräts
+verantwortlich ist.
+Bei diesem Binary handelt es sich um ein dynamisch gelinktes Closed-Source-\gls{elf}-Binary in einer 32-Bit-Architektur.
+Die Plattform, für die das Binary kompiliert wurde, ist eine ~\gls{arm}v7 Plattform.
+\input{listings/file-mmapp}
+Da das Binary dynamisch gelinkt ist, ist davon auszugehen, dass es von Bibliotheken außerhalb des Binarys abhängig ist.
+Während der Laufzeit des Programms werden die benötigten Bibliotheken in den Adressraum des Programms geladen.
+In Listing~\ref{lst:ldd-mmapp} sind die Bibliotheken aufgeführt, die von mmapp verwendet werden.
+Ein Portscan mit~\gls{nmap} zeigt offene~\gls{tcp}-Ports.
+\pagebreak
+\input{listings/nmap-scan}
+Die Ports \textit{80} und \textit{3060} verweisen auf ein öffentlich zugängliches Webinterface.
+Zusätzlich befindet sich auf dem Port \textit{4352} ein textbasiertes Protokoll namens \textit{pjlink}.
+Der für diese Arbeit relevante Port ist heit der Port mit der Nummer \textit{7142}.
+Laut der Dokumentation des Herstellers ~\cite{binary-prot-doc}, existiert ein
+Netzwerkprotokoll zur Fernsteuerung des Geräts auf dem offenen ~\gls{tcp}-Port 7142.
+Dieses Protokoll erwartet Bytes als Input.
+Für die Kommunikation mit dem Gerät über~\gls{tcp} wird ein Python-Skript~\cite{binaryProt-py} verwendet, das zunächst nur die in der Dokumentation festgehaltenen Befehle enthält.
+Die nach dem Ausführen des Scripts erhaltenen Antworten werden in einer Tabelle~\cite{reqs-n-res} festgehalten. \\
+Das Senden der Befehle erfordern das Mitgeben einer Checksumme.
+Die Checksumme berechnet sich aus der Summer aller im Befehl enthaltenen Bytes.
+Im Anschluss wird nur das letzte Byte betrachtet, das der mitzusendenden Checksumme entspricht.
