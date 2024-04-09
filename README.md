@@ -1,4 +1,4 @@
-# HAW Hof Bachelor LaTeX Skeleton
+# HAW Hof Bachelor/Practical Thesis
 
 This should help you to match the formal requirements for a Bachelor thesis at [Hof University](https://www.hof-university.de "University Homepage").
 
