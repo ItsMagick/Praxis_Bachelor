@@ -22,7 +22,8 @@ The `abbrev.tex` contains the abbriviations you want to use.
 
 ### Compilation
 
-Run `latexmk -pdf Bachelorarbeit.tex` or `latexmk -pdf Praxisarbeit.tex` to compile your documents.
+Run `run_praxis.sh` or `run_bachelor.sh` or `run_quick <Praxisarbeit/Bachelorarbeit.tex`to compile your documents.
+Side Note: The script uses a Docker image to compile it automatically.
 
 ## Contribution
 
