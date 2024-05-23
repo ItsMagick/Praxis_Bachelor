@@ -1,6 +1,6 @@
 # HAW Hof Bachelor/Practical Thesis
 
-This should help you to match the formal requirements for a Bachelor thesis at [Hof University](https://www.hof-university.de "University Homepage").
+This should help you to match the formal requirements for a Bachelor thesis at [Hof University](https://www.hof-university.de/fileadmin/user_upload/studienbuero/download/Abschlussarbeit/Bachelorarbeit-Aufbau.pdf "Formal Requirements").
 
 ## How to use
 
@@ -18,11 +18,11 @@ The same is true for the `pa/*` files and `Praxisarbeit.tex`.
 `appendix.tex` and `postmeta.tex` are included last. Contents of `appendix.tex` should be clear, `postmeta.tex` is used for content after the appendix, such as the bibliography list.
 
 The `src.bib` contains the definitions of your bibliographic references.
-The `abbrev.tex` contains the abbriviations you want to use.
+The `abbrev.tex` contains the abbreviations you want to use.
 
 ### Compilation
 
-Run `run_praxis.sh` or `run_bachelor.sh` or `run_quick <Praxisarbeit/Bachelorarbeit.tex`to compile your documents.
+Run `run_praxis.sh` or `run_bachelor.sh` or `run_quick <Praxisarbeit/Bachelorarbeit.tex>`to compile your documents.
 Side Note: The script uses a Docker image to compile it automatically.
 
 ## Contribution
