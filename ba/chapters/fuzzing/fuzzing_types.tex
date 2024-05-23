@@ -2,6 +2,20 @@
 %! Date = 5/23/24
 
 \subsection{Arten des Fuzzing}\label{subsec:arten-des-fuzzing}
+Die Arten des Fuzzing sind in drei Kategorien unterteilt:
+\begin{itemize}
+    \item Black-box Fuzzing
+    \item White-box Fuzzing
+    \item Gray-box Fuzzing
+\end{itemize}
+Jede Kategorie hat ihre eigenen Vor- und Nachteile und wird in den folgenden Abschnitten näher erläutert.
 \subsubsection{Back-box Fuzzing}
+Im Black-box Fuzzing wird die Software ohne Kenntnis des Quellcodes getestet.
+Der Fuzzer generiert zufällige oder semi-zufällige Eingaben und übergibt sie der Software.
+Das Generieren der Eingaben erfolgt in der Regel durch Mutation von vorhandenen Eingaben oder durch Generierung neuer Eingaben
+und wird durch Regeln limitiert.
+Somit wird sichergestellt, dass die Mehrheit der Eingaben nicht von der zu untersuchenden Software -- aufgrund von Syntaxfehlern -- abgelehnt wird.
+Bei der Durchführung des Fuzzing überwacht der Fuzzer das Verhalten der Software und prüft, ob unerwartetes Verhalten auftritt.
+
 \subsubsection{White-box Fuzzing}
 \subsubsection{Gray-box Fuzzing}

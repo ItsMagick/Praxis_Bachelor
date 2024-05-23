@@ -24,7 +24,3 @@ The `abbrev.tex` contains the abbreviations you want to use.
 
 Run `run_praxis.sh` or `run_bachelor.sh` or `run_quick <Praxisarbeit/Bachelorarbeit.tex>`to compile your documents.
 Side Note: The script uses a Docker image to compile it automatically.
-
-## Contribution
-
-Contributions and suggestions of any kind are welcome.
