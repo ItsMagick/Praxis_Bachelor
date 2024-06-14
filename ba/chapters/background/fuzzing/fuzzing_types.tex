@@ -1,15 +1,15 @@
 %! Author = charon
 %! Date = 5/23/24
 
-\subsection{Arten des Fuzzing}\label{subsec:arten-des-fuzzing}
+\subsubsection{Arten des Fuzzing}\label{subsec:arten-des-fuzzing}
 Die Arten des Fuzzing sind in drei Kategorien unterteilt:
 \begin{itemize}
     \item Black-box Fuzzing
     \item White-box Fuzzing
     \item Gray-box Fuzzing
 \end{itemize}
-Jede Kategorie hat ihre eigenen Vor- und Nachteile und wird in den folgenden Abschnitten näher erläutert.
-\subsubsection{Back-box Fuzzing}
+Jede Kategorie hat ihre eigenen Vor- und Nachteile und wird in den folgenden Abschnitten näher erläutert.\newline
+%\subsubsection{Back-box Fuzzing}
 Im Black-box Fuzzing wird die Software ohne Kenntnis des ursprünglichen Quellcodes getestet.
 Der Fuzzer generiert zufällige oder semi-zufällige Eingaben und übergibt sie der Software.
 Das Generieren der Eingaben erfolgt in der Regel durch Mutation von vorhandenen Eingaben oder durch Generierung neuer Eingaben
@@ -24,8 +24,8 @@ Zudem werden Fehler gefunden, welche durch einen Nutzer der Software ausgelöst 
 Der ausschlaggebende Nachteil dieser Vorgehensweise ist, dass die Eingaben aufgrund limitierter Informationen über die Software
 nicht zu komplexeren Bugs führen können.
 Das hat zufolge, dass die gefundenen Bugs meistens einfacher Natur sind und Eingaben oftmals nicht in Tiefe Verzweigungen des Codes
-gelangen können.
-\subsubsection{White-box Fuzzing}
+gelangen können.\newline
+%\subsubsection{White-box Fuzzing}
 Im Gegensatz zum Black-box Fuzzing wird im White-box Fuzzing der Quellcode der Software benötigt.
 Der Fuzzer generiert Eingaben, die auf der Analyse des Quellcodes basieren.
 Dabei werden die Eingaben so generiert, dass sie die verschiedenen Pfade und Verzweigungen des Codes abdecken.
@@ -34,8 +34,8 @@ Durch die Kenntnis des Quellcodes kann der Fuzzer gezieltere Eingaben generieren
 Die Vorteile dieser Methode sind, dass sie effektiver ist als Black-box Fuzzing, da sie gezieltere Eingaben generieren kann.
 Sie kann auch dazu verwendet werden, um spezifische Teile des Codes zu testen und um sicherzustellen, dass sie korrekt funktionieren.
 Der Nachteil dieser Methode ist, dass der Quellcode verfügbar sein muss, was bei proprietärer Software ein Problem darstellen kann.
-Zudem kann das White-box Fuzzing aufgrund der Komplexität des Codes und der Anzahl der möglichen Pfade und Verzweigungen sehr aufwendig sein.
-\subsubsection{Gray-box Fuzzing}
+Zudem kann das White-box Fuzzing aufgrund der Komplexität des Codes und der Anzahl der möglichen Pfade und Verzweigungen sehr aufwendig sein.\newline
+%\subsubsection{Gray-box Fuzzing}
 Gray-box Fuzzing ist eine Kombination aus Black-box und White-box Fuzzing.
 Die Verwendung eines Gray-box Fuzzers erfordert keinen Zugriff auf Sourcecode, jedoch kann dieser optional verwendet werden.
 Unter Verwendung des Quellcodes kann die Performance des Fuzzers verbessert werden, indem gezieltere Eingaben generiert werden.
