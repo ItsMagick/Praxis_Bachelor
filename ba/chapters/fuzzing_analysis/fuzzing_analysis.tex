@@ -9,41 +9,6 @@ Die Effektivität eines Fuzzers wird anhand der Anzahl der gefundenen Bugs gemes
 Die Geschwindigkeit eines Fuzzers wird anhand der Anzahl der generierten Eingaben pro Sekunde gemessen.
 Die Reproduzierbarkeit eines Fuzzers wird anhand der Anzahl der reproduzierten Bugs gemessen.\newline
 Zur Analyse der Performance werden die beiden Fuzzer \gls{afl} und boofuzz verwendet.
-\subsection{AFL}\label{subsec:afl}
-\gls{afl} ist ein Fuzzer, der auf der Codeabdeckung basiert.
-Er zählt somit zu der Familie der Grey-Box Fuzzer und basiert auf einer mutationsbasierten Fuzzing-Technik.
-Bei \gls{afl} handelt es sich ebenso um einen Applikationsfuzzer, welcher mithilfe eines Eingabestreams Daten
-an ein \gls{zup} sendet und somit die Software auf Schwachstellen testet.
-\subsubsection{Setup}
-\begin{itemize}
-    \item Hier beschreiben wie \gls{afl} konfiguriert wurde, sodass man das \gls{zup} fuzzen kann.
-    \item beschreiben wie die Eingaben generiert wurden.
-    \item Testcases beschreiben.
-    \item Auf PA eingehen
-\end{itemize}
-\subsubsection{Analyse der Geschwindigkeit}
-\begin{itemize}
-    \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
-    \item Wie viele Testcases wurden generiert.
-    \item Wie viele Testcases wurden pro Sekunde generiert.
-    \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
-\end{itemize}
-
-\subsubsection{Analyse der gefundenen Bugs}
-\begin{itemize}
-    \item Eingehen wieviele Bugs gefunden wurden
-    \item Verifizieren
-    \item Auf reproduzierbarkeit eingehen
-\end{itemize}
-
-\subsection{boofuzz}\label{subsec:boofuzz}
-
-\subsubsection{Setup}
-\subsubsection{Analyse der Geschwindigkeit}
-\subsubsection{Analyse der gefundenen Bugs}
-
-\subsection{Pulsar}\label{subsec:pulsar}
-\subsubsection{Setup}
-\subsubsection{Analyse der Geschwindigkeit}
-\subsubsection{Analyse der gefundenen Bugs}
-\subsection{Vergleich der erhobenen Metriken}\label{subsec:vergleich-der-erhobenen-metriken}
+\input{ba/chapters/fuzzing_analysis/aflnet}
+\input{ba/chapters/fuzzing_analysis/boofuzz}
+\input{ba/chapters/fuzzing_analysis/pulsar}
