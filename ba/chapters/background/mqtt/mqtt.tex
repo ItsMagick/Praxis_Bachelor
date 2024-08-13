@@ -2,3 +2,29 @@
 %! Date = 8/8/24
 
 \subsection{Mosquitto MQTT}\label{subsec:mosquitto-mqtt}
+Mosquitto ist ein Open-Source-Message-Broker, der das \gls{mqtt}-Protokoll implementiert.
+\gls{mqtt} ist ein leichtgewichtiges Publish/Subscribe-Protokoll, das speziell für Netzwerke mit geringer Bandbreite,
+hoher Latenz oder unzuverlässigen Verbindungen entwickelt wurde.
+Es wird häufig in der \gls{iot}-Kommunikation verwendet, um Daten zwischen Geräten, Sensoren und Anwendungen auszutauschen.
+\gls{mqtt}, und damit auch Mosquitto, baut auf dem \gls{tcp}/\gls{ip}-Stack auf, was eine zuverlässige Datenübertragung zwischen Client und
+Server gewährleistet.
+\gls{tcp} sorgt dabei für eine gesicherte, verbindungsorientierte Kommunikation, bei der Datenpakete in der richtigen
+Reihenfolge und fehlerfrei übertragen werden.
+Diese Basis auf dem \gls{tcp}/\gls{ip}-Stack macht MQTT zu einem robusten und weit verbreiteten Protokoll für den Einsatz
+in vernetzten Umgebungen, insbesondere im \gls{iot}-Bereich.
+Ursprünglich von Andy Stanford-Clark und Arlen Nipper entwickelt, wurde MQTT als schlankes Protokoll konzipiert,
+das minimale Netzwerkressourcen benötigt.
+Mosquitto, erstmals 2009 von Roger Light veröffentlicht, hat sich als einer der populärsten \gls{mqtt}-Broker etabliert und
+bietet eine einfache und effiziente Möglichkeit, \gls{mqtt}-Nachrichten zwischen verschiedenen Clients zu vermitteln.
+Der \gls{mqtt}-Broker ermöglicht es Clients, Nachrichten an bestimmte Themen (Topics) zu senden (Publish) und/oder zu
+empfangen (Subscribe).
+Durch seine geringe Overhead-Belastung und die Unterstützung für \gls{qos}-Ebenen, stellt Mosquitto eine zuverlässige
+Lösung für die Kommunikation in verteilten Systemen dar.
+Es bietet auch erweiterte Funktionen wie Authentifizierung, Verschlüsselung (\gls{tls}) und Integration mit anderen
+Diensten, was es für industrielle Anwendungen und Smart-Home-Lösungen attraktiv macht.
+Mosquitto ist plattformunabhängig und unterstützt eine Vielzahl von Betriebssystemen, einschließlich Linux, Windows und
+macOS.
+Durch seine Open-Source-Lizenz ist es anpassbar und erweiterbar, was zu seiner weiten Verbreitung in der
+Entwicklergemeinschaft beiträgt.
+Mosquitto hat somit eine bedeutende Rolle in der Entwicklung von \gls{iot}-Systemen und der Echtzeit-Kommunikation in
+modernen vernetzten Umgebungen eingenommen.
