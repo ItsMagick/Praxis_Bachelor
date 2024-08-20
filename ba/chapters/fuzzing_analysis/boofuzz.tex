@@ -2,6 +2,29 @@
 %! Date = 13.08.24
 
 \subsection{boofuzz}\label{subsec:boofuzz}
+Boofuzz ist ein Open-Source-Fuzzing-Framework, das zur automatisierten Sicherheitsprüfung von Software verwendet wird.
+Fuzzing ist eine Technik, bei der eine Vielzahl von zufälligen, fehlerhaften oder unerwarteten Eingaben in eine Software
+eingespeist wird, um Schwachstellen wie Abstürze, Speicherlecks oder Sicherheitslücken aufzudecken.
+Boofuzz wurde als Fork des populären Sulley Fuzzing Frameworks entwickelt und bietet verbesserte Stabilität, erweiterte Funktionen
+und aktive Wartung.
+Boofuzz ist in Python geschrieben und ermöglicht das Erstellen komplexer Fuzzing-Kampagnen durch die Definition von Testfällen,
+die systematisch verschiedene Protokollfelder und Eingabeparameter abdecken.
+Das Framework unterstützt sowohl Netzwerkprotokolle als auch dateibasierte Anwendungen, was es vielseitig einsetzbar macht.
+Dabei kann es beispielsweise Protokolle wie HTTP, FTP oder Telnet fuzzen, um Schwachstellen in Netzwerkdiensten zu identifizieren.
+Ein zentrales Merkmal von Boofuzz ist seine Fähigkeit zur Überwachung des Zustands des Zielsystems während des Fuzzings.
+Hierbei handelt es sich jedoch nicht um \textit{"state-awareness"} -- also den tatsächlich erreichten Zustand eines Programms --,
+sondern ob ein Dienst abgestürzt ist, und entsprechend reagieren, indem es den Testprozess anpasst oder erneut startet.
+Diese Fähigkeit zur Echtzeitüberwachung erhöht die Effizienz des Fuzzing-Prozesses erheblich.
+Da keine Informationen über den internen Zustand des Zielsystems benötigt werden und die Generierung der Eingaben
+willkürlicher Natur ist, handelt es sich bei Boofuzz um einen \textit{"dummen"} Black-Box-Fuzzer.
+Boofuzz bietet zudem erweiterte Funktionen wie die Unterstützung von SSL/TLS für verschlüsselte Verbindungen, detaillierte
+Berichterstattung und Logging, sowie die Möglichkeit zur Integration in Continuous-Integration/Continuous-Deployment (CI/CD)-Pipelines.
+Dies macht es zu einem wertvollen Werkzeug für Entwickler und Sicherheitsexperten, die die Robustheit und Sicherheit von
+Softwareanwendungen sicherstellen möchten.
+Insgesamt stellt Boofuzz ein flexibles und leistungsfähiges Fuzzing-Framework dar, das durch seine Open-Source-Natur anpassbar
+und erweiterbar ist.
+Es hat sich in der Sicherheitsforschung und der Qualitätssicherung als nützliches Tool etabliert, insbesondere bei der
+Identifizierung von Sicherheitslücken in komplexen Systemen und Netzwerkanwendungen.
 \subsubsection{Setup}
 \subsubsection{Analyse der Geschwindigkeit}
 \subsubsection{Analyse der gefundenen Bugs}
