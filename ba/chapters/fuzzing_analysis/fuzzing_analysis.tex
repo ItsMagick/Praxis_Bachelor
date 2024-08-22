@@ -2,13 +2,17 @@
 %! Date = 6/4/24
 
 \section{Analyse der Fuzzer Performance}\label{sec:analyse-der-performance}
-In diesem Kapitel wird die Performance von AFL und boofuzz analysiert.
+In diesem Kapitel wird die Performance von \gls{afl}Net, Pulsar und boofuzz analysiert.
 Der Begriff Performance ist jedoch sehr vielseitig zu interpretieren und wird in dieser Arbeit unter den Gesichtspunkten
 Effektivität, Geschwindigkeit und Reproduzierbarkeit bewertet.\newline
 Die Effektivität eines Fuzzers wird anhand der Anzahl der gefundenen Bugs gemessen.
 Die Geschwindigkeit eines Fuzzers wird anhand der Anzahl der generierten Eingaben pro Sekunde gemessen.
 Die Reproduzierbarkeit eines Fuzzers wird anhand der Anzahl der reproduzierten Bugs gemessen.\newline
 Zur Analyse der Performance werden die Fuzzer \gls{afl}Net, Pulsar und boofuzz verwendet.
+
+Zur quantifizierung der Effektivität wurden drei Schwachstellen im \gls{mqtt} Protokoll implementiert.
+Die Schwachstellen belaufen sich auf einen Buffer Overflow, einen Integer Overflow und einen Memory Leak in form einer
+use after free Implementierung.
 \input{ba/chapters/fuzzing_analysis/aflnet}
 \input{ba/chapters/fuzzing_analysis/boofuzz}
 \input{ba/chapters/fuzzing_analysis/pulsar}

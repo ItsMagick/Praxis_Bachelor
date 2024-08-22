@@ -27,4 +27,32 @@ macOS.
 Durch seine Open-Source-Lizenz ist es anpassbar und erweiterbar, was zu seiner weiten Verbreitung in der
 Entwicklergemeinschaft beiträgt.
 Mosquitto hat somit eine bedeutende Rolle in der Entwicklung von \gls{iot}-Systemen und der Echtzeit-Kommunikation in
-modernen vernetzten Umgebungen eingenommen.
+modernen vernetzten Umgebungen eingenommen.\newline
+Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten:
+\begin{itemize}
+    \item \textbf{Publish:} Ein Client sendet eine Nachricht an einen Broker, die dieser an alle Abonnenten weiterleitet.
+    \item \textbf{Subscribe:} Ein Client abonniert ein bestimmtes Thema (Topic), um Nachrichten zu empfangen, die von anderen
+          Clients zu diesem Thema gesendet werden.
+    \item \textbf{Unsubscribe:} Ein Client beendet das Abonnement eines Themas und empfängt keine weiteren Nachrichten zu
+          diesem Thema.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/mosquitto_state_machine}
+    \caption{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker ab Start der Applikation
+    durchlaufen kann. Beginnend mit der Inintialisierung, über den Zuhörenden Modus in dem der Broker auf eingehende Nachrichten
+    wartet, bis hin zum Senden von Nachrichten an die Clients. Clients können sich mit dem Broker verbinden, Nachrichten
+    abonnieren und Nachrichten senden. Der Broker kann Nachrichten an die Clients senden, die diese abonniert haben.}
+    \label{fig:mosquitto_state_machine}
+\end{figure}
+Diese Nachrichten werden über das \gls{tcp}-Protokoll zwischen Client und Broker ausgetauscht.
+Der Broker verfügt über eine interne Datenstruktur, die die Themen und die zugehörigen Abonnenten speichert.
+Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State Machine abgebildet werden.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/mqtt_state__machine}
+    \caption{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker nach Empfangen einer
+    Nachricht durchläuft. Beginnend mit der Überprüfung der Nachricht, über das Weiterleiten der Nachricht an die Abonnenten,
+    bis hin zum Senden der Nachricht an die Clients.}
+    \label{fig:mqtt_state_machine}
+\end{figure}

@@ -28,19 +28,23 @@ Diese Datenflüsse werden dann von \gls{afl} als Eingabe verwendet, um das \gls{
 Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt.
 Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile verwendet. \textit{Zitieren von Repo}
 
+\subsubsection{Analyse der Effektivität gesendeter Pakete}
+- Hier eine kurze Begründung, dass AFLNet nicht MQTT nur mit einer bestehenden Connection Fuzzen kann. \newline
+- Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet.
+- Schlussfolgern, dass AFLNet für MQTT besser angepasste werden muss.
 
-\subsubsection{Analyse der Geschwindigkeit}
-\begin{itemize}
-    \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
-    \item Wie viele Testcases wurden generiert.
-    \item Wie viele Testcases wurden pro Sekunde generiert.
-    \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
-\end{itemize}
-\subsubsection{Analyse der gefundenen Bugs}
-\begin{itemize}
-    \item Eingehen wieviele Bugs gefunden wurden
-    \item Verifizieren
-    \item Auf reproduzierbarkeit eingehen
-\end{itemize}
+%\subsubsection{Analyse der Geschwindigkeit}
+%\begin{itemize}
+%    \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
+%    \item Wie viele Testcases wurden generiert.
+%    \item Wie viele Testcases wurden pro Sekunde generiert.
+%    \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
+%\end{itemize}
+%\subsubsection{Analyse der gefundenen Bugs}
+%\begin{itemize}
+%    \item Eingehen wieviele Bugs gefunden wurden
+%    \item Verifizieren
+%    \item Auf reproduzierbarkeit eingehen
+%\end{itemize}
 
 
