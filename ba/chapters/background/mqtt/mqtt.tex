@@ -50,9 +50,26 @@ Der Broker verfügt über eine interne Datenstruktur, die die Themen und die zug
 Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State Machine abgebildet werden.
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{img/mqtt_state__machine}
+    \includegraphics[width=0.8\textwidth]{img/mqtt_state_machine}
     \caption{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker nach Empfangen einer
     Nachricht durchläuft. Beginnend mit der Überprüfung der Nachricht, über das Weiterleiten der Nachricht an die Abonnenten,
     bis hin zum Senden der Nachricht an die Clients.}
     \label{fig:mqtt_state_machine}
 \end{figure}
+\newline
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/mqtt_packet_structure}
+    \caption{Format einer \gls{mqtt}-Nachricht am beispiel eines Connect-Pakets.}
+    \label{fig:mqtt_message_format}
+\end{figure}
+Die Struktur der zu sendenden Nachrichten ist von der verwendeten \gls{mqtt}-Version der Clients abhängig.
+Die \gls{mqtt}-Version 3.1.1 -- die in dieser Arbeit verwendet wurde -- definiert ein festes Header-Format, das aus einem
+Steuerbyte und einer variablen Länge besteht.
+Als Nächstes folgt ein Variabler Header, der weitere Information über die Länge des Protokollnamens und den verwendeten
+Protokollnamen, sowie die verwendete Protokollversion und ein Connect-Flag-Byte enthält.
+das zehnte und elfte Byte enthalten die Keep-Alive-Zeit, die die maximale Zeit in Sekunden angibt, die der Client auf eine
+Antwort des Brokers warten soll.
+Die restlichen Bytes enthalten die Client-ID, die Länge des Benutzernamens und den Benutzernamen selbst, die
+Länge des Passworts und das Passwort selbst.
+Die \gls{mqtt}-Nachrichtenstruktur ist in Abbildung \ref{fig:mqtt_message_format} dargestellt.
