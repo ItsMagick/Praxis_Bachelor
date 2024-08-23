@@ -73,3 +73,7 @@ Antwort des Brokers warten soll.
 Die restlichen Bytes enthalten die Client-ID, die Länge des Benutzernamens und den Benutzernamen selbst, die
 Länge des Passworts und das Passwort selbst.
 Die \gls{mqtt}-Nachrichtenstruktur ist in Abbildung \ref{fig:mqtt_message_format} dargestellt.
+\newline
+Die gesendeten Nachrichten haben im kürzesten Fall eine Länge von 2 Bytes, wobei das Steuerbyte für einen Verbindungsabbau
+gesendet wird und somit nur aus dem Fixed-Header besteht.
+Die Obergrenze der Größe eines validen Nachrichtenpakets beträgt 265 Megabytes.
