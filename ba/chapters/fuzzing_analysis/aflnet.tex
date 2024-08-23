@@ -18,6 +18,8 @@ Um diese Dump-Files zu generieren und somit den Netzwerkverkehr aufzunehmen wird
 Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl}-kompatibles Format umgewandelt, indem
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
 Diese Datenflüsse werden dann von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
+\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textit{hier zitieren}
+
 \subsubsection{Setup}
 \begin{itemize}
     \item Hier beschreiben wie \gls{afl} konfiguriert wurde, sodass man das \gls{zup} fuzzen kann.
@@ -27,7 +29,11 @@ Diese Datenflüsse werden dann von \gls{afl} als Eingabe verwendet, um das \gls{
 \end{itemize}
 Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt.
 Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile verwendet. \textit{Zitieren von Repo}
-
+Dieses angepasste Dockerfile enthält alle notwendigen Abhängigkeiten, um \gls{afl}Net zu kompilieren.
+Hierzu zählen die Abhängigkeiten \texttt{llvm} und \texttt{clang} in der Version 11.
+\texttt{llvm} wird benötigt, um den \gls{afl} Compiler \gls{afl-clang-fast} zu kompilieren.
+Dieser wird für optimierte Instrumentierung des Codes verwendet und bezweckt somit schnellere Ausführgeschwindigkeiten
+während der Fuzzing Kampagne.
 \subsubsection{Analyse der Effektivität gesendeter Pakete}
 - Hier eine kurze Begründung, dass AFLNet nicht MQTT nur mit einer bestehenden Connection Fuzzen kann. \newline
 - Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet.

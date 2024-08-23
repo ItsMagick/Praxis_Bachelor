@@ -21,7 +21,7 @@ Die mittlere Schwachstelle ist ein Integer Overflow in der Funktion \texttt{mqtt
 wenn ein Client eine Nachricht an den Broker sendet und die Nachricht eine bestimmte Länge überschreitet.
 Diese Schwachstelle kann nur getriggert werden, wenn ein Client \texttt{C1} ein Topic mit einer Nachricht veröffentlicht hat und ein
 zweiter Client \texttt{C2} dieses Topic abonniert hat.
-Nur in diesem Fall wird auch die von C1 veröffentlichte Nachricht an C2 weitergeleitet und auch vom Broker verarbeitet.
+Nur in diesem Fall wird auch die von \texttt{C1} veröffentlichte Nachricht an \texttt{C2} weitergeleitet und auch vom Broker verarbeitet.
 Die komplexeste Schwachstelle ist ein Memory Leak in der Funktion \texttt{mqtt\_handle\_subscribe} und wird getriggert,
 wenn ein Client ein Topic abonniert und der Broker die Abonnement-Nachricht verarbeitet.
 \input{ba/chapters/fuzzing_analysis/aflnet}
