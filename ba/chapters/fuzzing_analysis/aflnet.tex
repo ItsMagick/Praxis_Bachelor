@@ -17,9 +17,28 @@ Diese Dump-Files enthalten den Netzwerkverkehr, der zwischen zwei Kommunikations
 Um diese Dump-Files zu generieren und somit den Netzwerkverkehr aufzunehmen wird das Tool \texttt{tcpdump} verwendet.
 Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl}-kompatibles Format umgewandelt, indem
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
-Diese Datenflüsse werden dann von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
-\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textit{hier zitieren}
-
+Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
+\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textit{hier zitieren und bild einfügen}
+\newline
+\textit{hier bild von architektur einfügen}
+\newline
+Zuerst muss das \gls{zup} gestartet und mir Eingaben gefüttert werden.
+Wären der Transaktion der Nachrichten wird der einhergehende Traffic mit einem Aufnahmeprogramm wie \texttt{tcpdump} aufgezeichnet.
+Die aufgezeichneten Daten werden in ein \gls{pcap}-Dump-File geschrieben und müssen anschließend analysiert werden.
+Dabei muss der Netzwerkverkehr in ein Format umgewandelt werden, das von \gls{afl}Net verstanden wird.
+Dieses Format besteht in dem Fall dieser Arbeit aus einem Bytestream, der die Nachrichten des Netzwerkverkehrs enthält.
+Die Nachrichten werden in einer Datei abgelegt und können dann von \gls{afl}Net als Eingabe verwendet werden.
+Besonderes Augenmerk hierbei liegt auf der Analyse des Netzwerkverkehrs und der daraus resultierenden State Machine.
+\gls{afl}Net analysiert den Netzwerkverkehr und extrahiert die Nachrichten, die zwischen Client und Server ausgetauscht werden.
+Werden bei der Ausführung von Nachrichten bestimmte Zustände erreicht, so werden diese Zustände in einer State Machine
+abgebildet und die State Machine mit dem neuen Zustand als Node erweitert.
+Die State Machine wird mithilfe von \gls{afl}Net erlernt und ermöglicht es, den Zustand des \gls{zup} nachzuverfolgen.
+\newline
+Anschließend werden die Nachrichten mit den enthaltenen Nachrichtensequenzen an einen in \gls{afl}Net implementierten
+Sequence-Mutator übergeben.
+Dieser Mutator generiert aus den gesendeten Nachrichten neue Mutierte Nachrichten, die an das \gls{zup} übergeben werden
+können.\newline\newline
+\textit{Hier nochmal auf das Paper eingehen und da das mit den Submengen klären wie die Mutation genauer funktioniert}
 \subsubsection{Setup}
 \begin{itemize}
     \item Hier beschreiben wie \gls{afl} konfiguriert wurde, sodass man das \gls{zup} fuzzen kann.
@@ -27,30 +46,51 @@ Diese Datenflüsse werden dann von \gls{afl} als Eingabe verwendet, um das \gls{
     \item Testcases beschreiben.
     \item Auf PA eingehen
 \end{itemize}
-Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt.
+Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt und an neue Frameworks und Bibliotheken
+angepasst.
 Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile verwendet. \textit{Zitieren von Repo}
 Dieses angepasste Dockerfile enthält alle notwendigen Abhängigkeiten, um \gls{afl}Net zu kompilieren.
 Hierzu zählen die Abhängigkeiten \texttt{llvm} und \texttt{clang} in der Version 11.
-\texttt{llvm} wird benötigt, um den \gls{afl} Compiler \gls{afl-clang-fast} zu kompilieren.
-Dieser wird für optimierte Instrumentierung des Codes verwendet und bezweckt somit schnellere Ausführgeschwindigkeiten
-während der Fuzzing Kampagne.
+\texttt{llvm} wird benötigt, um den \gls{afl} Compiler \texttt{afl-clang-fast} zu kompilieren.
+Dieser wird für optimierte Instrumentierung des Codes des \gls{zup} verwendet und bezweckt somit höhere Ausführgeschwindigkeiten
+während der Fuzzing Kampagne. \newline
+Das \gls{zup} Mosquitto wird ebenfalls in einem Docker Container kompiliert.
+Hierzu wird der Compiler \texttt{afl-clang-fast} verwendet.
+Die Instrumentierung des Codes erfolgt durch das Flag \texttt{-fsanitize=address}.
+Dieses Flag aktiviert \textit{address sanitization} und ermöglicht es, dass \gls{afl}Net die Speicherzugriffe des \gls{zup}
+überwachen kann und somit Buffer Overflows und Memory Leaks erkennt.
+Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library} \textit{zitieren von preload lib} verwendet, die alle Ausgaben des \gls{zup}
+aus den Kanälen \texttt{stdout} und \texttt{stderr} in eine log-Datei \texttt{mqtt-aflnet\_stdout.log} weiterleitet.
+Diese Log-Datei wird benötigt, um die Ausgaben des \gls{zup} zu analysieren und somit die Effektivität der generierten
+Testcases zu bewerten. \newline
+Die Testcases wurden mithilfe eines Python-Skripts \textit{Python script zitieren} generiert.
+Hierzu wurden die Byts der zu sendenden Nachrichten betrachtet.
+Die in \ref{subsec:mosquitto-mqtt} beschriebene Struktur einer \gls{mqtt} Nachricht wurde dazu verwendet.
+In dieser Nachricht kann der Fixed-Header den Bytes \texttt{0x10, 0x30, 0x82, 0xA2, 0xC0} und \texttt{0xE0} entsprechen.
+Diese stehen für die verschiedenen Anfragen \texttt{CONNECT, PUBLISH, SUBSCRIBE, UNSUBSCRIBE, PINGREQ} und \texttt{DISCONNECT}.
+Die Variable Header und Payload wurden zufällig generiert und in die Testcases eingefügt.
+Die Testcases wurden in einem Verzeichnis \texttt{aflnet\_in/} abgelegt und von \gls{afl}Net als Eingabe verwendet.
+Damit möglichst viele States beim Ausführen des \gls{zup} erreicht werden, wurden ebenfalls ungültige Pakete generiert.
+Sie dienen \gls{afl}Net dazu, auch unerwartete Zustände des \gls{zup} zu erreichen und somit auch unerwartete Bugs zu finden.
+Des Weiteren wurden Nachrichtensequenzen generiert, die den Zustand des \gls{zup} verändern.
+Hierzu wurden alle Nachrichten, die der \gls{zup} verarbeiten kann, in einer Sequenz aneinandergereiht.
+Diese Sequenzen wurden ebenfalls in das Verzeichnis \texttt{aflnet\_in/} abgelegt und von \gls{afl}Net als Eingabe verwendet.
 \subsubsection{Analyse der Effektivität gesendeter Pakete}
 - Hier eine kurze Begründung, dass AFLNet nicht MQTT nur mit einer bestehenden Connection Fuzzen kann. \newline
 - Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet.
 - Schlussfolgern, dass AFLNet für MQTT besser angepasste werden muss.
-
-%\subsubsection{Analyse der Geschwindigkeit}
-%\begin{itemize}
-%    \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
-%    \item Wie viele Testcases wurden generiert.
-%    \item Wie viele Testcases wurden pro Sekunde generiert.
-%    \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
-%\end{itemize}
-%\subsubsection{Analyse der gefundenen Bugs}
-%\begin{itemize}
-%    \item Eingehen wieviele Bugs gefunden wurden
-%    \item Verifizieren
-%    \item Auf reproduzierbarkeit eingehen
-%\end{itemize}
+\subsubsection{Analyse der Geschwindigkeit}
+\begin{itemize}
+    \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
+    \item Wie viele Testcases wurden generiert.
+    \item Wie viele Testcases wurden pro Sekunde generiert.
+    \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
+\end{itemize}
+\subsubsection{Analyse der gefundenen Bugs}
+\begin{itemize}
+    \item Eingehen wieviele Bugs gefunden wurden
+    \item Verifizieren
+    \item Auf reproduzierbarkeit eingehen
+\end{itemize}
 
 
