@@ -76,10 +76,50 @@ Des Weiteren wurden Nachrichtensequenzen generiert, die den Zustand des \gls{zup
 Hierzu wurden alle Nachrichten, die der \gls{zup} verarbeiten kann, in einer Sequenz aneinandergereiht.
 Diese Sequenzen wurden ebenfalls in das Verzeichnis \texttt{aflnet\_in/} abgelegt und von \gls{afl}Net als Eingabe verwendet.
 \subsubsection{Analyse der Effektivität gesendeter Pakete}
+Die Fuzzing-Kampagne wurde über einen Zeitraum von 48 Stunden durchgeführt.
+Zur Analyse der Effektivität der gesendeten Pakete wurde eine preload bibliothek verwendet, die die Ausgaben des \gls{zup}
+der Kanäle \texttt{sdtout} und \texttt{stderr} in eine Log-Datei \texttt{mqtt-aflnet\_stdout.log} umleitet.
+Diese Log-Datei wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/connection_evaluation_aflnet}
+    \caption{Evaluation der Verbindungsaufbauten des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
+    wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.}
+    \label{fig:mqtt-aflnet_stdout}
+\end{figure}
+Bei der Analyse der Fehleranfälligkeit von nicht validen Nachrichten wurde festgestellt, dass am Anfang der Fuzzing-Kampagne
+viele Fehlermeldungen auftraten.
+Mit der Zeit wurden jedoch weniger Fehlermeldungen generiert, da die State Machine des \gls{zup} erlernt wurde und somit
+vermehrt valide Nachrichten generiert wurden.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/connection_evaluation_aflnet_beginning}
+    \caption{Evaluation der Fehleranfälligkeit des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
+    wurde auf die Häufigkeit der Ausgaben von Fehlermeldungen analysiert.}
+    \label{fig:mqtt-aflnet_stdout_beginning}
+\end{figure}
+Daraus ist schlusszufolgern, dass der Fuzzer \gls{afl}Net in der Lage ist, valide Nachrichten un deren Struktur anhand
+des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
+
+
 - Hier eine kurze Begründung, dass AFLNet nicht MQTT nur mit einer bestehenden Connection Fuzzen kann. \newline
 - Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet.
 - Schlussfolgern, dass AFLNet für MQTT besser angepasste werden muss.
 \subsubsection{Analyse der Geschwindigkeit}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/exec_speed}
+    \caption{Analyse der generierten Nachrichtensequenzen von \gls{afl}Net. Es wird die Anzahl der generierten Nachrichtensequenzen
+    und die Anzahl der Nachrichtensequenzen, die an das \gls{zup} gesendet wurden, analysiert.}
+    \label{fig:aflnet_sequence}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/high_freq}
+    \caption{Analyse der Geschwindigkeit von \gls{afl}Net. Es wird die Anzahl der generierten Testcases pro Sekunde
+    und die Anzahl der Testcases, die an das \gls{zup} gesendet wurden, analysiert.}
+    \label{fig:aflnet_speed}
+\end{figure}
 \begin{itemize}
     \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
     \item Wie viele Testcases wurden generiert.
@@ -87,6 +127,12 @@ Diese Sequenzen wurden ebenfalls in das Verzeichnis \texttt{aflnet\_in/} abgeleg
     \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
 \end{itemize}
 \subsubsection{Analyse der gefundenen Bugs}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/low_freq}
+    \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
+    \label{fig:aflnet_bugs}
+\end{figure}
 \begin{itemize}
     \item Eingehen wieviele Bugs gefunden wurden
     \item Verifizieren
