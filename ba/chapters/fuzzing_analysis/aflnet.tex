@@ -114,8 +114,35 @@ des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
     \includegraphics[width=0.8\textwidth]{img/exec_speed}
     \caption{Analyse der generierten Nachrichtensequenzen von \gls{afl}Net. Es wird die Anzahl der generierten Nachrichtensequenzen
     und die Anzahl der Nachrichtensequenzen, die an das \gls{zup} gesendet wurden, analysiert.}
-    \label{fig:aflnet_sequence}
+    \label{fig:aflnet_execs}
 \end{figure}
+Die Ausführungsrate ist eine zentrale Metrik, um den Fortschritt und die Effektivität einer Fuzzing-Kampagne zu bewerten.
+Eine hohe und stabile Ausführungsrate deutet auf einen effizienten Fuzzing-Prozess hin, während Schwankungen oder ein
+Rückgang auf potenzielle Engpässe oder Herausforderungen während der Kampagne hinweisen können.\newline
+Die Ausführungsrate liegt im Durchschnitt zwischen 6 und 10 execs/sec und zeigt eine gewisse Variabilität, wie durch die
+Spitzen und Täler in der hellblauen Schattierung dargestellt.
+Zu Beginn der Kampagne gibt es einen kurzen Zeitraum mit erhöhter Variabilität, bevor sich die Ausführungsrate stabilisiert.
+Im weiteren Verlauf der Kampagne ist eine leichte Abnahme der Ausführungsrate zu beobachten, gefolgt von einer leichten
+Erholung gegen Ende der Kampagne.
+Die Kurve zeigt während der gesamten Kampagne eine relativ konstante Ausführungsrate mit periodischen Schwankungen.
+Diese Schwankungen können auf mehrere Faktoren zurückzuführen sein, darunter:
+\begin{itemize}
+    \item Komplexität der zu testenden Eingaben: Komplexere Testfälle können mehr Zeit in Anspruch nehmen, was die Ausführungsrate verringert.
+    \item Systemressourcen: Veränderungen in der Verfügbarkeit von Systemressourcen (z.B. CPU, Speicher) können ebenfalls die Ausführungsrate beeinflussen.
+    \item Optimierungen oder Veränderungen im Fuzzing-Prozess: Wenn das Fuzzing-Tool neue Pfade oder besonders anspruchsvolle Testfälle entdeckt, kann dies die Rate der durchgeführten Tests vorübergehend senken.
+\end{itemize}
+Ein leichtes Absinken der Ausführungsrate zwischen dem 24. August, 12:00 Uhr, und dem 25. August, 00:00 Uhr, ist bemerkenswert.
+Dies könnte darauf hindeuten, dass in dieser Phase anspruchsvollere Testfälle bearbeitet wurden oder dass die Systemressourcen
+temporär begrenzt waren.
+Die anschließende Erholung der Ausführungsrate könnte durch die Verarbeitung weniger komplexer Testfälle oder eine bessere
+Ausnutzung der Systemressourcen erklärt werden.
+Die insgesamt stabile Ausführungsrate über den Zeitraum von 48 Stunden deutet auf einen effizienten Fuzzing-Prozess hin.
+Die beobachteten Schwankungen sind im Rahmen dessen, was bei längeren Fuzzing-Kampagnen zu erwarten ist, und weisen auf
+die normale Dynamik im Fuzzing-Prozess hin, wenn unterschiedliche Testfälle mit variierender Komplexität ausgeführt werden.
+Die leichte Abnahme der Ausführungsrate gegen Ende der Kampagne könnte als Hinweis darauf gewertet werden, dass das Tool
+zunehmend anspruchsvollere Testfälle oder Pfade bearbeitet hat.
+Dies ist typisch für Fuzzing-Kampagnen, da die einfacheren und trivialeren Schwachstellen oft bereits frühzeitig
+identifiziert werden, während komplexere Zustände länger in Anspruch nehmen.
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{img/high_freq}
@@ -123,6 +150,59 @@ des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
     und die Anzahl der Testcases, die an das \gls{zup} gesendet wurden, analysiert.}
     \label{fig:aflnet_speed}
 \end{figure}
+Das gezeigte Diagramm veranschaulicht den Verlauf einer 48-stündigen Fuzzing-Kampagne mit dem \gls{afl}Net-Tool, wobei
+verschiedene Metriken im Zusammenhang mit der Testabdeckung und dem Fortschritt des Fuzzing-Prozesses dargestellt werden.
+Im Folgenden werden die verschiedenen Kurven analysiert und ihre Bedeutung in Bezug auf die Kampagne erläutert.\newline\newline
+Die graue Fläche~\ref{fig:aflnet_speed} zeigt die Gesamtanzahl der explorierten Pfade während der Kampagne.
+Diese Zahl steigt kontinuierlich an und erreicht gegen Ende der Kampagne über 1400 Pfade.
+Der gleichmäßige Anstieg deutet darauf hin, dass der Fuzzer während der gesamten Kampagne effektiv neue Pfade
+identifizieren konnte.
+Interessanterweise gibt es Phasen, in denen der Anstieg steiler ist, was auf eine besonders hohe Entdeckungsrate neuer
+Pfade in diesen Perioden hinweist.\newline
+Die hellblaue Linie~\ref{fig:aflnet_speed} repräsentiert den aktuell im Test befindlichen Pfad.
+Diese Kurve zeigt, wie das Fuzzing-Tool ständig neue Pfade auswählt und testet.
+Die Linie verläuft relativ flach, was darauf hinweist, dass das Fuzzing-Tool regelmäßig zwischen den Pfaden wechselt und
+keiner besonders lange untersucht wird.
+Diese regelmäßige Bewegung zwischen den Pfaden kann auf eine gleichmäßige Verteilung der Testressourcen hinweisen.\newline
+Die Anzahl der noch zu testenden Pfade (blau~\ref{fig:aflnet_speed}) zeigt einen Anstieg, der während der gesamten Kampagne
+andauert und gegen Ende der 48 Stunden fast 600 erreicht.
+Dies bedeutet, dass das Fuzzing-Tool konstant neue interessante Pfade entdeckt hat, die es noch zu testen gilt.
+Der kontinuierliche Anstieg zeigt, dass das System immer neue potenziell interessante Zustände produziert, die eine
+weitere Untersuchung erfordern.\newline
+Die lila Kurve~\ref{fig:aflnet_speed} stellt die favorisierten Pfade dar, die noch nicht getestet wurden.
+Diese Zahl steigt ebenfalls stetig an, jedoch langsamer als die \quotation{pending paths}~\ref{fig:aflnet_speed}.
+Dies deutet darauf hin, dass das Fuzzing-Tool bestimmte Pfade als besonders wichtig erachtet und diese bevorzugt behandelt,
+obwohl noch viele andere Pfade auf ihre Untersuchung warten.
+Diese Priorisierung kann dazu beitragen, dass besonders interessante oder sicherheitsrelevante Pfade frühzeitig getestet werden.
+Die magentafarbene Kurve~\ref{fig:aflnet_speed} zeigt die Anzahl der abgeschlossenen Testzyklen.
+Diese steigt über die Zeit an, was die Fortschritte im Fuzzing-Prozess darstellt.
+Ein Zyklus umfasst die vollständige Durcharbeitung des aktuellen Satzes von Testfällen.
+Der Anstieg zeigt, dass das Fuzzing-Tool kontinuierlich neue Zyklen durchläuft, was auf eine fortlaufende und systematische
+Prüfung der Pfade hinweist.\newline
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/low_freq}
+    \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
+    \label{fig:aflnet_bugs}
+\end{figure}
+Die Anzahl der einzigartigen Abstürze (pink~\ref{fig:aflnet_bugs}) zeigt einen kontinuierlichen Anstieg über den gesamten Kampagnenzeitraum.
+Besonders auffällig ist der steile Anstieg zu Beginn der Kampagne, gefolgt von einem moderateren Anstieg, der sich über
+den Rest der Kampagne hinweg fortsetzt.
+Dies deutet darauf hin, dass in den ersten Stunden der Kampagne eine größere Anzahl an Abstürzen entdeckt wurde, was
+typisch für Fuzzing-Kampagnen ist, bei denen anfänglich viele triviale Schwachstellen gefunden werden.
+Im weiteren Verlauf der Kampagne werden dann weniger neue Abstürze entdeckt, was darauf hinweist, dass das System bereits
+viele der leichter zu findenden Schwachstellen aufgedeckt hat.
+Die Anzahl der einzigartigen Hänger (magenta~\ref{fig:aflnet_bugs}) bleibt über den gesamten Kampagnenzeitraum stabil bei null.
+Dies könnte darauf hindeuten, dass entweder keine Hänger im getesteten System aufgetreten sind oder dass das verwendete
+Fuzzing-Setup nicht in der Lage war, solche Zustände effektiv zu identifizieren.
+Die Levels-Kurve (blau~\ref{fig:aflnet_bugs}) zeigt nur einen leichten Anstieg in den ersten Stunden der Kampagne und bleibt danach weitgehend konstant.
+Dies könnte darauf hinweisen, dass nur wenige neue Code-Pfade (Levels) während des Fuzzings entdeckt wurden, was
+möglicherweise auf die Komplexität des Zielsystems oder auf die Grenzen der verwendeten Mutationsstrategien hinweist.
+Die Fuzzing-Kampagne mit AFLNet war erfolgreich darin, eine beträchtliche Anzahl einzigartiger Abstürze zu entdecken,
+insbesondere in den ersten Stunden des Fuzzings.
+Der Mangel an identifizierten Hängern und der begrenzte Anstieg an Levels könnte jedoch darauf hinweisen, dass entweder
+das Zielsystem keine anfälligen Hängerzustände aufweist oder dass das Fuzzing-Setup verbessert werden könnte, um diese
+Art von Fehlern besser zu identifizieren.
 \begin{itemize}
     \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
     \item Wie viele Testcases wurden generiert.
@@ -130,12 +210,6 @@ des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
     \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
 \end{itemize}
 \subsubsection{Analyse der gefundenen Bugs}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{img/low_freq}
-    \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
-    \label{fig:aflnet_bugs}
-\end{figure}
 \begin{itemize}
     \item Eingehen wieviele Bugs gefunden wurden
     \item Verifizieren
