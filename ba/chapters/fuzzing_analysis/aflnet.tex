@@ -18,7 +18,7 @@ Um diese Dump-Files zu generieren und somit den Netzwerkverkehr aufzunehmen wird
 Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl}-kompatibles Format umgewandelt, indem
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
 Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
-\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textit{hier zitieren und bild einfügen}
+\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textcolor{red}{hier zitieren und bild einfügen}
 \newline
 \textit{hier bild von architektur einfügen}
 \newline
@@ -36,19 +36,22 @@ Die State Machine wird mithilfe von \gls{afl}Net erlernt und ermöglicht es, den
 \newline
 Anschließend werden die Nachrichten mit den enthaltenen Nachrichtensequenzen an einen in \gls{afl}Net implementierten
 Sequence-Mutator übergeben.
-Dieser Mutator generiert aus den gesendeten Nachrichten neue Mutierte Nachrichten, die an das \gls{zup} übergeben werden
+Dieser Mutator generiert aus den gesendeten Nachrichten neue mutierte Nachrichten, die an das \gls{zup} übergeben werden
 können.\newline\newline
 \textit{Hier nochmal auf das Paper eingehen und da das mit den Submengen klären wie die Mutation genauer funktioniert}
 \subsubsection{Setup}
+\textcolor{red}{
 \begin{itemize}
     \item Hier beschreiben wie \gls{afl} konfiguriert wurde, sodass man das \gls{zup} fuzzen kann.
     \item beschreiben wie die Eingaben generiert wurden.
     \item Testcases beschreiben.
     \item Auf PA eingehen
+    \item V.a. auf die Extraktion der Nachrichten eingehen mit Wireshark UND danach das auf das Skript schlussfolgern
 \end{itemize}
+}
 Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt und an neue Frameworks und Bibliotheken
 angepasst.
-Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile verwendet. \textit{Zitieren von Repo}
+Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile verwendet. \textcolor{red}{Zitieren von Repo}
 Dieses angepasste Dockerfile enthält alle notwendigen Abhängigkeiten, um \gls{afl}Net zu kompilieren.
 Hierzu zählen die Abhängigkeiten \texttt{llvm} und \texttt{clang} in der Version 11.
 \texttt{llvm} wird benötigt, um den \gls{afl} Compiler \texttt{afl-clang-fast} zu kompilieren.
@@ -59,7 +62,7 @@ Hierzu wird der Compiler \texttt{afl-clang-fast} verwendet.
 Die Instrumentierung des Codes erfolgt durch das Flag \texttt{-fsanitize=address}.
 Dieses Flag aktiviert \textit{address sanitization} und ermöglicht es, dass \gls{afl}Net die Speicherzugriffe des \gls{zup}
 überwachen kann und somit Buffer Overflows und Memory Leaks erkennt.
-Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library} \textit{zitieren von preload lib} verwendet, die alle Ausgaben des \gls{zup}
+Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library} \textcolor{red}{zitieren von preload lib} verwendet, die alle Ausgaben des \gls{zup}
 aus den Kanälen \texttt{stdout} und \texttt{stderr} in eine log-Datei \texttt{mqtt-aflnet\_stdout.log} weiterleitet.
 Diese Log-Datei wird benötigt, um die Ausgaben des \gls{zup} zu analysieren und somit die Effektivität der generierten
 Testcases zu bewerten. \newline
@@ -138,5 +141,3 @@ des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
     \item Verifizieren
     \item Auf reproduzierbarkeit eingehen
 \end{itemize}
-
-

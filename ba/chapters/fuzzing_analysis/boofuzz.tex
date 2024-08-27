@@ -12,7 +12,7 @@ die systematisch verschiedene Protokollfelder und Eingabeparameter abdecken.
 Das Framework unterstützt sowohl Netzwerkprotokolle als auch dateibasierte Anwendungen, was es vielseitig einsetzbar macht.
 Dabei kann es beispielsweise Protokolle wie HTTP, FTP oder Telnet fuzzen, um Schwachstellen in Netzwerkdiensten zu identifizieren.
 Ein zentrales Merkmal von Boofuzz ist seine Fähigkeit zur Überwachung des Zustands des Zielsystems während des Fuzzings.
-Hierbei handelt es sich jedoch nicht um \textit{"state-awareness"} -- also den tatsächlich erreichten Zustand eines Programms --,
+Hierbei handelt es sich jedoch nicht um \textit{state-awareness} -- also den tatsächlich erreichten Zustand eines Programms --,
 sondern ob ein Dienst abgestürzt ist, und entsprechend reagieren, indem es den Testprozess anpasst oder erneut startet.
 Diese Fähigkeit zur Echtzeitüberwachung erhöht die Effizienz des Fuzzing-Prozesses erheblich.
 Da keine Informationen über den internen Zustand des Zielsystems benötigt werden und die Generierung der Eingaben
@@ -27,4 +27,91 @@ Es hat sich in der Sicherheitsforschung und der Qualitätssicherung als nützlic
 Identifizierung von Sicherheitslücken in komplexen Systemen und Netzwerkanwendungen.
 \subsubsection{Setup}
 \subsubsection{Analyse der Effektivität gesendeter Pakete}
+In der Untersuchung von \gls{mqtt}-Brokern mittels Fuzzing ist es entscheidend, die Wahrscheinlichkeit zu verstehen, mit der
+ein zufällig generiertes Paket tatsächlich gültig ist.
+Diese Wahrscheinlichkeit hängt stark davon ab, welche Teile des \gls{mqtt}-Pakets zufällig generiert werden und welche festgelegt
+(d.h.\ nicht gefuzzt) sind.
+In diesem Abschnitt wird die Berechnung dieser Wahrscheinlichkeit detailliert beschrieben, sowohl für den Fall, dass alle
+Teile des Pakets gefuzzt werden, als auch für den Fall, dass bestimmte Teile, wie der Fixed Header,
+das Topic und der Variable Header, festgesetzt sind.\newline\newline
+\noindent Ein \gls{mqtt}-Paket besteht aus mehreren wesentlichen Teilen:
+\begin{itemize}
+    \item Fixed Header: Enthält den Steuerpakettyp (z.B.\ \texttt{PUBLISH, SUBSCRIBE}) und Flags sowie die verbleibende Länge des Pakets.
+    \item Variable Header: Enthält je nach Steuerpakettyp spezifische Informationen wie z.B.\ Paket-IDs, QoS-Level oder den Namen des Topics.
+    \item Payload: Enthält die tatsächlichen Daten, die gesendet werden (z.B.\ die Nachricht im \texttt{PUBLISH}-Paket)
+    oder eine Liste von Topic-Filtern im \texttt{SUBSCRIBE}-Paket.
+\end{itemize}
+Fixed Header:
+Der Fixed Header besteht aus zwei Hauptbestandteilen:
+\begin{itemize}
+    \item Kontrollpakettyp und Flags: Das erste Byte des Headers kodiert den Typ des Pakets (z.B.\ \texttt{CONNECT, PUBLISH})
+    und bestimmte Flags (z.B.\ QoS-Level, DUP-Flag).
+    Es gibt nur eine begrenzte Anzahl von gültigen Kombinationen für dieses Byte, abhängig von den \gls{mqtt}-Spezifikationen.
+    \item Verbleibende Länge: Die verbleibende Länge gibt an, wie viele Bytes nach dem Fixed Header folgen.
+\end{itemize}
+Man nehme an, dass der Byte-Wert des Steuerpakettyps und der Flags eine von \textit{M} gültigen Kombinationen sein kann und der
+verbleibende Längen-Byte eine von \textit{N} möglichen Werten sein kann (z.B.\ 256 für 8-Bit-Bytes), dann ist die Wahrscheinlichkeit,
+dass ein zufällig generierter Fixed Header gültig ist:
+\[
+    P(\text{gültiger Fixed Header}) = \frac{M}{N} \times \frac{1}{N} = \frac{M}{N^2}
+\]
+Der Variable Header variiert je nach Pakettyp.
+Beispielsweise enthält der Variable Header eines \texttt{PUBLISH}-Pakets den Topic-Namen.
+Der Header muss bestimmte Format- und Inhaltsanforderungen erfüllen, um gültig zu sein.\newline
+Wenn \textit{K} gültige Kombinationen für den Variable Header existieren und die Länge des Headers \textit{$L_{\textsubscript{p}}$} Bytes beträgt,
+dann ist die Wahrscheinlichkeit, dass der Variable Header gültig ist:
+\[
+    P(\text{gültiger Variable Header}) = \frac{K}{N^{L_v}}
+\]
+Der Payload ist der flexibelste Teil des Pakets, mit den wenigsten Einschränkungen.
+Der Payload muss jedoch inhaltlich zu den Angaben im Fixed und Variable Header passen.
+Wenn die Länge des Payloads \textit{$L_{\textsubscript{p}}$} beträgt, dann ist die Wahrscheinlichkeit, dass der Payload gültig ist:
+\[
+    P(\text{gültiger Payload}) = \frac{1}{N^{L_p}}
+\]
+Die Wahrscheinlichkeit, dass ein vollständig zufällig generiertes \gls{mqtt}-Paket gültig ist, ergibt sich aus dem Produkt
+der Wahrscheinlichkeiten der einzelnen Teile:
+
+\[
+    P(\text{gültiges Paket}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) \times P(\text{gültiger Payload})
+\]
+Substituiert man die oben angegebenen Wahrscheinlichkeiten:
+\[
+    P(\text{gültiges Paket}) = \frac{M}{N^2} \times \frac{K}{N^{L_v}} \times \frac{1}{N^{L_p}}
+\]
+Wenn der Fixed Header, der Variable Header und das Topic festgelegt sind und nicht gefuzzt werden, vereinfacht sich die Berechnung erheblich.
+In diesem Fall ist die Wahrscheinlichkeit, dass diese Teile korrekt sind, 1, da sie nicht zufällig generiert werden.
+Es bleibt nur die Wahrscheinlichkeit für den Payload:
+\[
+    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{N^{L_p}}
+\]
+Angenommen werden folgende Parameter:
+\begin{itemize}
+    \item \textit{N} = 256 (entsprechend 8-Bit-Byte-Werten)
+    \item \textit{M} = 16 (gültige Kombinationen für den Fixed Header)
+    \item \textit{K} = 256 (gültige Kombinationen für den Variable Header)
+    \item Länge des Variable Headers: \textit{$L_{\textsubscript{v}}$} = 2 Bytes
+    \item Länge des Payloads: \textit{$L_{\textsubscript{p}}$} = 10 Bytes
+\end{itemize}
+Dann ergibt sich die Wahrscheinlichkeit, dass ein gültiges Paket bei zufälligem Fuzzing generiert wird, zu:
+\[
+    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{256^2} \times \frac{256}{256^2} \times \frac{1}{256^{10}} \approx 3{,}55 \times 10^{-27}
+\]
+Im Gegensatz dazu ist die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, wenn Fixed Header, Variable Header und Topic festgelegt sind:
+\[
+    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{256^{10}} \approx 1{,}00 \times 10^{-24}
+\]
+Der Unterschied in den Wahrscheinlichkeiten ist beträchtlich.
+Beim zufälligen Fuzzing aller Teile liegt die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, bei ungefähr
+\(3{,}55 \times 10^{-27}\).
+Wenn jedoch der Fixed Header, der Variable Header und das Topic festgelegt sind, steigt diese Wahrscheinlichkeit auf
+\(1{,}00 \times 10^{-24}\).
+Dieser drastische Unterschied ist auf die Reduktion der Anzahl der zufällig zu generierenden Bytes zurückzuführen.
+Da der Fixed Header und der Variable Header spezifische Anforderungen haben und die Anzahl der gültigen Kombinationen
+begrenzt ist, erhöht das Festlegen dieser Felder die Wahrscheinlichkeit eines gültigen Pakets erheblich.
+Die Wahrscheinlichkeit hängt also stark davon ab, wie viele Teile des Pakets zufällig generiert werden und wie viele festgesetzt sind.
+\newline\newline
+Durch das Fixieren bestimmter Schlüsselparameter des \gls{mqtt}-Pakets, wie dem Fixed Header und dem Topic, wird die Wahrscheinlichkeit,
+dass ein gültiges Paket generiert wird, signifikant erhöht.
+Dies ist besonders wichtig für effizientes Fuzzing, da es die Anzahl der möglichen ungültigen Pakete reduziert und die Effektivität der Tests steigert.
 \subsubsection{Analyse der gefundenen Bugs (Optional?)}
