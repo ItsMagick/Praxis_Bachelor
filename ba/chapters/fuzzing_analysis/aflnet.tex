@@ -19,10 +19,13 @@ Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
 Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
 \gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textcolor{red}{hier zitieren und bild einfügen}
-\newline
-\textcolor{red}{hier bild von architektur einfügen}
-\newline
-Zuerst muss das \gls{zup} gestartet und mir Eingaben gefüttert werden.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/aflnet_arch}
+    \caption{Architektur von \gls{afl}Net. Es wird die Architektur von \gls{afl}Net dargestellt.}
+    \label{fig:aflnet_architecture}
+\end{figure}
+\noindent Zuerst muss das \gls{zup} gestartet und mir Eingaben gefüttert werden.
 Wären der Transaktion der Nachrichten wird der einhergehende Traffic mit einem Aufnahmeprogramm wie \texttt{tcpdump} aufgezeichnet.
 Die aufgezeichneten Daten werden in ein \gls{pcap}-Dump-File geschrieben und müssen anschließend analysiert werden.
 Dabei muss der Netzwerkverkehr in ein Format umgewandelt werden, das von \gls{afl}Net verstanden wird.
@@ -63,7 +66,7 @@ Die Instrumentierung des Codes erfolgt durch das Flag \texttt{-fsanitize=address
 Dieses Flag aktiviert \textit{address sanitization} und ermöglicht es, dass \gls{afl}Net die Speicherzugriffe des \gls{zup}
 überwachen kann und somit Buffer Overflows und Memory Leaks erkennt.
 Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library} \textcolor{red}{zitieren von preload lib} verwendet, die alle Ausgaben des \gls{zup}
-aus den Kanälen \texttt{stdout} und \texttt{stderr} in eine log-Datei \texttt{mqtt-aflnet\_stdout.log} weiterleitet.
+aus den Kanälen \texttt{stdout} und \texttt{stderr} in eine log-Datei \texttt{mqtt-aflnet\_stdout\.log} weiterleitet.
 Diese Log-Datei wird benötigt, um die Ausgaben des \gls{zup} zu analysieren und somit die Effektivität der generierten
 Testcases zu bewerten. \newline
 Die Testcases wurden mithilfe eines Python-Skripts \textit{Python script zitieren} generiert.
@@ -83,33 +86,33 @@ Die Fuzzing-Kampagne wurde über einen Zeitraum von 48 Stunden durchgeführt.
 Zur Analyse der Effektivität der gesendeten Pakete wurde eine preload bibliothek verwendet, die die Ausgaben des \gls{zup}
 der Kanäle \texttt{sdtout} und \texttt{stderr} in eine Log-Datei \texttt{mqtt-aflnet\_stdout.log} umleitet.
 Diese Log-Datei wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/connection_evaluation_aflnet}
     \caption{Evaluation der Verbindungsaufbauten des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
     wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.}
     \label{fig:mqtt-aflnet_stdout}
 \end{figure}
-Bei der Analyse der Fehleranfälligkeit von nicht validen Nachrichten wurde festgestellt, dass am Anfang der Fuzzing-Kampagne
+\noindent Bei der Analyse der Fehleranfälligkeit von nicht validen Nachrichten wurde festgestellt, dass am Anfang der Fuzzing-Kampagne
 viele Fehlermeldungen auftraten.
 Mit der Zeit wurden jedoch weniger Fehlermeldungen generiert, da die State Machine des \gls{zup} erlernt wurde und somit
 vermehrt valide Nachrichten generiert wurden.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/connection_evaluation_aflnet_beginning}
     \caption{Evaluation der Fehleranfälligkeit des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
     wurde auf die Häufigkeit der Ausgaben von Fehlermeldungen analysiert.}
     \label{fig:mqtt-aflnet_stdout_beginning}
 \end{figure}
-Daraus ist schlusszufolgern, dass der Fuzzer \gls{afl}Net in der Lage ist, valide Nachrichten un deren Struktur anhand
+\noindent Daraus ist schlusszufolgern, dass der Fuzzer \gls{afl}Net in der Lage ist, valide Nachrichten un deren Struktur anhand
 des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
 
 
 - Hier eine kurze Begründung, dass AFLNet nicht MQTT nur mit einer bestehenden Connection Fuzzen kann. \newline
-- Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet.
+- Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet. \newline
 - Schlussfolgern, dass AFLNet für MQTT besser angepasste werden muss.
 \subsubsection{Analyse der Geschwindigkeit}
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/exec_speed}
     \caption{Analyse der generierten Nachrichtensequenzen von \gls{afl}Net. Es wird die Anzahl der generierten Nachrichtensequenzen
@@ -128,7 +131,7 @@ Die Kurve zeigt während der gesamten Kampagne eine relativ konstante Ausführun
 Diese Schwankungen können auf mehrere Faktoren zurückzuführen sein, darunter:
 \begin{itemize}
     \item Komplexität der zu testenden Eingaben: Komplexere Testfälle können mehr Zeit in Anspruch nehmen, was die Ausführungsrate verringert.
-    \item Systemressourcen: Veränderungen in der Verfügbarkeit von Systemressourcen (z.B. CPU, Speicher) können ebenfalls die Ausführungsrate beeinflussen.
+    \item Systemressourcen: Veränderungen in der Verfügbarkeit von Systemressourcen (z.B.\ CPU, Speicher) können ebenfalls die Ausführungsrate beeinflussen.
     \item Optimierungen oder Veränderungen im Fuzzing-Prozess: Wenn das Fuzzing-Tool neue Pfade oder besonders anspruchsvolle Testfälle entdeckt, kann dies die Rate der durchgeführten Tests vorübergehend senken.
 \end{itemize}
 Ein leichtes Absinken der Ausführungsrate zwischen dem 24. August, 12:00 Uhr, und dem 25. August, 00:00 Uhr, ist bemerkenswert.
@@ -143,7 +146,11 @@ Die leichte Abnahme der Ausführungsrate gegen Ende der Kampagne könnte als Hin
 zunehmend anspruchsvollere Testfälle oder Pfade bearbeitet hat.
 Dies ist typisch für Fuzzing-Kampagnen, da die einfacheren und trivialeren Schwachstellen oft bereits frühzeitig
 identifiziert werden, während komplexere Zustände länger in Anspruch nehmen.
-\begin{figure}
+Außerdem anzumerken ist, dass eine Ausführung von \gls{afl}Net dem Starten des \gls{zup}, dem anschließenden
+Senden einer Nachricht aus dem Fuzzing Corpus und dem Beenden des \gls{zup} entspricht.
+Dem zu entnehmen ist, dass bei Komplexen \gls{iot} Protokollen die Ausführungsrate geringer ausfallen kann, da die
+Initialisierung des \gls{zup} und das Senden einer Nachricht mehr Zeit in Anspruch nehmen kann.
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/high_freq}
     \caption{Analyse der Geschwindigkeit von \gls{afl}Net. Es wird die Anzahl der generierten Testcases pro Sekunde
@@ -170,7 +177,7 @@ Dies bedeutet, dass das Fuzzing-Tool konstant neue interessante Pfade entdeckt h
 Der kontinuierliche Anstieg zeigt, dass das System immer neue potenziell interessante Zustände produziert, die eine
 weitere Untersuchung erfordern.\newline
 Die lila Kurve~\ref{fig:aflnet_speed} stellt die favorisierten Pfade dar, die noch nicht getestet wurden.
-Diese Zahl steigt ebenfalls stetig an, jedoch langsamer als die \quotation{pending paths}~\ref{fig:aflnet_speed}.
+Diese Zahl steigt ebenfalls stetig an, jedoch langsamer als die \enquote{pending paths}~\ref{fig:aflnet_speed}.
 Dies deutet darauf hin, dass das Fuzzing-Tool bestimmte Pfade als besonders wichtig erachtet und diese bevorzugt behandelt,
 obwohl noch viele andere Pfade auf ihre Untersuchung warten.
 Diese Priorisierung kann dazu beitragen, dass besonders interessante oder sicherheitsrelevante Pfade frühzeitig getestet werden.
@@ -179,7 +186,7 @@ Diese steigt über die Zeit an, was die Fortschritte im Fuzzing-Prozess darstell
 Ein Zyklus umfasst die vollständige Durcharbeitung des aktuellen Satzes von Testfällen.
 Der Anstieg zeigt, dass das Fuzzing-Tool kontinuierlich neue Zyklen durchläuft, was auf eine fortlaufende und systematische
 Prüfung der Pfade hinweist.\newline
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/low_freq}
     \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
