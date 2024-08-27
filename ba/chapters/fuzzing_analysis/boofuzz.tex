@@ -26,6 +26,67 @@ und erweiterbar ist.
 Es hat sich in der Sicherheitsforschung und der Qualitätssicherung als nützliches Tool etabliert, insbesondere bei der
 Identifizierung von Sicherheitslücken in komplexen Systemen und Netzwerkanwendungen.
 \subsubsection{Setup}
+Zur Entwicklung einer Fuzzing-Kampagne mit Boofuzz sind mehrere Schritte erforderlich.
+Zunächst muss das Zielsystem identifiziert und analysiert werden, um die relevanten Protokollspezifikationen und
+Kommunikationsmuster zu verstehen.
+Darauf aufbauend werden die Testfälle definiert, die die verschiedenen Protokollfelder und Eingabeparameter abdecken sollen.
+Die Testfälle werden in Boofuzz als \textit{Fuzz-Template} definiert, das die Struktur und den Inhalt der zu füllenden
+Nachrichten beschreibt.
+Das Fuzz-Template besteht aus einer Reihe von Feldern, die die verschiedenen Teile der Nachricht repräsentieren, wie z.B.\ den
+Fixed Header, den Variable Header und den Payload bei \gls{mqtt}-Nachrichten.
+Jedes Feld kann verschiedene Eigenschaften wie den Typ, die Länge und den Wertebereich der Eingabe enthalten.
+In dem Fall der \gls{mqtt}-Nachrichten können die Felder z.B.\ den Steuerpakettyp, die QoS-Ebene und den Topic-Namen,
+wie in ~\ref{subsec:mosquitto-mqtt}beschrieben, repräsentieren.
+Hierbei ist es wichtig, die Protokollspezifikationen und die erwarteten Eingabewerte zu berücksichtigen, um realistische
+Testfälle zu erstellen.
+Nachdem die Testfälle definiert sind, wird eine Fuzzing-Kampagne gestartet, bei der Boofuzz automatisch eine Vielzahl
+von zufälligen oder systematischen Eingaben generiert und an das Zielsystem sendet.
+Während des Fuzzings kann Boofuzz den Zustand des Zielsystems überwachen und auf unerwartete Ereignisse wie Abstürze oder
+Fehler reagieren.
+Dieser Schritt ist jedoch nicht standardmäßig eingebaut und muss vom Benutzer implementiert werden.
+Die Implementierung der Reaktion auf unerwartete Ereignisse kann z.B.\ das Neustarten des Zielsystems, das Anpassen der
+Fuzzing-Strategie oder das Protokollieren von Fehlern umfassen und erfolgt über ein in boofuzz implementiertes Interface.
+Dieses Interface beinhaltet die Monitor-Klassen \texttt{ProcessMonitor, NetworkMonitor} und \texttt{CallbackMonitor}.
+Die \texttt{ProcessMonitor}-Klasse überwacht den Zustand des Zielsystems, indem sie den Prozessstatus überwacht und auf
+Abstürze oder Fehler reagiert.
+Dieser Monitor wurde zum Beispiel in der Analyse des \gls{mqtt}-Brokers Mosquitto verwendet, um auf Abstürze des Brokers
+zu reagieren und die in den Abstürzen enthaltene debug-Informationen abzugreifen und zu speichern.
+\newline\newline
+Eine in dieser Arbeit verwendete Kernkomponente von Boofuzz ist die Option ein Feld als \texttt{fuzzable} zu definieren.
+Ein \texttt{fuzzable} Feld ist ein Feld, das zufällig generierte Eingaben erhalten darf und somit für das Fuzzing relevant ist.
+Mit dieser Option können Testfälle erstellt werden, die systematisch verschiedene Eingaben in bestimmte Felder einfügen,
+um präzisere und effektivere Fuzzing-Kampagnen durchzuführen.
+Die \texttt{fuzzable}-Option ermöglicht es, die Eingaben gezielt zu steuern und bestimmte Protokollfelder oder Eingabeparameter
+zu testen, um potenzielle Schwachstellen zu identifizieren.
+Gerade im Fall von \gls{mqtt}-Nachrichten ist es wichtig, die verschiedenen Felder wie den Fixed Header, den Variable Header
+und den Payload systematisch zu füllen.
+\newline\newline
+Für das Entwickeln einer Fuzzing-Kampagne wurden im Rahmen dieser Arbeit zwei Module entwickelt:
+\begin{itemize}
+    \item boo-fuzzer-mqtt
+    \item boo-fuzzer-mqtt-efficient
+\end{itemize}
+Das Modul \texttt{boo-fuzzer-mqtt} enthält die Implementierung einer Fuzzing-Kampagne für den \gls{mqtt}-Broker weitestgehend
+ohne statisch definierte Felder.
+Alle Teilaspekte eines Pakets als fuzzable zu definieren kann in vielen Fällen Sinn machen, um die gesamte Struktur eines
+Netzwerkpakets zu testen.
+Hierzu können alle individuellen Teile einer \gls{mqtt}-Nachricht auf richtige Verarbeitung getestet werden.\newline
+Das Modul \texttt{boo-fuzzer-mqtt-efficient} hingegen definiert statische Felder für den Fixed Header, den Variable Header
+und das Topic.
+Das Topic wird hierbei als \texttt{fuzzing/topic} fest vordefiniert und gepublisht, sodass jede einhergehende Client-Verbindung
+bereits ein Topic zur Verfügung hat.
+Das hat zur Folge, dass die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, signifikant erhöht wird.
+Für das Starten einer Fuzzing-Kampagne mit Boofuzz sind folgende Schritte notwendig:
+\begin{itemize}
+    \item Installation von Boofuzz und den erforderlichen Abhängigkeiten
+    \item Definition der Testfälle und Fuzzing-Strategien
+    \item Starten der Fuzzing-Kampagne und Überwachung des Zielsystems
+    \item Analyse der Ergebnisse und Identifizierung von Schwachstellen
+\end{itemize}
+Zusätzlich kommt hinzu, dass bei der effizienten Lösung der Broker bereits in einen preparierten Zustand versetzt wird,
+sodass weniger Overhead bei der initialen Fuzzingstrategie entsteht.
+Außerdem muss ein Monitor für das \gls{zup} definiert werden, sodass auch das automatische Starten, Neustarten und Beenden
+des Zielsystems möglich ist und bei Abstürzen die entsprechenden Informationen des Absturzes sammeln zu können.
 \subsubsection{Analyse der Effektivität gesendeter Pakete}
 In der Untersuchung von \gls{mqtt}-Brokern mittels Fuzzing ist es entscheidend, die Wahrscheinlichkeit zu verstehen, mit der
 ein zufällig generiertes Paket tatsächlich gültig ist.
