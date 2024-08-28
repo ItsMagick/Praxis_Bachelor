@@ -1,7 +1,7 @@
 %! Author = chaorn
 %! Date = 13.08.24
 
-\subsection{AFLNet}\label{subsec:aflnet}
+\subsection{Fuzzing mit AFLNet}\label{subsec:aflnet}
 \gls{afl} ist ein Fuzzer, der auf dem Prinzip der Codeabdeckung basiert.
 Er zählt somit zu der Familie der Grey-Box Fuzzer und basiert auf einer mutationsbasierten Fuzzing-Technik.
 Bei \gls{afl} handelt es sich ebenso um einen Applikationsfuzzer, welcher mithilfe eines Eingabestreams Daten
@@ -45,11 +45,7 @@ können.\newline\newline
 \subsubsection{Setup}
 \textcolor{red}{
 \begin{itemize}
-    \item Hier beschreiben wie \gls{afl} konfiguriert wurde, sodass man das \gls{zup} fuzzen kann.
-    \item beschreiben wie die Eingaben generiert wurden.
-    \item Testcases beschreiben.
-    \item Auf PA eingehen
-    \item V.a. auf die Extraktion der Nachrichten eingehen mit Wireshark UND danach das auf das Skript schlussfolgern
+    \item auf die Extraktion der Nachrichten eingehen mit Wireshark UND danach das auf das Skript schlussfolgern
 \end{itemize}
 }
 Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt und an neue Frameworks und Bibliotheken
@@ -93,12 +89,12 @@ Diese Log-Datei wurde auf die Häufigkeit der Ausgaben von erfolgreichen und feh
     wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.}
     \label{fig:mqtt-aflnet_stdout}
 \end{figure}
-\noindent Die grüne Linie ~\ref{fig:mqtt-aflnet_stdout} repräsentiert die Anzahl der erfolgreichen Verbindungen im Laufe der Zeit.
+\noindent Die grüne Linie (siehe Fig.~\ref{fig:mqtt-aflnet_stdout}) repräsentiert die Anzahl der erfolgreichen Verbindungen im Laufe der Zeit.
 Die Linie steigt fast linear an und erreicht gegen Ende der Kampagne eine Gesamtzahl von 1.158.866 erfolgreichen Verbindungen.
 Dies deutet darauf hin, dass das getestete System eine sehr hohe Erfolgsrate bei Verbindungsversuchen aufweist.
 Die lineare Zunahme zeigt, dass die Rate der erfolgreichen Verbindungen konstant hoch geblieben ist, ohne signifikante
 Einbrüche oder Schwankungen.
-Die rote Linie~\ref{fig:mqtt-aflnet_stdout} zeigt die Anzahl der erfolglosen Verbindungen an.
+Die rote Linie (siehe Fig.~\ref{fig:mqtt-aflnet_stdout}) zeigt die Anzahl der erfolglosen Verbindungen an.
 Diese bleibt über den gesamten Zeitraum sehr niedrig und erreicht gegen Ende der Kampagne etwa 26.888 erfolglose Verbindungen.
 Der minimale Anstieg im Vergleich zu den erfolgreichen Verbindungen weist darauf hin, dass die Mehrheit der Verbindungen
 erfolgreich war.
@@ -113,7 +109,8 @@ vermehrt valide Nachrichten generiert wurden.
     wurde auf die Häufigkeit der Ausgaben von Fehlermeldungen analysiert.}
     \label{fig:mqtt-aflnet_stdout_beginning}
 \end{figure}
-\noindent Das Diagramm~\ref{fig:mqtt-aflnet_stdout_beginning} zeigt deutlich, dass die Lernphase der State-Machine zu Beginn der Fuzzing-Kampagne von großer Bedeutung ist.
+\noindent Das Diagramm (siehe Fig.~\ref{fig:mqtt-aflnet_stdout_beginning}) zeigt deutlich, dass die Lernphase der State-Machine
+zu Beginn der Fuzzing-Kampagne von großer Bedeutung ist.
 Die hohe Anzahl von erfolglosen Verbindungen in der Anfangsphase deutet darauf hin, dass die anfänglichen Eingaben von 
 \gls{afl}Net nicht korrekt auf das getestete System abgestimmt waren. 
 Erst nach einer gewissen Zeit, in der die State-Machine genügend Informationen gesammelt hat, um die Struktur des Protokolls 
@@ -170,28 +167,28 @@ Initialisierung des \gls{zup} und das Senden einer Nachricht mehr Zeit in Anspru
 \noindent Das gezeigte Diagramm veranschaulicht den Verlauf einer 48-stündigen Fuzzing-Kampagne mit dem \gls{afl}Net-Tool, wobei
 verschiedene Metriken im Zusammenhang mit der Testabdeckung und dem Fortschritt des Fuzzing-Prozesses dargestellt werden.
 Im Folgenden werden die verschiedenen Kurven analysiert und ihre Bedeutung in Bezug auf die Kampagne erläutert.\newline\newline
-Die graue Fläche~\ref{fig:aflnet_speed} zeigt die Gesamtanzahl der explorierten Pfade während der Kampagne.
+Die graue Fläche (siehe Fig.~\ref{fig:aflnet_speed}) zeigt die Gesamtanzahl der explorierten Pfade während der Kampagne.
 Diese Zahl steigt kontinuierlich an und erreicht gegen Ende der Kampagne über 1400 Pfade.
 Der gleichmäßige Anstieg deutet darauf hin, dass der Fuzzer während der gesamten Kampagne effektiv neue Pfade
 identifizieren konnte.
 Interessanterweise gibt es Phasen, in denen der Anstieg steiler ist, was auf eine besonders hohe Entdeckungsrate neuer
 Pfade in diesen Perioden hinweist.\newline
-Die hellblaue Linie~\ref{fig:aflnet_speed} repräsentiert den aktuell im Test befindlichen Pfad.
+Die hellblaue Linie (siehe Fig.~\ref{fig:aflnet_speed}) repräsentiert den aktuell im Test befindlichen Pfad.
 Diese Kurve zeigt, wie das Fuzzing-Tool ständig neue Pfade auswählt und testet.
 Die Linie verläuft relativ flach, was darauf hinweist, dass das Fuzzing-Tool regelmäßig zwischen den Pfaden wechselt und
 keiner besonders lange untersucht wird.
 Diese regelmäßige Bewegung zwischen den Pfaden kann auf eine gleichmäßige Verteilung der Testressourcen hinweisen.\newline
-Die Anzahl der noch zu testenden Pfade (blau~\ref{fig:aflnet_speed}) zeigt einen Anstieg, der während der gesamten Kampagne
+Die Anzahl der noch zu testenden Pfade (blau, siehe Fig.~\ref{fig:aflnet_speed}) zeigt einen Anstieg, der während der gesamten Kampagne
 andauert und gegen Ende der 48 Stunden fast 600 erreicht.
 Dies bedeutet, dass das Fuzzing-Tool konstant neue interessante Pfade entdeckt hat, die es noch zu testen gilt.
 Der kontinuierliche Anstieg zeigt, dass das System immer neue potenziell interessante Zustände produziert, die eine
 weitere Untersuchung erfordern.\newline
-Die lila Kurve~\ref{fig:aflnet_speed} stellt die favorisierten Pfade dar, die noch nicht getestet wurden.
-Diese Zahl steigt ebenfalls stetig an, jedoch langsamer als die \enquote{pending paths}~\ref{fig:aflnet_speed}.
+Die lila Kurve (siehe Fig.~\ref{fig:aflnet_speed}) stellt die favorisierten Pfade dar, die noch nicht getestet wurden.
+Diese Zahl steigt ebenfalls stetig an, jedoch langsamer als die \enquote{pending paths}(siehe Fig.~\ref{fig:aflnet_speed}).
 Dies deutet darauf hin, dass das Fuzzing-Tool bestimmte Pfade als besonders wichtig erachtet und diese bevorzugt behandelt,
 obwohl noch viele andere Pfade auf ihre Untersuchung warten.
 Diese Priorisierung kann dazu beitragen, dass besonders interessante oder sicherheitsrelevante Pfade frühzeitig getestet werden.
-Die magentafarbene Kurve~\ref{fig:aflnet_speed} zeigt die Anzahl der abgeschlossenen Testzyklen.
+Die magentafarbene Kurve (siehe Fig.~\ref{fig:aflnet_speed}) zeigt die Anzahl der abgeschlossenen Testzyklen.
 Diese steigt über die Zeit an, was die Fortschritte im Fuzzing-Prozess darstellt.
 Ein Zyklus umfasst die vollständige Durcharbeitung des aktuellen Satzes von Testfällen.
 Der Anstieg zeigt, dass das Fuzzing-Tool kontinuierlich neue Zyklen durchläuft, was auf eine fortlaufende und systematische
@@ -202,30 +199,24 @@ Prüfung der Pfade hinweist.
     \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
     \label{fig:aflnet_bugs}
 \end{figure}
-\noindent Die Anzahl der einzigartigen Abstürze (pink~\ref{fig:aflnet_bugs}) zeigt einen kontinuierlichen Anstieg über den gesamten Kampagnenzeitraum.
+\noindent Die Anzahl der einzigartigen Abstürze (pink siehe Fig.~\ref{fig:aflnet_bugs}) zeigt einen kontinuierlichen Anstieg über den gesamten Kampagnenzeitraum.
 Besonders auffällig ist der steile Anstieg zu Beginn der Kampagne, gefolgt von einem moderateren Anstieg, der sich über
 den Rest der Kampagne hinweg fortsetzt.
 Dies deutet darauf hin, dass in den ersten Stunden der Kampagne eine größere Anzahl an Abstürzen entdeckt wurde, was
 typisch für Fuzzing-Kampagnen ist, bei denen anfänglich viele triviale Schwachstellen gefunden werden.
 Im weiteren Verlauf der Kampagne werden dann weniger neue Abstürze entdeckt, was darauf hinweist, dass das System bereits
 viele der leichter zu findenden Schwachstellen aufgedeckt hat.
-Die Anzahl der einzigartigen Hänger (magenta~\ref{fig:aflnet_bugs}) bleibt über den gesamten Kampagnenzeitraum stabil bei null.
+Die Anzahl der einzigartigen Hänger (magenta, siehe Fig.~\ref{fig:aflnet_bugs}) bleibt über den gesamten Kampagnenzeitraum stabil bei null.
 Dies könnte darauf hindeuten, dass entweder keine Hänger im getesteten System aufgetreten sind oder dass das verwendete
 Fuzzing-Setup nicht in der Lage war, solche Zustände effektiv zu identifizieren.
-Die Levels-Kurve (blau~\ref{fig:aflnet_bugs}) zeigt nur einen leichten Anstieg in den ersten Stunden der Kampagne und bleibt danach weitgehend konstant.
+Die Levels-Kurve (blau, siehe Fig.~\ref{fig:aflnet_bugs}) zeigt nur einen leichten Anstieg in den ersten Stunden der Kampagne und bleibt danach weitgehend konstant.
 Dies könnte darauf hinweisen, dass nur wenige neue Code-Pfade (Levels) während des Fuzzings entdeckt wurden, was
 möglicherweise auf die Komplexität des Zielsystems oder auf die Grenzen der verwendeten Mutationsstrategien hinweist.
-Die Fuzzing-Kampagne mit AFLNet war erfolgreich darin, eine beträchtliche Anzahl einzigartiger Abstürze zu entdecken,
+Die Fuzzing-Kampagne mit \gls{afl}Net war erfolgreich darin, eine beträchtliche Anzahl einzigartiger Abstürze zu entdecken,
 insbesondere in den ersten Stunden des Fuzzings.
 Der Mangel an identifizierten Hängern und der begrenzte Anstieg an Levels könnte jedoch darauf hinweisen, dass entweder
 das Zielsystem keine anfälligen Hängerzustände aufweist oder dass das Fuzzing-Setup verbessert werden könnte, um diese
 Art von Fehlern besser zu identifizieren.
-\begin{itemize}
-    \item Hier wird die Geschwindigkeit von \gls{afl} analysiert.
-    \item Wie viele Testcases wurden generiert.
-    \item Wie viele Testcases wurden pro Sekunde generiert.
-    \item Wie viele Testcases wurden pro Sekunde an das \gls{zup} gesendet.
-\end{itemize}
 \subsubsection{Analyse der gefundenen Bugs}
 \begin{itemize}
     \item Eingehen wieviele Bugs gefunden wurden

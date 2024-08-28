@@ -1,7 +1,7 @@
 %! Author = chaorn
 %! Date = 13.08.24
 
-\subsection{boofuzz}\label{subsec:boofuzz}
+\subsection{Fuzzing mit boofuzz}\label{subsec:boofuzz}
 Boofuzz ist ein Open-Source-Fuzzing-Framework, das zur automatisierten Sicherheitsprüfung von Software verwendet wird.
 Fuzzing ist eine Technik, bei der eine Vielzahl von zufälligen, fehlerhaften oder unerwarteten Eingaben in eine Software
 eingespeist wird, um Schwachstellen wie Abstürze, Speicherlecks oder Sicherheitslücken aufzudecken.
@@ -171,6 +171,43 @@ Dieser drastische Unterschied ist auf die Reduktion der Anzahl der zufällig zu 
 Da der Fixed Header und der Variable Header spezifische Anforderungen haben und die Anzahl der gültigen Kombinationen
 begrenzt ist, erhöht das Festlegen dieser Felder die Wahrscheinlichkeit eines gültigen Pakets erheblich.
 Die Wahrscheinlichkeit hängt also stark davon ab, wie viele Teile des Pakets zufällig generiert werden und wie viele festgesetzt sind.
+\newline\newline
+Berechnung der Wahrscheinlichkeit für ein valides Paket:
+\begin{gather*}
+    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{256^2} \times \frac{256}{256^2} \times \frac{1}{256^{10}}\\
+    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{65536} \times \frac{256}{65536} \times \frac{1}{1099511627776}\\
+    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{1}{4194304} \times \frac{1}{1099511627776}\\
+    P(\text{gültiges Paket bei zufälligem Fuzzing}) \approx 2.28 \times 10^{-25}
+\end{gather*}
+Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrscheinlichkeit (z.B.\ \SI{99}{\percent})
+mindestens ein gültiges Paket zu erhalten, verwenden wir die Formel:
+\[
+    n = \frac{\log(1 - \text{Wahrscheinlichkeit})}{\log(1 - P)}
+\]
+Für eine Wahrscheinlichkeit von \SI{99}{\percent}, dass mindestens ein Paket gültig ist:
+\[
+    n = \frac{\log(1 - 0.99)}{\log(1 - 2.28 \times 10^{-25})}\\
+\]
+Da $\log(1 - x) \approx -x$ für sehr kleine Werte von $x$:
+\[
+    n \approx \frac{\log(0.01)}{-2.28 \times 10^{-25}} \approx \frac{-2}{-2.28 \times 10^{-25}} \approx 8.77 \times10^{24}\\
+\]
+Berechnung der Wahrscheinlichkeit für ein valides Paket:
+\begin{gather*}
+    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{256^{10}}\\
+    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{1099511627776}\\
+\end{gather*}
+Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrscheinlichkeit (z.B. \SI{99}{percent})
+mindestens ein gültiges Paket zu erhalten:
+\begin{gather*}
+    n = \frac{\log(1 - 0.99)}{\log(1 - \frac{1}{1099511627776})}\\
+    \text{Da}\log(1 - \frac{1}{1099511627776}) \approx -\frac{1}{1099511627776}\\
+    n \approx \frac{\log(0.01)}{-\frac{1}{1099511627776}} \approx \frac{-2}{-9.05 \times 10^{-13}} \approx 2.21 \times 10^{12}
+\end{gather*}
+Diese Berechnungen zeigen, dass das Fixieren von Teilen des Pakets (wie Fixed Header, Topic und Variable Header) die
+Anzahl der benötigten Pakete zur Erzeugung eines gültigen Pakets erheblich reduziert.
+Dies ist besonders wichtig für die Effizienz von Fuzzing-Tests, da es die Anzahl der Tests verringert, die benötigt werden,
+um die gewünschten Ergebnisse zu erzielen.
 \newline\newline
 Durch das Fixieren bestimmter Schlüsselparameter des \gls{mqtt}-Pakets, wie dem Fixed Header und dem Topic, wird die Wahrscheinlichkeit,
 dass ein gültiges Paket generiert wird, signifikant erhöht.
