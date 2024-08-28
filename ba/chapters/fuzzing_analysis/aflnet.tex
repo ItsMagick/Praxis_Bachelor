@@ -55,7 +55,9 @@ Dieses angepasste Dockerfile enthält alle notwendigen Abhängigkeiten, um \gls{
 Hierzu zählen die Abhängigkeiten \texttt{llvm} und \texttt{clang} in der Version 11.
 \texttt{llvm} wird benötigt, um den \gls{afl} Compiler \texttt{afl-clang-fast} zu kompilieren.
 Dieser wird für optimierte Instrumentierung des Codes des \gls{zup} verwendet und bezweckt somit höhere Ausführgeschwindigkeiten
-während der Fuzzing Kampagne. \newline
+während der Fuzzing Kampagne.
+Für die erfolgreiche Verwendung des Compilers \texttt{afl-clang-fast} musste für die Kompatibilität mit einer neueren
+Ubuntu-Version ein Patch für das Kompilieren des Compilers geschrieben werden.\textcolor{red}{Hier nochmal den Patch Zitieren}\newline
 Das \gls{zup} Mosquitto wird ebenfalls in einem Docker Container kompiliert.
 Hierzu wird der Compiler \texttt{afl-clang-fast} verwendet.
 Die Instrumentierung des Codes erfolgt durch das Flag \texttt{-fsanitize=address}.

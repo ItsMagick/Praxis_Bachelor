@@ -201,7 +201,7 @@ Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrs
 mindestens ein gültiges Paket zu erhalten:
 \begin{gather*}
     n = \frac{\log(1 - 0.99)}{\log(1 - \frac{1}{1099511627776})}\\
-    \text{Da}\log(1 - \frac{1}{1099511627776}) \approx -\frac{1}{1099511627776}\\
+    \text{Da }\log(1 - \frac{1}{1099511627776}) \approx -\frac{1}{1099511627776}\\
     n \approx \frac{\log(0.01)}{-\frac{1}{1099511627776}} \approx \frac{-2}{-9.05 \times 10^{-13}} \approx 2.21 \times 10^{12}
 \end{gather*}
 Diese Berechnungen zeigen, dass das Fixieren von Teilen des Pakets (wie Fixed Header, Topic und Variable Header) die
