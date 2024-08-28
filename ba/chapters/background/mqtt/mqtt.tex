@@ -36,11 +36,11 @@ Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten:
     \item \textbf{Unsubscribe:} Ein Client beendet das Abonnement eines Themas und empfängt keine weiteren Nachrichten zu
           diesem Thema.
 \end{itemize}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/mosquitto_state_machine}
+    \includegraphics[width=0.6\textwidth]{img/mosquitto_state_machine}
     \caption{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker ab Start der Applikation
-    durchlaufen kann. Beginnend mit der Inintialisierung, über den Zuhörenden Modus in dem der Broker auf eingehende Nachrichten
+    durchlaufen kann. Beginnend mit der Inintialisierung, über den zuhörenden Modus in dem der Broker auf eingehende Nachrichten
     wartet, bis hin zum Senden von Nachrichten an die Clients. Clients können sich mit dem Broker verbinden, Nachrichten
     abonnieren und Nachrichten senden. Der Broker kann Nachrichten an die Clients senden, die diese abonniert haben.}
     \label{fig:mosquitto_state_machine}
@@ -48,7 +48,7 @@ Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten:
 Diese Nachrichten werden über das \gls{tcp}-Protokoll zwischen Client und Broker ausgetauscht.
 Der Broker verfügt über eine interne Datenstruktur, die die Themen und die zugehörigen Abonnenten speichert.
 Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State Machine abgebildet werden.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/state_machine}
     \caption{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker nach Empfangen einer
@@ -56,10 +56,9 @@ Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State M
     bis hin zum Senden der Nachricht an die Clients.}
     \label{fig:mqtt_state_machine}
 \end{figure}
-\newline
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/mqtt_packet_structure}
+    \includegraphics[width=\textwidth]{img/mqtt_packet_structure}
     \caption{Format einer \gls{mqtt}-Nachricht am beispiel eines Connect-Pakets.}
     \label{fig:mqtt_message_format}
 \end{figure}

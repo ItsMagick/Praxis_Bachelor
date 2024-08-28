@@ -18,7 +18,7 @@ Um diese Dump-Files zu generieren und somit den Netzwerkverkehr aufzunehmen wird
 Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl}-kompatibles Format umgewandelt, indem
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
 Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
-\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textcolor{red}{hier zitieren und bild einfügen}
+\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textcolor{red}{hier zitieren}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/aflnet_arch}
@@ -88,38 +88,48 @@ der Kanäle \texttt{sdtout} und \texttt{stderr} in eine Log-Datei \texttt{mqtt-a
 Diese Log-Datei wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/connection_evaluation_aflnet}
+    \includegraphics[width=\textwidth]{img/connection_evaluation_aflnet}
     \caption{Evaluation der Verbindungsaufbauten des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
     wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.}
     \label{fig:mqtt-aflnet_stdout}
 \end{figure}
-\noindent Bei der Analyse der Fehleranfälligkeit von nicht validen Nachrichten wurde festgestellt, dass am Anfang der Fuzzing-Kampagne
+\noindent Die grüne Linie ~\ref{fig:mqtt-aflnet_stdout} repräsentiert die Anzahl der erfolgreichen Verbindungen im Laufe der Zeit.
+Die Linie steigt fast linear an und erreicht gegen Ende der Kampagne eine Gesamtzahl von 1.158.866 erfolgreichen Verbindungen.
+Dies deutet darauf hin, dass das getestete System eine sehr hohe Erfolgsrate bei Verbindungsversuchen aufweist.
+Die lineare Zunahme zeigt, dass die Rate der erfolgreichen Verbindungen konstant hoch geblieben ist, ohne signifikante
+Einbrüche oder Schwankungen.
+Die rote Linie~\ref{fig:mqtt-aflnet_stdout} zeigt die Anzahl der erfolglosen Verbindungen an.
+Diese bleibt über den gesamten Zeitraum sehr niedrig und erreicht gegen Ende der Kampagne etwa 26.888 erfolglose Verbindungen.
+Der minimale Anstieg im Vergleich zu den erfolgreichen Verbindungen weist darauf hin, dass die Mehrheit der Verbindungen
+erfolgreich war.
+Bei der Analyse der Fehleranfälligkeit von nicht validen Nachrichten wurde festgestellt, dass am Anfang der Fuzzing-Kampagne
 viele Fehlermeldungen auftraten.
 Mit der Zeit wurden jedoch weniger Fehlermeldungen generiert, da die State Machine des \gls{zup} erlernt wurde und somit
 vermehrt valide Nachrichten generiert wurden.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/connection_evaluation_aflnet_beginning}
+    \includegraphics[width=\textwidth]{img/connection_evaluation_aflnet_beginning}
     \caption{Evaluation der Fehleranfälligkeit des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
     wurde auf die Häufigkeit der Ausgaben von Fehlermeldungen analysiert.}
     \label{fig:mqtt-aflnet_stdout_beginning}
 \end{figure}
-\noindent Daraus ist schlusszufolgern, dass der Fuzzer \gls{afl}Net in der Lage ist, valide Nachrichten un deren Struktur anhand
-des Broker-Feedbacks zu erlernen und somit effektivere Testcases zu generieren.
-
-
-- Hier eine kurze Begründung, dass AFLNet nicht MQTT nur mit einer bestehenden Connection Fuzzen kann. \newline
-- Persistent mode vielleicht einbauen, sodass MQTT nicht immer wieder erneut gestartet wird und den erlangten State resettet. \newline
-- Schlussfolgern, dass AFLNet für MQTT besser angepasste werden muss.
+\noindent Das Diagramm~\ref{fig:mqtt-aflnet_stdout_beginning} zeigt deutlich, dass die Lernphase der State-Machine zu Beginn der Fuzzing-Kampagne von großer Bedeutung ist.
+Die hohe Anzahl von erfolglosen Verbindungen in der Anfangsphase deutet darauf hin, dass die anfänglichen Eingaben von 
+\gls{afl}Net nicht korrekt auf das getestete System abgestimmt waren. 
+Erst nach einer gewissen Zeit, in der die State-Machine genügend Informationen gesammelt hat, um die Struktur des Protokolls 
+besser zu verstehen, beginnt die Anzahl der erfolgreichen Verbindungen anzusteigen.
+Dieses Verhalten zeigt, dass das System Zeit benötigt, um die richtigen Eingabenmuster zu lernen. 
+Dieser Lernprozess führt zu einer sukzessiven Verbesserung der Qualität der generierten Eingaben und damit zu einer 
+steigenden Erfolgsrate bei den Verbindungen.
 \subsubsection{Analyse der Geschwindigkeit}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/exec_speed}
+    \includegraphics[width=\textwidth]{img/exec_speed}
     \caption{Analyse der generierten Nachrichtensequenzen von \gls{afl}Net. Es wird die Anzahl der generierten Nachrichtensequenzen
     und die Anzahl der Nachrichtensequenzen, die an das \gls{zup} gesendet wurden, analysiert.}
     \label{fig:aflnet_execs}
 \end{figure}
-Die Ausführungsrate ist eine zentrale Metrik, um den Fortschritt und die Effektivität einer Fuzzing-Kampagne zu bewerten.
+\noindent Die Ausführungsrate ist eine zentrale Metrik, um den Fortschritt und die Effektivität einer Fuzzing-Kampagne zu bewerten.
 Eine hohe und stabile Ausführungsrate deutet auf einen effizienten Fuzzing-Prozess hin, während Schwankungen oder ein
 Rückgang auf potenzielle Engpässe oder Herausforderungen während der Kampagne hinweisen können.\newline
 Die Ausführungsrate liegt im Durchschnitt zwischen 6 und 10 execs/sec und zeigt eine gewisse Variabilität, wie durch die
@@ -134,7 +144,7 @@ Diese Schwankungen können auf mehrere Faktoren zurückzuführen sein, darunter:
     \item Systemressourcen: Veränderungen in der Verfügbarkeit von Systemressourcen (z.B.\ CPU, Speicher) können ebenfalls die Ausführungsrate beeinflussen.
     \item Optimierungen oder Veränderungen im Fuzzing-Prozess: Wenn das Fuzzing-Tool neue Pfade oder besonders anspruchsvolle Testfälle entdeckt, kann dies die Rate der durchgeführten Tests vorübergehend senken.
 \end{itemize}
-Ein leichtes Absinken der Ausführungsrate zwischen dem 24. August, 12:00 Uhr, und dem 25. August, 00:00 Uhr, ist bemerkenswert.
+\noindent Ein leichtes Absinken der Ausführungsrate zwischen dem 24. August, 12:00 Uhr, und dem 25. August, 00:00 Uhr, ist bemerkenswert.
 Dies könnte darauf hindeuten, dass in dieser Phase anspruchsvollere Testfälle bearbeitet wurden oder dass die Systemressourcen
 temporär begrenzt waren.
 Die anschließende Erholung der Ausführungsrate könnte durch die Verarbeitung weniger komplexer Testfälle oder eine bessere
@@ -152,12 +162,12 @@ Dem zu entnehmen ist, dass bei Komplexen \gls{iot} Protokollen die Ausführungsr
 Initialisierung des \gls{zup} und das Senden einer Nachricht mehr Zeit in Anspruch nehmen kann.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/high_freq}
+    \includegraphics[width=\textwidth]{img/high_freq}
     \caption{Analyse der Geschwindigkeit von \gls{afl}Net. Es wird die Anzahl der generierten Testcases pro Sekunde
     und die Anzahl der Testcases, die an das \gls{zup} gesendet wurden, analysiert.}
     \label{fig:aflnet_speed}
 \end{figure}
-Das gezeigte Diagramm veranschaulicht den Verlauf einer 48-stündigen Fuzzing-Kampagne mit dem \gls{afl}Net-Tool, wobei
+\noindent Das gezeigte Diagramm veranschaulicht den Verlauf einer 48-stündigen Fuzzing-Kampagne mit dem \gls{afl}Net-Tool, wobei
 verschiedene Metriken im Zusammenhang mit der Testabdeckung und dem Fortschritt des Fuzzing-Prozesses dargestellt werden.
 Im Folgenden werden die verschiedenen Kurven analysiert und ihre Bedeutung in Bezug auf die Kampagne erläutert.\newline\newline
 Die graue Fläche~\ref{fig:aflnet_speed} zeigt die Gesamtanzahl der explorierten Pfade während der Kampagne.
@@ -185,14 +195,14 @@ Die magentafarbene Kurve~\ref{fig:aflnet_speed} zeigt die Anzahl der abgeschloss
 Diese steigt über die Zeit an, was die Fortschritte im Fuzzing-Prozess darstellt.
 Ein Zyklus umfasst die vollständige Durcharbeitung des aktuellen Satzes von Testfällen.
 Der Anstieg zeigt, dass das Fuzzing-Tool kontinuierlich neue Zyklen durchläuft, was auf eine fortlaufende und systematische
-Prüfung der Pfade hinweist.\newline
+Prüfung der Pfade hinweist.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/low_freq}
+    \includegraphics[width=\textwidth]{img/low_freq}
     \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
     \label{fig:aflnet_bugs}
 \end{figure}
-Die Anzahl der einzigartigen Abstürze (pink~\ref{fig:aflnet_bugs}) zeigt einen kontinuierlichen Anstieg über den gesamten Kampagnenzeitraum.
+\noindent Die Anzahl der einzigartigen Abstürze (pink~\ref{fig:aflnet_bugs}) zeigt einen kontinuierlichen Anstieg über den gesamten Kampagnenzeitraum.
 Besonders auffällig ist der steile Anstieg zu Beginn der Kampagne, gefolgt von einem moderateren Anstieg, der sich über
 den Rest der Kampagne hinweg fortsetzt.
 Dies deutet darauf hin, dass in den ersten Stunden der Kampagne eine größere Anzahl an Abstürzen entdeckt wurde, was
