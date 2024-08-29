@@ -107,7 +107,7 @@ vermehrt valide Nachrichten generiert wurden.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/connection_evaluation_aflnet_beginning}
-    \caption{Evaluation der Fehleranfälligkeit des \gls{zup} Mosquitto. Die Log-Datei \texttt{mqtt-aflnet\_stdout.log}
+    \caption{Evaluation der Fehleranfälligkeit des \gls{zup} Mosquitto. Die Log-Datei mqtt-aflnet\_stdout.log
     wurde auf die Häufigkeit der Ausgaben von Fehlermeldungen analysiert.}
     \label{fig:mqtt-aflnet_stdout_beginning}
 \end{figure}
@@ -220,8 +220,43 @@ Der Mangel an identifizierten Hängern und der begrenzte Anstieg an Levels könn
 das Zielsystem keine anfälligen Hängerzustände aufweist oder dass das Fuzzing-Setup verbessert werden könnte, um diese
 Art von Fehlern besser zu identifizieren.
 \subsubsection{Analyse der gefundenen Bugs}
-\begin{itemize}
-    \item Eingehen wieviele Bugs gefunden wurden
-    \item Verifizieren
-    \item Auf reproduzierbarkeit eingehen
-\end{itemize}
+Die gefundenen Bugs nach der 48-stündigen Fuzzing-Kampagne belaufen sich auf 151 Bugs (siehe Fig.~\ref{fig:aflnet_bugs}).
+Hierzu wurden alle Abstürze mithilfe eines Bash-Skripts \textcolor{red}{Hier Zitieren} dokumentiert und analysiert.
+Bei allen gefundenen Bugs handelt es sich um \textit{Segmentation Faults} und konnten in vier Kategorien eingeteilt werden:
+\begin{enumerate}
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in \texttt{lib\/packet\_datatypes.c}
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in \texttt{lib\/packet\_datatypes.c}
+    mit einer \gls{qos}-Nachricht
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in \texttt{lib\/packet\_datatypes.c}
+    mit einer \gls{qos}-Nachricht und einem subscriber
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{handle\_\_publish} in \texttt{src\/handle\_publish.c}
+\end{enumerate}
+Die Abstürze der vierten Kategorie sind auf die eigene Implementierung eines Buffer Overflows zurückzuführen.
+Dieser Buffer Overflow wird getriggert, da die Sanity-Checks in der Funktion \texttt{handle\_\_publish} auskommentiert
+wurden.
+\input{listings/mqtt-sainity-checks}
+Diese Sanity-Checks überprüfen, ob die Länge der Nachricht, die an den Broker gesendet wird, korrekt ist.
+Der Fehler tritt nach dem auskommentierten Sanity-Check auf, wenn darauf geprüft wird, ob die Nachricht, die gesendet
+werden soll bereits existiert.
+Hierzu soll die gesendete Nachricht -- mit einer bereits vorhandenen Nachricht-ID -- mit der bereits zwischengespeicherten
+Nachricht verglichen werden.
+Diese Nachricht mit der gleichen ID ist jedoch größer als die bereits zwischengespeicherte Nachricht und führt bei dem
+Vergleich mit \texttt{memcmp} zum Absturz des \gls{zup}.
+\newline
+Die anderen drei Kategorien entstammen sind gleichen Ursprungs.
+Hier handelt es sich um einen Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in der Datei \texttt{lib\/packet\_datatypes.c}.
+Diese Schwachstelle wird bei dem Senden der Nachricht an ein topic.
+Hierbei werden nachrichten vom Broker empfangen und das topic weitergeleitet.
+Wenn Subscriber auf das topic warten, wird die Nachricht an die Subscriber mittels des syscalls \texttt{memcpy} weitergeleitet.
+\newline
+Die Gesamterscheinungen der Bugs belaufen sich auf 151 Bugs, von denen 105 dem Fehler in der Funktion
+\texttt{handle\_\_publish} entsprechen.
+Die restlichen 46 Bugs entstammen den Buffer Overflows in der Funktion \texttt{packet\_\_write\_bytes}.
+\newline
+Die gefundenen Bugs wurden mithilfe des Tools \texttt{aflnet-replay} reproduziert und auf ihre Validität überprüft.
+Sie zeigten jedoch keine Wirkung auf den Broker ohne manuell implementierte Schwachstellen.\newline\newline
+Zusammenfassend lässt sich sagen, dass \gls{afl}Net nur zwei Schwachstellen im Broker Mosquitto gefunden hat, von denen
+beide von der Implementierung der Sanity-Checks abhängen.
+Wichtig anzumerken ist, dass \gls{afl}Net einen Absturz genau dann als einzigartig betrachtet, wenn die an das \gls{zup}
+übergebene Nachricht einen neuen Pfad im Code des \gls{zup} erreicht.
+Die Stelle, an der das \gls{zup} zum Absturz gebracht wird, ist für \gls{afl}Net nicht ausschlaggebend.
