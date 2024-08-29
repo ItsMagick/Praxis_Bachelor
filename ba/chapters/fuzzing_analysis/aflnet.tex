@@ -232,9 +232,8 @@ Bei allen gefundenen Bugs handelt es sich um \textit{Segmentation Faults} und ko
     \item Absturz durch Buffer Overflow in der Funktion \texttt{handle\_\_publish} in \texttt{src\/handle\_publish.c}
 \end{enumerate}
 Die Abstürze der vierten Kategorie sind auf die eigene Implementierung eines Buffer Overflows zurückzuführen.
-Dieser Buffer Overflow wird getriggert, da die Sanity-Checks in der Funktion \texttt{handle\_\_publish} auskommentiert
+Dieser Buffer Overflow wird getriggert, da die Sanity-Checks (~\ref{lst:mqtt-sainity-checks}) in der Funktion \texttt{handle\_\_publish} auskommentiert
 wurden.
-\input{listings/mqtt-sainity-checks}
 Diese Sanity-Checks überprüfen, ob die Länge der Nachricht, die an den Broker gesendet wird, korrekt ist.
 Der Fehler tritt nach dem auskommentierten Sanity-Check auf, wenn darauf geprüft wird, ob die Nachricht, die gesendet
 werden soll bereits existiert.
