@@ -197,7 +197,7 @@ Berechnung der Wahrscheinlichkeit für ein valides Paket:
     P(\text{gültiges Paket bei festen Headern}) = \frac{1}{256^{10}}\\
     P(\text{gültiges Paket bei festen Headern}) = \frac{1}{1099511627776}\\
 \end{gather*}
-Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrscheinlichkeit (z.B. \SI{99}{percent})
+Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrscheinlichkeit (z.B.\ \SI{99}{\percent})
 mindestens ein gültiges Paket zu erhalten:
 \begin{gather*}
     n = \frac{\log(1 - 0.99)}{\log(1 - \frac{1}{1099511627776})}\\
@@ -212,4 +212,11 @@ um die gewünschten Ergebnisse zu erzielen.
 Durch das Fixieren bestimmter Schlüsselparameter des \gls{mqtt}-Pakets, wie dem Fixed Header und dem Topic, wird die Wahrscheinlichkeit,
 dass ein gültiges Paket generiert wird, signifikant erhöht.
 Dies ist besonders wichtig für effizientes Fuzzing, da es die Anzahl der möglichen ungültigen Pakete reduziert und die Effektivität der Tests steigert.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/connection_evaluation_boofuzz}
+    \caption{Vergleich der gültigen Pakete bei zufälligem Fuzzing ohne statisch definierte Felder}
+    \label{fig:valid_packets}
+\end{figure}
+
 \subsubsection{Analyse der gefundenen Bugs (Optional?)}

@@ -341,3 +341,76 @@
     title={AFLNet: A Greybox Fuzzer for Network Protocols},
     booktitle={Proceedings of the 13rd IEEE International Conference on Software Testing, Verification and Validation : Testing Tools Track},
     year={2020},}
+
+@online{white-box-testing,
+     author = {OWASP},
+     title = {Static Code Analysis},
+     url = {https://owasp.org/www-community/controls/Static_Code_Analysis},
+     urldate = {2024-08-30},
+}
+
+@online{black-box-testing,
+    author = {science direct},
+    title = {Black-Box Testing},
+    urldate = {2024-08-30},
+    url = {https://www.sciencedirect.com/topics/computer-science/black-box-testing},
+}
+@online{grey-box-testing,
+    author = {Andre Coulter},
+    title = {Graybox Software Testing},
+    urldate = {2024-08-30},
+    url = {https://www.cleanscape.net/stellar/docs_lib/paper_graybox.pdf},
+}
+
+@online{black-box-fuzzing,
+    author = {Hongliang Liang},
+    title = {Fuzzing: State of the Art},
+    url = {https://wcventure.github.io/FuzzingPaper/Paper/TRel18_Fuzzing.pdf},
+    urldate = {2024-08-30},
+}
+
+@online{grey-box-fuzzing,
+    author = {Michael Sutton, ADAM Greene & Pedram Amini},
+    title = {Fuzzing {-} Brute Force Vulnerability Discovery},
+    urldate = {2024-08-30},
+    url = {https://github.com/mangonugen/CySecBooks/blob/master/Fuzzing%20Brute%20Force%20Vulnerability%20Discovery.pdf},
+}
+
+@online{fuzzer-intelligence,
+    author = {Li, J., Zhao, B. & Zhang, C.},
+    title = {Fuzzing: a survey},
+    urldate = {2024-08-30},
+    url = {https://doi.org/10.1186/s42400-018-0002-y},
+}
+
+@INPROCEEDINGS{smart-fuzzing,
+    author={Chen, Yuqi and Poskitt, Christopher M. and Sun, Jun and Adepu, Sridhar and Zhang, Fan},
+    booktitle={2019 34th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+    title={Learning-Guided Network Fuzzing for Testing Cyber-Physical System Defences},
+    year={2019},
+    volume={},
+    number={},
+    pages={962-973},
+    keywords={Fuzzing;Actuators;Benchmark testing;Machine learning;Predictive models;Monitoring;cyber-physical systems;fuzzing;testing;benchmark generation;machine learning;metaheuristic optimisation},
+    doi={10.1109/ASE.2019.00093},
+    url = {https://arxiv.org/pdf/1909.05410},
+    urldate = {2024-08-30},
+}
+
+@inproceedings{directed-greybox-fuzzing,
+    author = {B\"{o}hme, Marcel and Pham, Van-Thuan and Nguyen, Manh-Dung and Roychoudhury, Abhik},
+    title = {Directed Greybox Fuzzing},
+    year = {2017},
+    isbn = {9781450349468},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://mboehme.github.io/paper/CCS17.pdf},
+    doi = {10.1145/3133956.3134020},
+    abstract = {Existing Greybox Fuzzers (GF) cannot be effectively directed, for instance, towards problematic changes or patches, towards critical system calls or dangerous locations, or towards functions in the stack-trace of a reported vulnerability that we wish to reproduce. In this paper, we introduce Directed Greybox Fuzzing (DGF) which generates inputs with the objective of reaching a given set of target program locations efficiently. We develop and evaluate a simulated annealing-based power schedule that gradually assigns more energy to seeds that are closer to the target locations while reducing energy for seeds that are further away. Experiments with our implementation AFLGo demonstrate that DGF outperforms both directed symbolic-execution-based whitebox fuzzing and undirected greybox fuzzing. We show applications of DGF to patch testing and crash reproduction, and discuss the integration of AFLGo into Google's continuous fuzzing platform OSS-Fuzz. Due to its directedness, AFLGo could find 39 bugs in several well-fuzzed, security-critical projects like LibXML2. 17 CVEs were assigned.},
+    booktitle = {Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security},
+    pages = {2329–2344},
+    numpages = {16},
+    keywords = {coverage-based greybox fuzzing, crash reproduction, directed testing, patch testing, reachability, verifying true positives},
+    location = {Dallas, Texas, USA},
+    series = {CCS '17}
+}

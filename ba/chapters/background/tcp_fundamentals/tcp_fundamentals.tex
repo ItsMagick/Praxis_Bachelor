@@ -13,9 +13,9 @@ Die Datenpakete enthalten Informationen über den Absender, den Empfänger, die 
 die zur Überprüfung der Datenintegrität verwendet wird.
 Die Kommunikation erfolgt in der Regel über eine Reihe von Schritten, die als \textit{Handshake} bezeichnet werden.
 Der Handshake besteht aus drei Schritten: \textit{Verbindungsaufbau}, \textit{Datenübertragung} und \textit{Verbindungsabbau}.
-Während des Verbindungsaufbaus werden die beiden Computer miteinander verbunden und die Verbindung wird hergestellt.
-Während der Datenübertragung werden die Daten zwischen den beiden Computern ausgetauscht.
-Während des Verbindungsabbaus wird die Verbindung zwischen den beiden Computern getrennt und die Verbindung wird geschlossen.
+Im Rahmen des Verbindungsaufbaus erfolgt die Verbindung sowie die Herstellung der Verbindung zwischen den beiden Computern.
+Während der Datenübertragung erfolgt ein Austausch der Daten zwischen den beiden Computern.
+Der Verbindungsabbau impliziert die Trennung der Verbindung zwischen den beiden Computern sowie deren Schließung.
 In der Regel verwenden UNIX-Systeme Socket-Programmierung, um die Kommunikation zwischen zwei Computern zu ermöglichen.
 Ein Socket ist eine Schnittstelle, die es einem Programm ermöglicht, mit dem Netzwerk zu kommunizieren.
 Die Implementierung der \gls{tcp}/\gls{ip}-Kommunikation erfolgt in der Regel über die Socket-Programmierung.
