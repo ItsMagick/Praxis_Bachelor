@@ -23,12 +23,12 @@ Lösung für die Kommunikation in verteilten Systemen dar.
 Es bietet auch erweiterte Funktionen wie Authentifizierung, Verschlüsselung (\gls{tls}) und Integration mit anderen
 Diensten, was es für industrielle Anwendungen und Smart-Home-Lösungen attraktiv macht.
 Mosquitto ist plattformunabhängig und unterstützt eine Vielzahl von Betriebssystemen, einschließlich Linux, Windows und
-macOS.
+macOS\@.
 Durch seine Open-Source-Lizenz ist es anpassbar und erweiterbar, was zu seiner weiten Verbreitung in der
 Entwicklergemeinschaft beiträgt.
 Mosquitto hat somit eine bedeutende Rolle in der Entwicklung von \gls{iot}-Systemen und der Echtzeit-Kommunikation in
 modernen vernetzten Umgebungen eingenommen.\newline
-Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten:
+Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten~\cite{mqtt}:
 \begin{itemize}
     \item \textbf{Publish:} Ein Client sendet eine Nachricht an einen Broker, die dieser an alle Abonnenten weiterleitet.
     \item \textbf{Subscribe:} Ein Client abonniert ein bestimmtes Thema (Topic), um Nachrichten zu empfangen, die von anderen
@@ -57,7 +57,7 @@ In diesem Zustand wartet das System entweder darauf, dass es eine \gls{mqtt}-Nac
 Dieser Zustand ist zentral für das System, da hier die Hauptoperationen entweder initiiert oder beendet werden.
 Wenn eine MQTT-Nachricht empfangen wird, wechselt das System in den Verarbeitungszustand.
 In diesem Zustand werden die empfangenen Nachrichten verarbeitet, und es kann entweder eine Nachricht veröffentlicht oder
-das System kann sich für ein neues Thema (Topic) abonnieren.
+das System kann sich für ein neues Thema (Topic) abonnieren~\cite{mqtt-manpage}.
 Sollte die Verarbeitung eine Veröffentlichung erfordern, geht das System in den Zustand \textit{Publishing} über.
 In diesem Zustand wird die verarbeitete Nachricht an den entsprechenden \gls{mqtt}-Topic veröffentlicht, sodass andere
 abonnierte Clients diese empfangen können.
@@ -80,7 +80,7 @@ Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State M
     bis hin zum Senden der Nachricht an die Clients.}
     \label{fig:mqtt_state_machine}
 \end{figure}
-Das zweite Diagramm zeigt eine Zustandsmaschine (State Machine) für das \gls{mqtt}-Protokoll und beschreibt den Übergang zwischen
+\noindent Das zweite Diagramm zeigt eine Zustandsmaschine (State Machine) für das \gls{mqtt}-Protokoll und beschreibt den Übergang zwischen
 verschiedenen Verbindungszuständen eines \gls{mqtt}-Clients.
 Diese Zustandsmaschine veranschaulicht, wie der \gls{mqtt}-Client in verschiedenen Situationen reagiert, z.B.\ beim Verbinden,
 Abonnieren, Veröffentlichen und Trennen der Verbindung.\newline
@@ -117,7 +117,7 @@ neu starten kann.
     \caption{Format einer \gls{mqtt}-Nachricht am beispiel eines Connect-Pakets.}
     \label{fig:mqtt_message_format}
 \end{figure}
-Die Struktur der zu sendenden Nachrichten ist von der verwendeten \gls{mqtt}-Version der Clients abhängig.
+\noindent Die Struktur der zu sendenden Nachrichten ist von der verwendeten \gls{mqtt}-Version der Clients abhängig.
 Die \gls{mqtt}-Version 3.1.1 -- die in dieser Arbeit verwendet wurde -- definiert ein festes Header-Format, das aus einem
 Steuerbyte und einer variablen Länge besteht.
 Als Nächstes folgt ein Variabler Header, der weitere Information über die Länge des Protokollnamens und den verwendeten
@@ -126,8 +126,8 @@ das zehnte und elfte Byte enthalten die Keep-Alive-Zeit, die die maximale Zeit i
 Antwort des Brokers warten soll.
 Die restlichen Bytes enthalten die Client-ID, die Länge des Benutzernamens und den Benutzernamen selbst, die
 Länge des Passworts und das Passwort selbst.
-Die \gls{mqtt}-Nachrichtenstruktur ist in Abbildung \ref{fig:mqtt_message_format} dargestellt.
+Die \gls{mqtt}-Nachrichtenstruktur~\cite{mqtt} ist in Abbildung~\ref{fig:mqtt_message_format} dargestellt.
 \newline
 Die gesendeten Nachrichten haben im kürzesten Fall eine Länge von 2 Bytes, wobei das Steuerbyte für einen Verbindungsabbau
 gesendet wird und somit nur aus dem Fixed-Header besteht.
-Die Obergrenze der Größe eines validen Nachrichtenpakets beträgt 265 Megabytes.
+Die Obergrenze der Größe eines validen Nachrichtenpakets beträgt 265 Megabytes~\cite{mqtt}.

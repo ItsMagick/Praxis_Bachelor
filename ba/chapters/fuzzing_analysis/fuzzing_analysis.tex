@@ -17,7 +17,7 @@ auch eine Bewertung der Komplexität der gefundenen Schwachstelle erfolgen kann.
 Die einfachste Schwachstelle ist ein Buffer Overflow in der Funktion \texttt{mqtt\_handle\_connect} und wird genau dann
 getriggert, wenn ein Client eine Verbindung zum Broker aufbaut und der Client im Payload über eine \texttt{will}-Nachricht
 verfügt.
-Die mittlere Schwachstelle ist ein Integer Overflow in der Funktion \texttt{mqtt\_handle\_publish} und wird getriggert,
+Die mittlere Schwachstelle ist ein Integer Overflow in der Funktion \texttt{mqtt\_handle\_publish}~\ref{handle_publish} und wird getriggert,
 wenn ein Client eine Nachricht an den Broker sendet und die Nachricht eine bestimmte Länge überschreitet.
 Diese Schwachstelle kann nur getriggert werden, wenn ein Client \texttt{C1} ein Topic mit einer Nachricht veröffentlicht hat und ein
 zweiter Client \texttt{C2} dieses Topic abonniert hat.

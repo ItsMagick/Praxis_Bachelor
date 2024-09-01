@@ -2,8 +2,8 @@
 %! Date = 6/20/24
 
 \subsection{Grundlagen der TCP/IP-Kommunikation}\label{subsec:tcp/ip-kommunikation}
-Die \gls{tcp}/\gls{ip}-Kommunikation ist ein Protokoll-Stack, der für die Kommunikation zwischen Computern im Internet verwendet wird.
-Der Protokoll-Stack besteht aus zwei Schichten, dem \gls{tcp}- und dem \gls{ip}-Protokoll.
+Die \gls{tcp}/\gls{ip}-Kommunikation ist ein Protokoll-Stack, der für die Kommunikation zwischen Computern verwendet wird.
+Der Protokoll-Stack besteht aus zwei Schichten, dem \gls{tcp}- und dem \gls{ip}-Protokoll~\cite{tcp-ip}.
 Das \gls{ip}-Protokoll ist für die Adressierung und das Routing von Datenpaketen zuständig.
 Das \gls{tcp}-Protokoll ist für die zuverlässige Übertragung von Datenpaketen zuständig.
 Die Kommunikation zwischen zwei Computern erfolgt über eine Verbindung, die durch eine \gls{ip}-Adresse und einen Port identifiziert wird.
@@ -11,7 +11,7 @@ Die \gls{ip}-Adresse identifiziert den Computer und der Port identifiziert den D
 Die Kommunikation erfolgt über eine Reihe von Datenpaketen, die zwischen den beiden Computern ausgetauscht werden.
 Die Datenpakete enthalten Informationen über den Absender, den Empfänger, die Daten selbst und eine Prüfsumme,
 die zur Überprüfung der Datenintegrität verwendet wird.
-Die Kommunikation erfolgt in der Regel über eine Reihe von Schritten, die als \textit{Handshake} bezeichnet werden.
+Die Kommunikation erfolgt in der Regel über eine Reihe von Schritten, die als \textit{Handshake} bezeichnet werden~\cite{tcp-handshake}.
 Der Handshake besteht aus drei Schritten: \textit{Verbindungsaufbau}, \textit{Datenübertragung} und \textit{Verbindungsabbau}.
 Im Rahmen des Verbindungsaufbaus erfolgt die Verbindung sowie die Herstellung der Verbindung zwischen den beiden Computern.
 Während der Datenübertragung erfolgt ein Austausch der Daten zwischen den beiden Computern.
@@ -24,7 +24,8 @@ Die Socket-API stellt eine Reihe von Funktionen zur Verfügung, die es einem Pro
 Sockets werden in der Regel als Pseudo-Dateien im Arbeitsspeicher dargestellt und können vom Kernel gelesen und geschrieben werden.
 Diese Dateien sind in der Regel nicht im Namespace des Dateisystems abgelegt.
 Metadaten der Sockets werden jedoch im Dateisystem abgelegt und können zu Analysezwecken von weiteren Programmen verwendet werden.
-Diese Metadaten können im Dateisystem unter \textit{/proc/net/tcp} und \textit{/proc/net/tcp6} eingesehen werden.\newline
+Diese Metadaten können im Dateisystem unter \textit{/proc/net/tcp}, \textit{/proc/net/tcp6} und unter im Verzeichnis
+\textit{/proc/sys/net} eingesehen werden~\cite{tcp-manpage}.\newline
 Der Gesamte Stack kann in vier Schichten unterteilt werden:
 \begin{itemize}
     \item Anwendungsschicht
@@ -34,7 +35,7 @@ Der Gesamte Stack kann in vier Schichten unterteilt werden:
 \end{itemize}
 Die Anwendungsschicht ist die oberste Schicht des Protokoll-Stacks und enthält die Anwendungen,
 die die Kommunikation zwischen den Computern ermöglichen.
-Zu dieser Schicht gehören die von einer Anwendung verwendeten Protokolle, wie z.B.\ HTTP, \gls{ftp}, \gls{dns} oder \gls{smtp},
+Zu dieser Schicht gehören die von einer Anwendung verwendeten Protokolle, wie z.B.\ \gls{http}, \gls{ftp}, \gls{dns} oder \gls{smtp},
 mithilfe derer Daten über ein Netzwerk übertragen werden.
 Die Transportschicht ist die zweite Schicht des Protokoll-Stacks und ist für die Übertragung von Datenpaketen zuständig.
 In dieser Schicht ist das \gls{tcp}-Protokoll für die zuverlässige Übertragung von Datenpaketen zuständig.
@@ -43,8 +44,7 @@ In dieser Schicht ist das \gls{ip}-Protokoll für die Adressierung und das Routi
 Die Netzwerkschicht ist die unterste Schicht des Protokoll-Stacks und ist für die Verbindung mit einem Netzwerk und der
 dazugehörigen Hardware zuständig.\newline
 In dieser Arbeit werden die Schichten zwei und drei des Protokoll-Stacks näher betrachtet und modifiziert.\newline
-
-\noindent Das \gls{zup} verfügt über einen selbst implementierten \gls{tcp}-Server, der es ermöglicht, mit dem
+Das \gls{zup} verfügt über einen selbst implementierten \gls{tcp}-Server, der es ermöglicht, mit dem
 \gls{zup} über das \gls{tcp}-Protokoll zu kommunizieren.
 Hierbei wurde von den Entwicklern der Firmware eine eigene Implementierung der Socket-API als Abstraktionsschicht
 über die Socket-Programmierung implementiert.

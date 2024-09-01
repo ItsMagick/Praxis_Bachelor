@@ -224,12 +224,12 @@ Die gefundenen Bugs nach der 48-stündigen Fuzzing-Kampagne belaufen sich auf 15
 Hierzu wurden alle Abstürze mithilfe eines Bash-Skripts \textcolor{red}{Hier Zitieren} dokumentiert und analysiert.
 Bei allen gefundenen Bugs handelt es sich um \textit{Segmentation Faults} und konnten in vier Kategorien eingeteilt werden:
 \begin{enumerate}
-    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in \texttt{lib\/packet\_datatypes.c}
-    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in \texttt{lib\/packet\_datatypes.c}
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} \\in \texttt{lib\/packet\_datatypes.c}
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} \\in \texttt{lib\/packet\_datatypes.c}
     mit einer \gls{qos}-Nachricht
-    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in \texttt{lib\/packet\_datatypes.c}
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} \\in \texttt{lib\/packet\_datatypes.c}
     mit einer \gls{qos}-Nachricht und einem subscriber
-    \item Absturz durch Buffer Overflow in der Funktion \texttt{handle\_\_publish} in \texttt{src\/handle\_publish.c}
+    \item Absturz durch Buffer Overflow in der Funktion \texttt{handle\_\_publish} in \\\texttt{src\/handle\_publish.c}
 \end{enumerate}
 Die Abstürze der vierten Kategorie sind auf die eigene Implementierung eines Buffer Overflows zurückzuführen.
 Dieser Buffer Overflow wird getriggert, da die Sanity-Checks (~\ref{lst:mqtt-sainity-checks}) in der Funktion \texttt{handle\_\_publish} auskommentiert
@@ -243,7 +243,7 @@ Diese Nachricht mit der gleichen ID ist jedoch größer als die bereits zwischen
 Vergleich mit \texttt{memcmp} zum Absturz des \gls{zup}.
 \newline
 Die anderen drei Kategorien entstammen sind gleichen Ursprungs.
-Hier handelt es sich um einen Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in der Datei \texttt{lib\/packet\_datatypes.c}.
+Hier handelt es sich um einen Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} in der Datei \\\texttt{lib\/packet\_datatypes.c}.
 Diese Schwachstelle wird bei dem Senden der Nachricht an ein topic.
 Hierbei werden nachrichten vom Broker empfangen und das topic weitergeleitet.
 Wenn Subscriber auf das topic warten, wird die Nachricht an die Subscriber mittels des syscalls \texttt{memcpy} weitergeleitet.

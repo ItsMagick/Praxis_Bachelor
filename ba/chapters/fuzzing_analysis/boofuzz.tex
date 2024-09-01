@@ -11,26 +11,26 @@ Boofuzz ist in Python geschrieben und ermöglicht das Erstellen komplexer Fuzzin
 die systematisch verschiedene Protokollfelder und Eingabeparameter abdecken.
 Das Framework unterstützt sowohl Netzwerkprotokolle als auch dateibasierte Anwendungen, was es vielseitig einsetzbar macht.
 Dabei kann es beispielsweise Protokolle wie HTTP, FTP oder Telnet fuzzen, um Schwachstellen in Netzwerkdiensten zu identifizieren.
-Ein zentrales Merkmal von Boofuzz ist seine Fähigkeit zur Überwachung des Zustands des Zielsystems während des Fuzzings.
-Hierbei handelt es sich jedoch nicht um \textit{state-awareness} -- also den tatsächlich erreichten Zustand eines Programms --,
+Ein zentrales Merkmal von boofuzz ist seine Fähigkeit zur Überwachung des Zustands des Zielsystems während des Fuzzings.
+Hierbei handelt es sich jedoch nicht um \textit{state-awareness} -- also den tatsächlich erreichten Zustand eines Programms --
 sondern ob ein Dienst abgestürzt ist, und entsprechend reagieren, indem es den Testprozess anpasst oder erneut startet.
 Diese Fähigkeit zur Echtzeitüberwachung erhöht die Effizienz des Fuzzing-Prozesses erheblich.
 Da keine Informationen über den internen Zustand des Zielsystems benötigt werden und die Generierung der Eingaben
-willkürlicher Natur ist, handelt es sich bei Boofuzz um einen \textit{"dummen"} Black-Box-Fuzzer.
+willkürlicher Natur ist, handelt es sich bei boofuzz um einen \textit{"dummen"} Black-Box-Fuzzer.
 Boofuzz bietet zudem erweiterte Funktionen wie die Unterstützung von SSL/TLS für verschlüsselte Verbindungen, detaillierte
 Berichterstattung und Logging, sowie die Möglichkeit zur Integration in Continuous-Integration/Continuous-Deployment (CI/CD)-Pipelines.
 Dies macht es zu einem wertvollen Werkzeug für Entwickler und Sicherheitsexperten, die die Robustheit und Sicherheit von
 Softwareanwendungen sicherstellen möchten.
-Insgesamt stellt Boofuzz ein flexibles und leistungsfähiges Fuzzing-Framework dar, das durch seine Open-Source-Natur anpassbar
+Insgesamt stellt boofuzz ein flexibles und leistungsfähiges Fuzzing-Framework dar, das durch seine Open-Source-Natur anpassbar
 und erweiterbar ist.
 Es hat sich in der Sicherheitsforschung und der Qualitätssicherung als nützliches Tool etabliert, insbesondere bei der
 Identifizierung von Sicherheitslücken in komplexen Systemen und Netzwerkanwendungen.
 \subsubsection{Setup}
-Zur Entwicklung einer Fuzzing-Kampagne mit Boofuzz sind mehrere Schritte erforderlich.
+Zur Entwicklung einer Fuzzing-Kampagne mit boofuzz sind mehrere Schritte erforderlich.
 Zunächst muss das Zielsystem identifiziert und analysiert werden, um die relevanten Protokollspezifikationen und
 Kommunikationsmuster zu verstehen.
 Darauf aufbauend werden die Testfälle definiert, die die verschiedenen Protokollfelder und Eingabeparameter abdecken sollen.
-Die Testfälle werden in Boofuzz als \textit{Fuzz-Template} definiert, das die Struktur und den Inhalt der zu füllenden
+Die Testfälle werden in boofuzz als \textit{Fuzz-Template} definiert, das die Struktur und den Inhalt der zu füllenden
 Nachrichten beschreibt.
 Das Fuzz-Template besteht aus einer Reihe von Feldern, die die verschiedenen Teile der Nachricht repräsentieren, wie z.B.\ den
 Fixed Header, den Variable Header und den Payload bei \gls{mqtt}-Nachrichten.
@@ -39,9 +39,9 @@ In dem Fall der \gls{mqtt}-Nachrichten können die Felder z.B.\ den Steuerpakett
 wie in ~\ref{subsec:mosquitto-mqtt}beschrieben, repräsentieren.
 Hierbei ist es wichtig, die Protokollspezifikationen und die erwarteten Eingabewerte zu berücksichtigen, um realistische
 Testfälle zu erstellen.
-Nachdem die Testfälle definiert sind, wird eine Fuzzing-Kampagne gestartet, bei der Boofuzz automatisch eine Vielzahl
+Nachdem die Testfälle definiert sind, wird eine Fuzzing-Kampagne gestartet, bei der boofuzz automatisch eine Vielzahl
 von zufälligen oder systematischen Eingaben generiert und an das Zielsystem sendet.
-Während des Fuzzings kann Boofuzz den Zustand des Zielsystems überwachen und auf unerwartete Ereignisse wie Abstürze oder
+Während des Fuzzings kann boofuzz den Zustand des Zielsystems überwachen und auf unerwartete Ereignisse wie Abstürze oder
 Fehler reagieren.
 Dieser Schritt ist jedoch nicht standardmäßig eingebaut und muss vom Benutzer implementiert werden.
 Die Implementierung der Reaktion auf unerwartete Ereignisse kann z.B.\ das Neustarten des Zielsystems, das Anpassen der
@@ -52,7 +52,7 @@ Abstürze oder Fehler reagiert.
 Dieser Monitor wurde zum Beispiel in der Analyse des \gls{mqtt}-Brokers Mosquitto verwendet, um auf Abstürze des Brokers
 zu reagieren und die in den Abstürzen enthaltene debug-Informationen abzugreifen und zu speichern.
 \newline\newline
-Eine in dieser Arbeit verwendete Kernkomponente von Boofuzz ist die Option ein Feld als \texttt{fuzzable} zu definieren.
+Eine in dieser Arbeit verwendete Kernkomponente von boofuzz ist die Option ein Feld als \texttt{fuzzable} zu definieren.
 Ein \texttt{fuzzable} Feld ist ein Feld, das zufällig generierte Eingaben erhalten darf und somit für das Fuzzing relevant ist.
 Mit dieser Option können Testfälle erstellt werden, die systematisch verschiedene Eingaben in bestimmte Felder einfügen,
 um präzisere und effektivere Fuzzing-Kampagnen durchzuführen.
@@ -76,9 +76,9 @@ und das Topic.
 Das Topic wird hierbei als \texttt{fuzzing/topic} fest vordefiniert und gepublisht, sodass jede einhergehende Client-Verbindung
 bereits ein Topic zur Verfügung hat.
 Das hat zur Folge, dass die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, signifikant erhöht wird.
-Für das Starten einer Fuzzing-Kampagne mit Boofuzz sind folgende Schritte notwendig:
+Für das Starten einer Fuzzing-Kampagne mit boofuzz sind folgende Schritte notwendig:
 \begin{itemize}
-    \item Installation von Boofuzz und den erforderlichen Abhängigkeiten
+    \item Installation von boofuzz und den erforderlichen Abhängigkeiten
     \item Definition der Testfälle und Fuzzing-Strategien
     \item Starten der Fuzzing-Kampagne und Überwachung des Zielsystems
     \item Analyse der Ergebnisse und Identifizierung von Schwachstellen
@@ -132,10 +132,9 @@ Wenn die Länge des Payloads \textit{$L_{\textsubscript{p}}$} beträgt, dann ist
 \]
 Die Wahrscheinlichkeit, dass ein vollständig zufällig generiertes \gls{mqtt}-Paket gültig ist, ergibt sich aus dem Produkt
 der Wahrscheinlichkeiten der einzelnen Teile:
-
-\[
-    P(\text{gültiges Paket}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) \times P(\text{gültiger Payload})
-\]
+\begin{multline}
+    P(\text{gültiges Paket}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) \\ \times P(\text{gültiger Payload})
+\end{multline}
 Substituiert man die oben angegebenen Wahrscheinlichkeiten:
 \[
     P(\text{gültiges Paket}) = \frac{M}{N^2} \times \frac{K}{N^{L_v}} \times \frac{1}{N^{L_p}}
@@ -156,7 +155,7 @@ Angenommen werden folgende Parameter:
 \end{itemize}
 Dann ergibt sich die Wahrscheinlichkeit, dass ein gültiges Paket bei zufälligem Fuzzing generiert wird, zu:
 \[
-    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{256^2} \times \frac{256}{256^2} \times \frac{1}{256^{10}} \approx 3{,}55 \times 10^{-27}
+        P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{256^2} \times \frac{256}{256^2} \times \frac{1}{256^{10}} \approx 3{,}55 \times 10^{-27}
 \]
 Im Gegensatz dazu ist die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, wenn Fixed Header, Variable Header und Topic festgelegt sind:
 \[
@@ -215,14 +214,14 @@ Dies ist besonders wichtig für effizientes Fuzzing, da es die Anzahl der mögli
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/connection_evaluation_boofuzz}
-    \caption{Vergleich der gültigen Pakete bei zufälligem Fuzzing ohne statisch definierte Felder}
+    \caption{Vergleich der gültigen Pakete bei zufälligem Fuzzing mit boofuzz ohne statisch definierte Felder}
     \label{fig:valid_packets}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/average_exec_speed_boofuzz_normal}
-    \caption{Durchschnittliche Ausführungsgeschwindigkeit von Boofuzz ohne statisch definierte Felder}
+    \caption{Durchschnittliche Ausführungsgeschwindigkeit von boofuzz ohne statisch definierte Felder}
     \label{fig:exec_speed_boo_normal}
 \end{figure}
 \subsubsection{Analyse der gefundenen Bugs (Optional?)}
