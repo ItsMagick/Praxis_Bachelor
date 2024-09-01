@@ -214,9 +214,15 @@ dass ein gültiges Paket generiert wird, signifikant erhöht.
 Dies ist besonders wichtig für effizientes Fuzzing, da es die Anzahl der möglichen ungültigen Pakete reduziert und die Effektivität der Tests steigert.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/connection_evaluation_boofuzz}
+    \includegraphics[width=\textwidth]{img/connection_evaluation_boofuzz}
     \caption{Vergleich der gültigen Pakete bei zufälligem Fuzzing ohne statisch definierte Felder}
     \label{fig:valid_packets}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/average_exec_speed_boofuzz_normal}
+    \caption{Durchschnittliche Ausführungsgeschwindigkeit von Boofuzz ohne statisch definierte Felder}
+    \label{fig:exec_speed_boo_normal}
+\end{figure}
 \subsubsection{Analyse der gefundenen Bugs (Optional?)}
