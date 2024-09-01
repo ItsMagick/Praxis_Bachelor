@@ -29,9 +29,9 @@ Nachdem die Assoziation aller Mitteilungen abgeschlossen ist, besteht ein Markov
 Dieses Modell wird in einem Graphen abgebildet und kann somit als eine Annäherung der State Machine interpretiert werden.
 Das Markov Modell wird im anschluss mit einem \gls{dfa} minimiert.
 Der dabei entstandene \gls{dfa} erlaubt es Analysten die Zustände manuell untersuchen zu können und gegebenenfalls
-die Zustände zu verfeinern und nachzuvollziehen.
+die Zustände zu verfeinern und nachzuvollziehen~\cite{pulsar}.
 \subsubsection{Setup}
-Pulsar wurde mithilfe des von Pahl bereitgestellten Docker-Images installiert.
+Pulsar wurde mithilfe des von Pahl bereitgestellten Docker-Images~\cite{pulsar-docker} installiert.
 Das Docker-Image wurde auf einem Ubuntu 20.04 LTS System installiert.
 Weitere Abhängigkeiten, welche nicht in der Installation der Docker-Images enthalten sind, wurden manuell installiert und
 in einer \texttt{requirements.txt} Datei festgehalten.
@@ -39,13 +39,12 @@ Für das Fuzzing mit Pulsar wird ein Netzwerkverkehr benötigt.
 Dieser Netzwerkverkehr wird in Form von \gls{pcap}-Dateien gespeichert.
 Hierfür wurde ein Python-Skript entwickelt, welches \gls{mqtt} spezifische Nachrichten an den Broker sendet und möglichst
 viele Zustände vom Broker erreicht.
-Die Nachrichten werden mithilfe des Tools \texttt{tcp} aufgezeichnet und in \gls{pcap}-Dateien abgelegt.
-Die \gls{pcap}-Dateien werden in einem Ordner \texttt{traffic} abgelegt.
-Für den Start werden zusätzlich die \gls{pcap}-Dateien inm Ordner \texttt{traffic} über ein live-volume in den
-Docker-Container eingehängt. \textcolor{red}{(TODO: Quelle)}
+Die Nachrichten werden mithilfe des Tools \texttt{tcpdump} aufgezeichnet und in \gls{pcap}-Dateien abgelegt.
+Die \gls{pcap}-Dateien werden in einem Ordner \textit{traffic} abgelegt.
+Für den Start werden zusätzlich die \gls{pcap}-Dateien im Ordner \textit{traffic} über ein live-volume in den
+Docker-Container eingehängt.
 Alle gesammelten pcap-Dateien dienen für den weiteren Verlauf der Untersuchung.
 Pulsar verwendet die \gls{pcap}-Dateien, um die State Machine zu erlernen.
 %TODO: Hier nochmal auf die fehlerhafte Startsequenzauswahl von Pulsar eingehen und darauf eingehen, dass im Rahmen der Arbeit
 % dieser Fuzzer nicht zum Laufen gebracht wurde, da zu wenig Zeit.
-
 \subsubsection{Erkenntnisgewinn}
