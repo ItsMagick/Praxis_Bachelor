@@ -1,8 +1,8 @@
 %! Author = chaorn
 %! Date = 01.09.24
 
-\begin{lstlisting}[language=c,caption={Memory Leak in der Funktion handle__subscribe der Quellcodedatei src/handle_subscribe
-des Mosquitto Brokers},label={lst:handle_subscribe}]
+\begin{lstlisting}[language=c,caption={Memory Leak in der Funktion \texttt{int connect\_\_on\_authorised} der Quellcodedatei
+\texttt{src/handle\_subscribe.c} des Mosquitto Brokers},label={lst:handle-subscribe}]
     int handle__subscribe(struct mosquitto *context){
         [...]
         if(!slen){
