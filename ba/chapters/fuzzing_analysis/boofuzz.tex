@@ -217,11 +217,30 @@ Dies ist besonders wichtig für effizientes Fuzzing, da es die Anzahl der mögli
     \caption{Vergleich der gültigen Pakete bei zufälligem Fuzzing mit boofuzz ohne statisch definierte Felder}
     \label{fig:valid_packets}
 \end{figure}
-
+Diese Grafik ist das Ergebnis einer Fuzzing-Kampagne, bei der über einen Zeitraum von 48 Stunden eine extrem hohe Anzahl an Verbindungsversuchen durchgeführt wurde.
+Auch trotz der hohen Anzahl an Verbindungsversuchen, die in dieser Grafik dargestellt sind, konnte kein gültiges Paket generiert werden.
+Das Fixieren der bereits genannten Felder führte bei einer weiteren Kampagne über 48 Stunden auch zu keinem gültigen Paket.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/average_exec_speed_boofuzz_normal}
-    \caption{Durchschnittliche Ausführungsgeschwindigkeit von boofuzz ohne statisch definierte Felder}
+    \caption{Durchschnittliche Ausführungsgeschwindigkeit von boofuzz in einem Zeitraum von 48 Stunden}
     \label{fig:exec_speed_boo_normal}
 \end{figure}
-\subsubsection{Analyse der gefundenen Bugs (Optional?)}
+Die durchschnittliche Ausführungsgeschwindigkeit von boofuzz ist in dieser Grafik dargestellt.
+In ihr ist zu erkennen, dass die Geschwindigkeit des Fuzzings über den Zeitraum von 48 Stunden relativ konstant bleibt.
+Die einzige Ausnahme bildet der Anfangszeitraum der Fuzzing-Kampagne, in dem die Geschwindigkeit kurzzeitig rapide abfällt.
+Dies hängt mit der Mutationsstrategie von boofuzz zusammen, die zu Beginn der Kampagne eine Vielzahl von großen Mutationen
+durchführt, um das Zielsystem zu erkunden.
+Zunächst wurden relativ kleine Pakete generiert, die jedoch aufgrund der geringen Wahrscheinlichkeit eines gültigen Pakets
+keine Ergebnisse lieferten.
+Im späteren Verlauf wurden jedoch größere Pakete generiert, was die Mutation erheblich verlangsamte.
+Wichtig anzumerken ist die Strategie von boofuzz.
+Trotz definition von statischen feldern im Header-Bereich wurden zufällige Bytes an den Kopf des Pakets angehängt.
+Dies führte dazu, dass die Wahrscheinlichkeit eines gültigen Pakets weiterhin sehr gering war.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/boofuzz_case_log}
+    \caption{Diese Grafik zeigt einen Einblick zur Generierung von weiterhin ungültigen Paketen aufgrund des zufälligen Anhängens von Bytes
+    im Header des Pakets}
+    \label{fig:boo_case_log}
+\end{figure}
