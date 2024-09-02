@@ -6,6 +6,8 @@ Abschließend ist zu sagen, dass die Effektivität eines Fuzzers nicht anhand de
 gemessen werden kann.
 Bei komplexeren Protokollen wie \gls{mqtt} ist es wichtig, dass die generierten Eingaben valide sind und möglichst viele
 Zustände des \gls{zup} erreichen.
+Ähnliche Schlussfolgerungen wurden bereits in der Arbeit von u.a.\ Thorsten Holz in \textit{\enquote{SoK: Prudent Evaluation Practices for Fuzzing}}
+\cite{fuzzing-evaluation} gezogen.
 Bei einem Fuzzer wie boofuzz, welcher eine Vielzahl von Eingaben generiert, ist es wichtig, dass die generierten Eingaben
 strenger definiert werden müssen und nicht nur auf dem Prinzip von Brute-Force basieren sollten.
 Im Falle von Pulsar ist es wichtig, dass der Fuzzer die Startsequenz des Protokolls korrekt erlernen kann, um ein Programm
