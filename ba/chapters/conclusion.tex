@@ -2,3 +2,28 @@
 %! Date = 6/4/24
 
 \section{Konklusion und Future Work}\label{sec:conclusion}
+Abschließend ist zu sagen, dass die Effektivität eines Fuzzers nicht anhand der Anzahl der generierten Eingaben pro Sekunde
+gemessen werden kann.
+Bei komplexeren Protokollen wie \gls{mqtt} ist es wichtig, dass die generierten Eingaben valide sind und möglichst viele
+Zustände des \gls{zup} erreichen.
+Bei einem Fuzzer wie boofuzz, welcher eine Vielzahl von Eingaben generiert, ist es wichtig, dass die generierten Eingaben
+strenger definiert werden müssen und nicht nur auf dem Prinzip von Brute-Force basieren sollten.
+Im Falle von Pulsar ist es wichtig, dass der Fuzzer die Startsequenz des Protokolls korrekt erlernen kann, um ein Programm
+effektiv testen zu können.
+Auch wenn Pulsar mithilfe vieler Testdaten die State Machine des Protokolls erlernen kann, ist es wichtig auf den gesendeten
+Netzwerkverkehr zu achten.
+Geeignete Testdaten sollten so generiert werden, dass möglichst viele Zustände des \gls{zup} erreicht werden und möglichst
+viele valide Eingaben generiert werden, welche der Fuzzer Pulsar als Anhaltspunkt zum Erlernen valider Eingaben benötigt.\newline\newline
+In Zukunft sollte die Fuzzing Kampagne mit Pulsar weitergeführt werden.
+Hierbei sollte darauf geachtet werden, dass fürs Erste die Startsequenz des Protokolls korrekt erlernt wird, sodass Pulsar
+einen validen Startpunkt für eine effektivere Fuzzing Kampagne hat.
+Außerdem werden in Zukunft weitere Experimente und Fuzzing Kampagnen mit boofuzz durchgeführt, um die Effektivität des
+Fuzzers besser zu verstehen und zu testen.
+Auf lange Frist soll das automatisierte Testen und Lernen von Protokollen ohne jedwede menschliche Interaktion und
+Vorkenntnisse möglich sein.
+Eine eigene Implementierung einer kontinuierlich lernenden Pipeline für das automatisierte Testen von Protokollen wäre
+ein monumentales Ziel, welches in Zukunft erreicht werden sollte.
+Diese Pipeline sollte in der Lage sein, Protokolle anhand von bspw.\ Brute-Force ansätzen zu testen und zu lernen, um
+daraufhin valide Eingaben zu generieren und somit die State Machine des Protokolls möglichst genau approximieren zu können.
+Diese Entwicklungen könnten in Zukunft dazu beitragen, dass Protokolle effektiver und sicherer implementiert werden können
+und somit die Sicherheit von Netzwerken und Systemen erhöht wird.

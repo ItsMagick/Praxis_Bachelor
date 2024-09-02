@@ -41,16 +41,4 @@ Trotz einer niedrigen Anzahl an Ausführungen pro Sekunde konnte \gls{afl}Net be
 den ersten Bug finden.
 Dies spricht für eine hohe Effektivität des Fuzzing-Ansatzes von code-coverage und der Fuzzing-Strategie von \gls{afl}Net.
 Die Zunahme der Präzision von generierten validen Paketen spiegelt sich ebenso in der Grafik~\ref{fig:mqtt-aflnet_stdout}
-wider.\newline\newline
-Abschließend ist zu sagen, dass die Effektivität eines Fuzzers nicht anhand der Anzahl der generierten Eingaben pro Sekunde
-gemessen werden kann.
-Bei komplexeren Protokollen wie \gls{mqtt} ist es wichtig, dass die generierten Eingaben valide sind und möglichst viele
-Zustände des \gls{zup} erreichen.
-Bei einem Fuzzer wie boofuzz, welcher eine Vielzahl von Eingaben generiert, ist es wichtig, dass die generierten Eingaben
-strenger definiert werden müssen und nicht nur auf Brute-Force basieren sollten.
-Im Falle von Pulsar ist es wichtig, dass der Fuzzer die Startsequenz des Protokolls korrekt erlernen kann, um ein Programm
-effektiv testen zu können.
-Auch wenn Pulsar mithilfe vieler Testdaten die State Machine des Protokolls erlernen kann, ist es wichtig auf den gesendeten
-Netzwerkverkehr zu achten.
-Geeignete Testdaten sollten so generiert werden, dass möglichst viele Zustände des \gls{zup} erreicht werden und möglichst
-viele valide Eingaben generiert werden, welche der Fuzzer Pulsar als Anhaltspunkt zum Erlernen valider Eingaben benötigt.
+wider.
