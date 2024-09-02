@@ -2,5 +2,55 @@
 %! Date = 01.09.24
 \subsection{Vergleich der erhobenen Metriken}\label{subsec:vergleich-der-erhobenen-metriken}
 In diesem Kapitel werden die erhobenen Metriken der Fuzzer \gls{afl}Net, Pulsar und boofuzz miteinander verglichen.
-Die Metriken wurden anhand der Anzahl der gefundenen Bugs, der Anzahl der generierten Eingaben pro Sekunde und der Anzahl der reproduzierten Bugs gemessen.
-Die Metriken wurden anhand der implementierten Schwachstellen im \gls{mqtt} Broker Mosquitto gemessen.
+Die Metriken wurden anhand der Anzahl der generierten Eingaben pro Sekunde und der Anzahl der reproduzierten Bugs gemessen.\newline\newline
+Bei der Reinen Betrachtung der Anzahl der gesendeten Eingaben pro Sekunde ist Pulsar der langsamste Fuzzer.
+Aufgrund der Implementierung des Fuzzers ist es ohne selbst geschriebene Skripte nicht möglich, die von Pulsar generierten
+Eingaben zu automatisiert an das zu testende Programm zu senden.
+Die Anzahl der generierten Eingaben pro Sekunde, die an das \gls{zup} gesendet werden, ist somit vom Tester abhängig.
+Die Frage der Automatisierung stellt sich hierbei als entscheidend heraus, da die manuelle Eingabe von Eingaben in das
+\gls{zup} die Geschwindigkeit des Fuzzers erheblich beeinflusst.
+Der dadurch einhergehende Mangel von Automatisierung führt dazu, dass ein weiteres Monitoring des \gls{zup} notwendig ist,
+um die generierten Eingaben und den Zustand des \gls{zup} zu überwachen.\newline
+Der nächst schnellere Fuzzer ist \gls{afl}Net mit durchschnittlich 8 Ausführungen pro Sekunde.
+Bei der Ausführungsgeschwindigkeit von \gls{afl}Net ist zu beachten, dass der Fuzzer aufgrund der Fuzzing-Strategie
+in Kombination des bereits integrierten Monitoring des \gls{zup} etwas langsame ist.
+Die Geschwindigkeit des Fuzzers ist jedoch ausreichend, um eine Vielzahl von Eingaben zu generieren und an das \gls{zup}
+zu senden.
+Außerdem anzumerken ist, dass \gls{afl}Net das \gls{zup} immer wieder erneut startet.
+Das hat zur Folge, dass alle Zustände des \gls{zup} immer wieder zurückgesetzt werden und somit die Initialisierung des
+Programms immer wieder erneut durchgeführt werden muss.
+Eine Möglichkeit, um das Fuzzing-Verhalten zu beschleunigen, wäre einen Fuzzing-Harness für das Programm zu schreiben, welcher es
+ermöglichen würde den \textit{persistent mode} von \gls{afl} zu verwenden.
+Mit ihm ist es möglich einen Zustand des \gls{zup} statisch zu implementieren, welcher dem des Programms nach dem
+Initialisieren des \gls{zup} entspricht.
+Diese Technik ist jedoch sehr aufwändig und benötigt sehr umfangreiches Wissen über die Funktionsweise des \gls{zup},
+welches nur durch Sourcecodeanalyse oder Reverse Engineering des bereits kompilierten Programms möglich ist.
+Dieser Fuzzing-Harnes kann unter umständen dazu führen, dass wichtige Programmpfade und Kontrollflüsse des \gls{zup}
+vernachlässigt oder weggelassen werden können und die Wahrscheinlichkeit von false positives erhöht.\newline
+Der schnellste Fuzzer ist boofuzz mit durchschnittlich 77,88 Ausführungen pro Sekunde.
+Diese Anzahl von Ausführungen pro Sekunde ist auf die Implementierung des Fuzzers zurückzuführen.
+Boofuzz gehört zu der gattung der Batch-Mutation-Fuzzer und generiert eine Vielzahl von Eingaben auf einmal.
+Mithlife dieser Technik ist es möglich, eine Vielzahl von Eingaben zu generieren, welche jedoch nach Analyse der gesammelten
+Logs nach simplen Brute-Force angriffen aussehen.\newline\newline
+Die Anzahl der Ausführungen pro Sekunde ist jedoch nicht ausschlaggebend für die Effektivität eines Fuzzers.
+Sie wird anhand der Anzahl der gefundenen Bugs pro Zeit gemessen.
+Die Anzahl der gefundenen Bugs beläuft sich bei \gls{afl}Net auf 3 Bugs, bei Pulsar und boofuzz auf keinen einzigen.
+In einem Zeitintervall von 48 Stunden wurden bei \gls{afl}Net 151 Bugs gefunden, welche wie bereits in Sektion~\ref{subsubsec:bugs}
+genauer beschrieben in drei Bug-Kategorien eingeordnet werden konnten.
+Trotz einer niedrigen Anzahl an Ausführungen pro Sekunde konnte \gls{afl}Net bereits in sieben Minuten (vgl.\ Fig.~\ref{fig:aflnet_bugs})
+den ersten Bug finden.
+Dies spricht für eine hohe Effektivität des Fuzzing-Ansatzes von code-coverage und der Fuzzing-Strategie von \gls{afl}Net.
+Die Zunahme der Präzision von generierten validen Paketen spiegelt sich ebenso in der Grafik~\ref{fig:mqtt-aflnet_stdout}
+wider.\newline\newline
+Abschließend ist zu sagen, dass die Effektivität eines Fuzzers nicht anhand der Anzahl der generierten Eingaben pro Sekunde
+gemessen werden kann.
+Bei komplexeren Protokollen wie \gls{mqtt} ist es wichtig, dass die generierten Eingaben valide sind und möglichst viele
+Zustände des \gls{zup} erreichen.
+Bei einem Fuzzer wie boofuzz, welcher eine Vielzahl von Eingaben generiert, ist es wichtig, dass die generierten Eingaben
+strenger definiert werden müssen und nicht nur auf Brute-Force basieren sollten.
+Im Falle von Pulsar ist es wichtig, dass der Fuzzer die Startsequenz des Protokolls korrekt erlernen kann, um ein Programm
+effektiv testen zu können.
+Auch wenn Pulsar mithilfe vieler Testdaten die State Machine des Protokolls erlernen kann, ist es wichtig auf den gesendeten
+Netzwerkverkehr zu achten.
+Geeignete Testdaten sollten so generiert werden, dass möglichst viele Zustände des \gls{zup} erreicht werden und möglichst
+viele valide Eingaben generiert werden, welche der Fuzzer Pulsar als Anhaltspunkt zum Erlernen valider Eingaben benötigt.

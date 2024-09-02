@@ -18,11 +18,10 @@ Um diese Dump-Files zu generieren und somit den Netzwerkverkehr aufzunehmen wird
 Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl}-kompatibles Format umgewandelt, indem
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
 Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
-\gls{afl}Net verfügt über eine von \gls{afl} abweichende Architektur. \textcolor{red}{hier zitieren}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/aflnet_arch}
-    \caption{Architektur von \gls{afl}Net. Es wird die Architektur von \gls{afl}Net dargestellt.}
+    \caption{Architektur von \gls{afl}Net nach Pham Van-Thuan~\cite{AFLNet}}
     \label{fig:aflnet_architecture}
 \end{figure}
 \noindent Zuerst muss das \gls{zup} gestartet und mir Eingaben gefüttert werden.
@@ -50,20 +49,20 @@ können.\newline\newline
 }
 Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt und an neue Frameworks und Bibliotheken
 angepasst.
-Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile verwendet. \textcolor{red}{Zitieren von Repo}
+Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile~\cite{aflnet-dockerfile} verwendet.
 Dieses angepasste Dockerfile enthält alle notwendigen Abhängigkeiten, um \gls{afl}Net zu kompilieren.
 Hierzu zählen die Abhängigkeiten \texttt{llvm} und \texttt{clang} in der Version 11.
 \texttt{llvm} wird benötigt, um den \gls{afl} Compiler \texttt{afl-clang-fast} zu kompilieren.
 Dieser wird für optimierte Instrumentierung des Codes des \gls{zup} verwendet und bezweckt somit höhere Ausführgeschwindigkeiten
 während der Fuzzing Kampagne.
 Für die erfolgreiche Verwendung des Compilers \texttt{afl-clang-fast} musste für die Kompatibilität mit einer neueren
-Ubuntu-Version ein Patch für das Kompilieren des Compilers geschrieben werden.\textcolor{red}{Hier nochmal den Patch Zitieren}\newline
+Ubuntu-Version ein Patch~\cite{llvm-patch} für das Kompilieren des Compilers geschrieben werden.\newline
 Das \gls{zup} Mosquitto wird ebenfalls in einem Docker Container kompiliert.
 Hierzu wird der Compiler \texttt{afl-clang-fast} verwendet.
 Die Instrumentierung des Codes erfolgt durch das Flag \texttt{-fsanitize=address}.
 Dieses Flag aktiviert \textit{address sanitization} und ermöglicht es, dass \gls{afl}Net die Speicherzugriffe des \gls{zup}
 überwachen kann und somit Buffer Overflows und Memory Leaks erkennt.
-Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library} \textcolor{red}{zitieren von preload lib} verwendet, die alle Ausgaben des \gls{zup}
+Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library}~\cite{mqtt-preload} verwendet, die alle Ausgaben des \gls{zup}
 aus den Kanälen \texttt{stdout} und \texttt{stderr} in eine log-Datei \texttt{mqtt-aflnet\_stdout\.log} weiterleitet.
 Diese Log-Datei wird benötigt, um die Ausgaben des \gls{zup} zu analysieren und somit die Effektivität der generierten
 Testcases zu bewerten. \newline
@@ -219,9 +218,9 @@ insbesondere in den ersten Stunden des Fuzzings.
 Der Mangel an identifizierten Hängern und der begrenzte Anstieg an Levels könnte jedoch darauf hinweisen, dass entweder
 das Zielsystem keine anfälligen Hängerzustände aufweist oder dass das Fuzzing-Setup verbessert werden könnte, um diese
 Art von Fehlern besser zu identifizieren.
-\subsubsection{Analyse der gefundenen Bugs}
+\subsubsection{Analyse der gefundenen Bugs}\label{subsubsec:bugs}
 Die gefundenen Bugs nach der 48-stündigen Fuzzing-Kampagne belaufen sich auf 151 Bugs (siehe Fig.~\ref{fig:aflnet_bugs}).
-Hierzu wurden alle Abstürze mithilfe eines Bash-Skripts \textcolor{red}{Hier Zitieren} dokumentiert und analysiert.
+Hierzu wurden alle Abstürze mithilfe von Bash-Skripts dokumentiert~\cite{crash-extraction-script} und analysiert~\cite{analyse-crashes-script}.
 Bei allen gefundenen Bugs handelt es sich um \textit{Segmentation Faults} und konnten in vier Kategorien eingeteilt werden:
 \begin{enumerate}
     \item Absturz durch Buffer Overflow in der Funktion \texttt{packet\_\_write\_bytes} \\in \texttt{lib\/packet\_datatypes.c}
