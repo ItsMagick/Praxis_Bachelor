@@ -4,44 +4,39 @@
 \section{Related Work}\label{sec:related-work}
 Die Evaluierung und Analyse der Performance von Netzwerkfuzzern ist ein bedeutendes Forschungsgebiet in der Cybersicherheitsforschung.
 In dieser Sektion werden relevante wissenschaftliche Arbeiten und Methodiken zur Performance-Analyse von Netzwerkfuzzern
-behandelt, insbesondere im Hinblick auf die Fuzzer Pulsar, AFLNet und boofuzz, mit dem Schwerpunkt auf dem MQTT-Protokoll
+behandelt, insbesondere im Hinblick auf die Fuzzer Pulsar, AFLNet und boofuzz, mit dem Schwerpunkt auf dem \gls{mqtt}-Protokoll
 als Anwendungsbeispiel.
 Pulsar ist ein Netzwerkfuzzer, der sich durch seine gezielte und effektive Fehlerentdeckung in Netzwerkprotokollen auszeichnet.
-In der wissenschaftlichen Arbeit von [Author et al., Jahr] wird Pulsar als Fuzzer beschrieben, der ein feedback-orientiertes
+In der wissenschaftlichen Arbeit von Hugo Gascon~\cite{pulsar} wird Pulsar als Fuzzer beschrieben, der ein feedback-orientiertes
 Modell verwendet, um systematisch Schwachstellen in Protokollen zu identifizieren.
 Die Forscher verwenden Benchmarking-Methoden, die auf der Analyse der Fehlerraten und der Geschwindigkeit der
 Fehlerentdeckung basieren.
 Eine entscheidende Methode zur Performance-Bewertung von Pulsar ist die Messung der Anzahl und Schwere der entdeckten
 Schwachstellen im Vergleich zu anderen Fuzzern.
-In der Arbeit von [Author et al., Jahr] wird zudem die Effizienz von Pulsar durch die Zeit bis zur Erkennung kritischer
-Fehler und die Codeabdeckung evaluiert.
-AFLNet, eine Erweiterung des bekannten American Fuzzy Lop (AFL) für Netzwerkschnittstellen, wird in der Literatur als ein
+\gls{afl}Net, eine Erweiterung des bekannten American Fuzzy Lop für Netzwerkschnittstellen, wird in der Literatur~\cite{afl}\cite{AFLNet}\cite{AFLplusplus-Woot20}\cite{iot-fuzzing} als ein
 leistungsfähiges Werkzeug für die Fuzzing von Netzwerkprotokollen beschrieben.
-In der Studie von [Author et al., Jahr] wird AFLNet hinsichtlich seiner Fähigkeit bewertet, Netzwerkprotokollimplementierungen
-durch gezielte und effiziente Generierung von Netzwerkverkehr zu testen.
-Die Performance von AFLNet wird durch Metriken wie die Codeabdeckung und die Anzahl entdeckter Schwachstellen gemessen.
-Die Autoren verwenden Benchmarking-Techniken, um die Effizienz von AFLNet bei der Erkennung von Protokollfehlern zu
-vergleichen und die Performance über verschiedene Testfälle hinweg zu bewerten.
+Die Performance von \gls{afl}Net wird durch Metriken wie die Codeabdeckung und die Anzahl entdeckter Schwachstellen gemessen.
+Die Autoren (u.a.\ Thorsten Holz und Moritz Schloegel) verwenden Benchmarking-Techniken, um die Effizienz von verschiedenen
+State of the Art Fuzzern bei der Erkennung von u.a.\ Protokollfehlern zu vergleichen und die Performance über verschiedene
+Testfälle hinweg zu bewerten~\cite{fuzzing-evaluation}.
 Boofuzz ist eine Weiterentwicklung des Sulley-Fuzzers und bietet eine umfassende Plattform für das Netzwerkfuzzing.
-Laut der Studie von [Author et al., Jahr] ist boofuzz besonders flexibel in der Anpassung von Fuzzing-Strategien und der
-Erzeugung von Testfällen für komplexe Protokolle.
-Die Performance-Bewertung von boofuzz erfolgt durch die Analyse der Anzahl und Art der entdeckten Fehler sowie durch die
-Messung der Flexibilität und Anpassungsfähigkeit des Fuzzers.
-Die Forscher bewerten die Effektivität von boofuzz durch die Vergleichsstudie von Fehlern und Codeabdeckung in verschiedenen Netzwerkszenarien.
+Die Performance-Bewertung von boofuzz erfolgt durch die Analyse der Anzahl und Art der entdeckten Fehler.
 Die wissenschaftliche Literatur bietet verschiedene Ansätze zur Performance-Analyse von Netzwerkfuzzern.
-In der Arbeit von [Author et al., Jahr] werden zwei Hauptmethoden zur Performance-Bewertung vorgestellt: die quantitative und die qualitative Analyse.
+In der Arbeit von Holz werden zwei Hauptmethoden zur Performance-Bewertung vorgestellt: die quantitative und die qualitative Analyse.
 \begin{itemize}
-\item Quantitative Analyse: Diese Methode umfasst die Messung von Metriken wie der Anzahl entdeckter Schwachstellen, der Codeabdeckung und dem Ressourcenverbrauch (z.B.\ Zeit und Speicher).
-Quantitative Methoden sind in der Arbeit von [Author et al., Jahr] detailliert beschrieben und beinhalten die Berechnung von Kennzahlen wie der Rate der Fehlerentdeckung und der Effizienz der Testausführung.
-Die Forscher bewerten, wie schnell und effektiv verschiedene Fuzzer Schwachstellen finden und welche Menge an Testfällen benötigt wird, um signifikante Fehler zu identifizieren.
-\item Qualitative Analyse: Diese Methode konzentriert sich auf die Qualität der gefundenen Schwachstellen und deren praktische Relevanz.
-In der Studie von [Author et al., Jahr] wird untersucht, wie gut die gefundenen Fehler die realen Sicherheitsanforderungen erfüllen und wie tiefgreifend die Fuzzer die Protokollimplementierungen analysieren.
-Qualitative Methoden bewerten die Art der entdeckten Schwachstellen und deren Auswirkungen auf die Sicherheit des Protokolls.
+    \item Quantitative Analyse: Diese Methode umfasst die Messung von Metriken wie der Anzahl entdeckter Schwachstellen, der Codeabdeckung und dem Ressourcenverbrauch (z.B.\ Zeit und Speicher).
+    Quantitative Methoden sind in der Arbeit von detailliert beschrieben und beinhalten die Berechnung von Kennzahlen wie der Rate der Fehlerentdeckung und der Effizienz der Testausführung.
+    Die Forscher bewerten, wie schnell und effektiv verschiedene Fuzzer Schwachstellen finden und welche Menge an Testfällen benötigt wird, um signifikante Fehler zu identifizieren~\cite{fuzzing-evaluation}.
+    \item Qualitative Analyse: Diese Methode konzentriert sich auf die Qualität der gefundenen Schwachstellen und deren praktische Relevanz.
+    Es wird untersucht, wie die Reproduzierbarkeit und Ausnutzbarkeit der Schwachstellen bewertet werden können.
+    Die Forscher analysieren, ob die gesammelten Daten über mehrere Publikationen reproduzierbar sind oder ob die Entdeckung
+    von Schwachstellen auf einer Art von Zufall basieren~\cite{fuzzing-evaluation}.
 \end{itemize}
+Eine weitere Arbeit von Görz und Mathis zeigt eine weitere Benchmarking-Methode für Fuzzer, in der die Performance der
+Mutationen und Generatoren von Fuzzern analysiert~\cite{mutuation-analysis} wird.\newline
 Zusammenfassend zeigen die wissenschaftlichen Veröffentlichungen, dass die Performance von Netzwerkfuzzern wie Pulsar,
-AFLNet und boofuzz durch eine Kombination von quantitativen und qualitativen Methoden bewertet wird.
-Die Analyse der Performance erfolgt durch die Untersuchung von Metriken wie Fehlerentdeckungsrate, Codeabdeckung und
-Ressourcenverbrauch, sowie durch die Bewertung der Qualität und Relevanz der gefundenen Schwachstellen.
+\gls{afl}Net und boofuzz durch eine Kombination von quantitativen und qualitativen Methoden bewertet wird.
+Die Analyse der Performance erfolgt durch die Untersuchung von Metriken wie Fehlerentdeckungsrate, sowie durch die Bewertung
+der Qualität und Relevanz der gefundenen Schwachstellen.
 Die Literatur bietet umfassende Benchmarking-Methoden und Fallstudien, die eine detaillierte Bewertung der Fuzzer-Leistung
 ermöglichen und zur Weiterentwicklung der Fuzzing-Techniken beitragen.
-
