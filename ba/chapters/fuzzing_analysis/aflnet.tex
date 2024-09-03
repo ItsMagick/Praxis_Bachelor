@@ -39,14 +39,8 @@ Die State Machine wird mithilfe von \gls{afl}Net erlernt und ermöglicht es, den
 Anschließend werden die Nachrichten mit den enthaltenen Nachrichtensequenzen an einen in \gls{afl}Net implementierten
 Sequence-Mutator übergeben.
 Dieser Mutator generiert aus den gesendeten Nachrichten neue mutierte Nachrichten, die an das \gls{zup} übergeben werden
-können.\newline\newline
-\textcolor{red}{Hier nochmal auf das Paper eingehen und da das mit den Submengen klären wie die Mutation genauer funktioniert}
+können.
 \subsubsection{Setup}
-\textcolor{red}{
-\begin{itemize}
-    \item auf die Extraktion der Nachrichten eingehen mit Wireshark UND danach das auf das Skript schlussfolgern
-\end{itemize}
-}
 Da \gls{afl}Net legacy Software ist, wird es nicht mehr aktiv weiterentwickelt und an neue Frameworks und Bibliotheken
 angepasst.
 Zum Kompilieren von \gls{afl}Net wird hierzu ein angepasstes Dockerfile~\cite{aflnet-dockerfile} verwendet.
@@ -66,8 +60,10 @@ Zum Starten des Mosquitto-Bianrys wurde außerdem eine \textit{preloaded-library
 aus den Kanälen \texttt{stdout} und \texttt{stderr} in eine log-Datei \texttt{mqtt-aflnet\_stdout\.log} weiterleitet.
 Diese Log-Datei wird benötigt, um die Ausgaben des \gls{zup} zu analysieren und somit die Effektivität der generierten
 Testcases zu bewerten. \newline
-Die Testcases wurden mithilfe eines Python-Skripts \textit{Python script zitieren} generiert.
-Hierzu wurden die Byts der zu sendenden Nachrichten betrachtet.
+Die Testcases wurden mithilfe eines Python-Skripts~\cite{aflnet-generate-test} generiert.
+Die Struktur wurde hierzu aus bereits existierenden Nachrichten einer \gls{pcap}-Datei mithilfe von Wireshark extrahiert.
+Anhand der Struktur der rohen Bytes wurden die Nachrichten in ein Format umgewandelt, das von \gls{afl}Net verstanden wird.
+Hierzu wurden die Bytes der zu sendenden Nachrichten betrachtet.
 Die in \ref{subsec:mosquitto-mqtt} beschriebene Struktur einer \gls{mqtt} Nachricht wurde dazu verwendet.
 In dieser Nachricht kann der Fixed-Header den Bytes \texttt{0x10, 0x30, 0x82, 0xA2, 0xC0} und \texttt{0xE0} entsprechen.
 Diese stehen für die verschiedenen Anfragen \texttt{CONNECT, PUBLISH, SUBSCRIBE, UNSUBSCRIBE, PINGREQ} und \texttt{DISCONNECT}.
