@@ -75,8 +75,8 @@ Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State M
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/state_machine}
-    \caption{State Machine des Mosquitto MQTT-Protokolls. Sie beschreibt alle Zustände, die der Broker nach Empfangen einer
-    Nachricht durchläuft. Beginnend mit der Überprüfung der Nachricht, über das Weiterleiten der Nachricht an die Abonnenten,
+    \caption{State Machine des Mosquitto MQTT-Protokolls. Sie beschreibt alle Zustände, die der Broker nach Empfangen von
+    Nachrichten durchläuft. Beginnend mit der Überprüfung der Nachricht, über das Weiterleiten der Nachricht an die Abonnenten,
     bis hin zum Senden der Nachricht an die Clients.}
     \label{fig:mqtt_state_machine}
 \end{figure}
@@ -130,4 +130,4 @@ Die \gls{mqtt}-Nachrichtenstruktur~\cite{mqtt} ist in Abbildung~\ref{fig:mqtt_me
 \newline
 Die gesendeten Nachrichten haben im kürzesten Fall eine Länge von 2 Bytes, wobei das Steuerbyte für einen Verbindungsabbau
 gesendet wird und somit nur aus dem Fixed-Header besteht.
-Die Obergrenze der Größe eines validen Nachrichtenpakets beträgt 265 Megabytes~\cite{mqtt}.
+Die Obergrenze der Größe eines validen Nachrichtenpakets beträgt 256 Megabytes~\cite{mqtt}.

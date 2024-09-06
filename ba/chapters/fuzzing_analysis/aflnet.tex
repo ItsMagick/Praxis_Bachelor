@@ -25,7 +25,7 @@ Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwende
     \label{fig:aflnet_architecture}
 \end{figure}
 \noindent Zuerst muss das \gls{zup} gestartet und mir Eingaben gefüttert werden.
-Wären der Transaktion der Nachrichten wird der einhergehende Traffic mit einem Aufnahmeprogramm wie \texttt{tcpdump} aufgezeichnet.
+Während der Transaktion der Nachrichten wird der einhergehende Traffic mit einem Aufnahmeprogramm wie \texttt{tcpdump} aufgezeichnet.
 Die aufgezeichneten Daten werden in ein \gls{pcap}-Dump-File geschrieben und müssen anschließend analysiert werden.
 Dabei muss der Netzwerkverkehr in ein Format umgewandelt werden, das von \gls{afl}Net verstanden wird.
 Dieses Format besteht in dem Fall dieser Arbeit aus einem Bytestream, der die Nachrichten des Netzwerkverkehrs enthält.
@@ -35,6 +35,7 @@ Besonderes Augenmerk hierbei liegt auf der Analyse des Netzwerkverkehrs und der 
 Werden bei der Ausführung von Nachrichten bestimmte Zustände erreicht, so werden diese Zustände in einer State Machine
 abgebildet und die State Machine mit dem neuen Zustand als Node erweitert.
 Die State Machine wird mithilfe von \gls{afl}Net erlernt und ermöglicht es, den Zustand des \gls{zup} nachzuverfolgen.
+\textcolor{red}{Hier nochmal auf das erlernen der State machine eingehen}
 \newline
 Anschließend werden die Nachrichten mit den enthaltenen Nachrichtensequenzen an einen in \gls{afl}Net implementierten
 Sequence-Mutator übergeben.
@@ -86,12 +87,12 @@ Diese Log-Datei wurde auf die Häufigkeit der Ausgaben von erfolgreichen und feh
     wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.}
     \label{fig:mqtt-aflnet_stdout}
 \end{figure}
-\noindent Die grüne Linie (siehe Fig.~\ref{fig:mqtt-aflnet_stdout}) repräsentiert die Anzahl der erfolgreichen Verbindungen im Laufe der Zeit.
+\noindent Die grüne Linie (siehe Abb.~\ref{fig:mqtt-aflnet_stdout}) repräsentiert die Anzahl der erfolgreichen Verbindungen im Laufe der Zeit.
 Die Linie steigt fast linear an und erreicht gegen Ende der Kampagne eine Gesamtzahl von 1.158.866 erfolgreichen Verbindungen.
 Dies deutet darauf hin, dass das getestete System eine sehr hohe Erfolgsrate bei Verbindungsversuchen aufweist.
 Die lineare Zunahme zeigt, dass die Rate der erfolgreichen Verbindungen konstant hoch geblieben ist, ohne signifikante
 Einbrüche oder Schwankungen.
-Die rote Linie (siehe Fig.~\ref{fig:mqtt-aflnet_stdout}) zeigt die Anzahl der erfolglosen Verbindungen an.
+Die rote Linie (siehe Abb.~\ref{fig:mqtt-aflnet_stdout}) zeigt die Anzahl der erfolglosen Verbindungen an.
 Diese bleibt über den gesamten Zeitraum sehr niedrig und erreicht gegen Ende der Kampagne etwa 26.888 erfolglose Verbindungen.
 Der minimale Anstieg im Vergleich zu den erfolgreichen Verbindungen weist darauf hin, dass die Mehrheit der Verbindungen
 erfolgreich war.
@@ -106,8 +107,8 @@ vermehrt valide Nachrichten generiert wurden.
     wurde auf die Häufigkeit der Ausgaben von Fehlermeldungen analysiert.}
     \label{fig:mqtt-aflnet_stdout_beginning}
 \end{figure}
-\noindent Das Diagramm (siehe Fig.~\ref{fig:mqtt-aflnet_stdout_beginning}) zeigt deutlich, dass die Lernphase der State-Machine
-zu Beginn der Fuzzing-Kampagne von großer Bedeutung ist.
+\noindent Das Diagramm (siehe Abb.~\ref{fig:mqtt-aflnet_stdout_beginning}) zeigt deutlich, dass die Lernphase der State-Machine
+zu Beginn der Fuzzing-Kampagne von Bedeutung ist.
 Die hohe Anzahl von erfolglosen Verbindungen in der Anfangsphase deutet darauf hin, dass die anfänglichen Eingaben von 
 \gls{afl}Net nicht korrekt auf das getestete System abgestimmt waren. 
 Erst nach einer gewissen Zeit, in der die State-Machine genügend Informationen gesammelt hat, um die Struktur des Protokolls 
@@ -123,7 +124,7 @@ steigenden Erfolgsrate bei den Verbindungen.
     und die Anzahl der Nachrichtensequenzen, die an das \gls{zup} gesendet wurden, analysiert.}
     \label{fig:aflnet_execs}
 \end{figure}
-\noindent Die Ausführungsrate ist eine zentrale Metrik, um den Fortschritt und die Effektivität einer Fuzzing-Kampagne zu bewerten.
+\noindent Die Ausführungsrate ist eine Metrik, um den Fortschritt und die Effektivität einer Fuzzing-Kampagne zu bewerten.
 Eine hohe und stabile Ausführungsrate deutet auf einen effizienten Fuzzing-Prozess hin, während Schwankungen oder ein
 Rückgang auf potenzielle Engpässe oder Herausforderungen während der Kampagne hinweisen können.\newline
 Die Ausführungsrate liegt im Durchschnitt zwischen 6 und 10 execs/sec und zeigt eine gewisse Variabilität, wie durch die

@@ -9,10 +9,10 @@ Die Effektivität eines Fuzzers wird anhand der Anzahl der gefundenen Bugs gemes
 Die Geschwindigkeit eines Fuzzers wird anhand der Anzahl der generierten Eingaben pro Sekunde gemessen.
 Die Reproduzierbarkeit eines Fuzzers wird anhand der Anzahl der reproduzierten Bugs gemessen.
 Zur Analyse der Performance werden die Fuzzer \gls{afl}Net, Pulsar und boofuzz verwendet.\newline\newline
-Zur quantifizierung der Effektivität wurden drei Schwachstellen im \gls{mqtt} Protokoll implementiert.
+Zur Analyse der Effektivität wurden drei Schwachstellen im \gls{mqtt} Protokoll implementiert.
 Die Schwachstellen belaufen sich auf drei Buffer Overflows und Seiteneffekte von der Aufhebung von Sanity-Checks beim
 Empfangen einer Publish-Nachricht.
-Diese implementierten Schwachstellen wurden and verschiedenen Stellen im \gls{mqtt} Broker Mosquitto eingefügt, sodass
+Diese implementierten Schwachstellen wurden an verschiedenen Stellen im \gls{mqtt} Broker Mosquitto eingefügt, sodass
 auch eine Bewertung der Komplexität der gefundenen Schwachstelle erfolgen kann.
 Die einfachste Schwachstelle ist ein Buffer Overflow in der Funktion \texttt{mqtt\_handle\_connect} (Listing~\ref{lst:handle-connect}) und wird genau dann
 getriggert, wenn ein Client eine Verbindung zum Broker aufbaut und der Client im Payload über eine \texttt{will}-Nachricht

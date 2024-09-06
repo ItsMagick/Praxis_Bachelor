@@ -355,11 +355,11 @@
     urldate = {2024-08-30},
     url = {https://www.sciencedirect.com/topics/computer-science/black-box-testing},
 }
-@online{grey-box-testing,
-    author = {Andre Coulter},
-    title = {Graybox Software Testing},
-    urldate = {2024-08-30},
-    url = {https://www.cleanscape.net/stellar/docs_lib/paper_graybox.pdf},
+@inproceedings{Coulter2001GrayboxST,
+    title={Graybox Software Testing in Real-Time in the Real World},
+    author={Andr{\'e} C. Coulter},
+    year={2001},
+    url={https://api.semanticscholar.org/CorpusID:29193682}
 }
 
 @online{black-box-fuzzing,
@@ -370,21 +370,34 @@
 }
 
 @online{grey-box-fuzzing,
-    author = {Michael Sutton, ADAM Greene and Pedram Amini},
-    title = {Fuzzing {-} Brute Force Vulnerability Discovery},
-    urldate = {2024-08-30},
-    url = {https://github.com/mangonugen/CySecBooks/blob/master/Fuzzing%20Brute%20Force%20Vulnerability%20Discovery.pdf},
+    author = {Sutton Michael und Greene Adam und Amini Pedram},
+    title = {Fuzzing: Brute Force Vulnerability Discovery},
+    year = {2007},
+    isbn = {0321446119},
+    publisher = {Addison-Wesley Professional},
 }
 
-@online{fuzzer-intelligence,
-    author = {Li J., Zhao B. and Zhang C.},
+@article{fuzzer-intelligence,
     title = {Fuzzing: a survey},
-    urldate = {2024-08-30},
+    volume = {1},
+    issn = {2523-3246},
+    shorttitle = {Fuzzing},
     url = {https://doi.org/10.1186/s42400-018-0002-y},
+    doi = {10.1186/s42400-018-0002-y},
+    abstract = {Security vulnerability is one of the root causes of cyber-security threats. To discover vulnerabilities and fix them in advance, researchers have proposed several techniques, among which fuzzing is the most widely used one. In recent years, fuzzing solutions, like AFL, have made great improvements in vulnerability discovery. This paper presents a summary of the recent advances, analyzes how they improve the fuzzing process, and sheds light on future work in fuzzing. Firstly, we discuss the reason why fuzzing is popular, by comparing different commonly used vulnerability discovery techniques. Then we present an overview of fuzzing solutions, and discuss in detail one of the most popular type of fuzzing, i.e., coverage-based fuzzing. Then we present other techniques that could make fuzzing process smarter and more efficient. Finally, we show some applications of fuzzing, and discuss new trends of fuzzing and potential future directions.},
+    number = {1},
+    urldate = {2024-08-30},
+    journal = {Cybersecurity},
+    author = {Li Jun und Zhao Bodong und Zhang Chao},
+    month = jun,
+    year = {2018},
+    keywords = {Software security, Coverage-based fuzzing, Fuzzing, Vulnerability discovery},
+    pages = {6},
+}
 }
 
 @inproceedings{smart-fuzzing,
-    author={Chen, Yuqi and Poskitt, Christopher M. and Sun, Jun and Adepu, Sridhar and Zhang, Fan},
+    author={Chen Yuqi und Poskitt Christopher M. und Sun Jun und Adepu Sridhar und Zhang Fan},
     booktitle={2019 34th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
     title={Learning-Guided Network Fuzzing for Testing Cyber-Physical System Defences},
     year={2019},
@@ -398,7 +411,7 @@
 }
 
 @inproceedings{directed-greybox-fuzzing,
-    author = {B\"{o}hme, Marcel and Pham, Van-Thuan and Nguyen, Manh-Dung and Roychoudhury, Abhik},
+    author = {B\"{o}hme Marcel und Pham Van-Thuan und Nguyen Manh-Dung und Roychoudhury Abhik},
     title = {Directed Greybox Fuzzing},
     year = {2017},
     isbn = {9781450349468},
@@ -416,10 +429,15 @@
 }
 
 @online{tcp-ip,
-    author = {Andrew L. Russell},
-    title = {Rough Consensus and Running Code and the Internet-OSI Standards War},
-    urldate = {2024-09-01},
-    url = {https://web.archive.org/web/20191117080112/https://www2.cs.duke.edu/courses/common/compsci092/papers/govern/consensus.pdf},
+    author={Russell, A.L.},
+    journal={IEEE Annals of the History of Computing},
+    title={'Rough Consensus and Running Code' and the Internet-OSI Standards War},
+    year={2006},
+    volume={28},
+    number={3},
+    pages={48-61},
+    keywords={Internet;Code standards;IP networks;TCPIP;Access protocols;Voting;ISO standards;Standards publication;Computer architecture;Satellite broadcasting;Internet standards;history of computing;organizations},
+    doi={10.1109/MAHC.2006.42}
 }
 
 @online{tcp-handshake,
@@ -437,7 +455,7 @@
 
 @online{mqtt,
     author = {OASIS},
-    title = {MQTT Version 3.1.1},
+    title = {MQTT Version 3.1.1 Spezifikation},
     urldate = {2024-09-01},
     url = {https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html},
 }
@@ -451,38 +469,49 @@
 
 @online{pulsar-docker,
     author = {Sebastian Pahl},
-    title = {Docker Container für pulsar},
+    title = {Docker Container für Pulsar},
     urldate = {2024-09-01},
     url = {https://github.com/ItsMagick/pulsar},
 }
 
-@online{pulsar,
-    author = {Hugo Gascon and Christian Wressnegger and Fabian Yamaguchi and Daniel Arp and Konrad Rieck},
-    title = {PULSAR: Stateful Black-Box Fuzzing of Proprietary Network Protocols},
-    urldate = {2024-09-01},
-    url = {https://hugogascon.com/publications/2015-securecomm.pdf},
+@inproceedings{pulsar,
+    address = {Cham},
+    title = {Pulsar: {Stateful} {Black}-{Box} {Fuzzing} of {Proprietary} {Network} {Protocols}},
+    isbn = {978-3-319-28865-9},
+    abstract = {The security of network services and their protocols critically depends on minimizing their attack surface. A single flaw in an implementation can suffice to compromise a service and expose sensitive data to an attacker. The discovery of vulnerabilities in protocol implementations, however, is a challenging task: While for standard protocols this process can be conducted with regular techniques for auditing, the situation becomes difficult for proprietary protocols if neither the program code nor the specification of the protocol are easily accessible. As a result, vulnerabilities in closed-source implementations can often remain undiscovered for a longer period of time. In this paper, we present Pulsar, a method for stateful black-box fuzzing of proprietary network protocols. Our method combines concepts from fuzz testing with techniques for automatic protocol reverse engineering and simulation. It proceeds by observing the traffic of a proprietary protocol and inferring a generative model for message formats and protocol states that can not only analyze but also simulate communication. During fuzzing this simulation can effectively explore the protocol state space and thereby enables uncovering vulnerabilities deep inside the protocol implementation. We demonstrate the efficacy of Pulsar in two case studies, where it identifies known as well as unknown vulnerabilities.},
+    booktitle = {Security and {Privacy} in {Communication} {Networks}},
+    publisher = {Springer International Publishing},
+    author = {Gascon Hugo und Wressnegger Christian und Yamaguchi Fabian und Arp Daniel und Rieck Konrad},
+    editor = {Thuraisingham Bhavani und Wang XiaoFeng und Yegneswaran Vinod},
+    year = {2015},
+    pages = {330--347},
 }
+
 
 @online{python-script-input-generation,
     author = {Sebastian Peschke},
+    title = {Skript zur generierung von Eingaben für das MQTT Protokoll},
     urldate = {2024-09-02},
     url = {https://github.com/ItsMagick/Fuzzing_Benchmarking/blob/main/scripts/create_aflnet_inputs.py},
 }
 
 @online{aflnet-capture-traffic,
     author = {Sebastian Peschke},
+    title = {Script zum Extrahieren des Netzwerkverkehrs},
     urldate = {2024-09-02},
     url = {https://github.com/ItsMagick/Fuzzing_Benchmarking/blob/main/scripts/extract_traffic.sh},
 }
 
 @online{run-pulsar,
     author = {Sebastian Peschke},
+    title = {Skript zum Ausführen von Pulsar},
     urldate = {2024-09-02},
     url = {https://github.com/ItsMagick/pulsar/blob/ff1852d82fa61acc67aff6cd42d6f63d1f5bdca5/run},
 }
 
 @online{aflnet-dockerfile,
     author = {Sebastian Peschke},
+    title = {Dockerfile für das Kompilieren von AFLNet und MQTT},
     urldate = {2024-09-02},
     url = {https://github.com/ItsMagick/Fuzzing_Benchmarking/blob/main/Dockerfile},
 }
@@ -503,6 +532,7 @@
 
 @online{crash-extraction-script,
     author = {Sebastian Peschke},
+    title = {Skript zur Extraktion der Abstürze aus den AFLNet stdout logs},
     urldate = {2024-09-02},
     url = {https://github.com/ItsMagick/Fuzzing_Benchmarking/blob/main/scripts/document_crashes.sh},
 }
@@ -513,16 +543,26 @@
     url = {https://github.com/ItsMagick/Fuzzing_Benchmarking/blob/main/scripts/test_crashes.sh},
 }
 
-@online{fuzzing-evaluation,
-    author = {Thorsten Holz},
+@inproceedings{fuzzing-evaluation,
+    author = {M. Schloegel and N. Bars and N. Schiller and L. Bernhard and T. Scharnowski and A. Crump and A. Ale-Ebrahim and N. Bissantz and M. Muench and T. Holz},
+    booktitle = {2024 IEEE Symposium on Security and Privacy (SP)},
     title = {SoK: Prudent Evaluation Practices for Fuzzing},
-    date = {2024-05-16},
-    urldate = {2024-09-02},
-    url = {http://arxiv.org/abs/2405.10220},
+    year = {2024},
+    volume = {},
+    issn = {},
+    pages = {1974-1993},
+    keywords = {privacy;systematics;computer bugs;fuzzing;reproducibility of results;software;security},
+    doi = {10.1109/SP54263.2024.00137},
+    url = {https://doi.ieeecomputersociety.org/10.1109/SP54263.2024.00137},
+    publisher = {IEEE Computer Society},
+    address = {Los Alamitos, CA, USA},
+    month = {may}
 }
 
+
+
 @inproceedings {mutuation-analysis,
-    author = {Philipp G{\"o}rz and Bj{\"o}rn Mathis and Keno Hassler and Emre G{\"u}ler and Thorsten Holz and Andreas Zeller and Rahul Gopinath},
+    author = {Philipp G{\"o}rz und Bj{\"o}rn Mathis und Keno Hassler und Emre G{\"u}ler und Thorsten Holz und Andreas Zeller und Rahul Gopinath},
     title = {Systematic Assessment of Fuzzers using Mutation Analysis},
     booktitle = {32nd USENIX Security Symposium (USENIX Security 23)},
     year = {2023},

@@ -3,28 +3,17 @@
 
 \subsection{Fuzzing mit boofuzz}\label{subsec:boofuzz}
 Boofuzz ist ein Open-Source-Fuzzing-Framework, das zur automatisierten Sicherheitsprüfung von Software verwendet wird.
-Fuzzing ist eine Technik, bei der eine Vielzahl von zufälligen, fehlerhaften oder unerwarteten Eingaben in eine Software
-eingespeist wird, um Schwachstellen wie Abstürze, Speicherlecks oder Sicherheitslücken aufzudecken.
-Boofuzz wurde als Fork des populären Sulley Fuzzing Frameworks entwickelt und bietet verbesserte Stabilität, erweiterte Funktionen
+Es wurde als Fork des populären Sulley Fuzzing Frameworks entwickelt und bietet verbesserte Stabilität, erweiterte Funktionen
 und aktive Wartung.
-Boofuzz ist in Python geschrieben und ermöglicht das Erstellen komplexer Fuzzing-Kampagnen durch die Definition von Testfällen,
+Boofuzz ist in Python geschrieben und ermöglicht das Erstellen von Fuzzing-Kampagnen durch die Definition von Testfällen,
 die systematisch verschiedene Protokollfelder und Eingabeparameter abdecken.
 Das Framework unterstützt sowohl Netzwerkprotokolle als auch dateibasierte Anwendungen, was es vielseitig einsetzbar macht.
 Dabei kann es beispielsweise Protokolle wie HTTP, FTP oder Telnet fuzzen, um Schwachstellen in Netzwerkdiensten zu identifizieren.
 Ein zentrales Merkmal von boofuzz ist seine Fähigkeit zur Überwachung des Zustands des Zielsystems während des Fuzzings.
 Hierbei handelt es sich jedoch nicht um \textit{state-awareness} -- also den tatsächlich erreichten Zustand eines Programms --
 sondern ob ein Dienst abgestürzt ist, und entsprechend reagieren, indem es den Testprozess anpasst oder erneut startet.
-Diese Fähigkeit zur Echtzeitüberwachung erhöht die Effizienz des Fuzzing-Prozesses erheblich.
 Da keine Informationen über den internen Zustand des Zielsystems benötigt werden und die Generierung der Eingaben
-willkürlicher Natur ist, handelt es sich bei boofuzz um einen \textit{"dummen"} Black-Box-Fuzzer.
-Boofuzz bietet zudem erweiterte Funktionen wie die Unterstützung von SSL/TLS für verschlüsselte Verbindungen, detaillierte
-Berichterstattung und Logging, sowie die Möglichkeit zur Integration in Continuous-Integration/Continuous-Deployment (CI/CD)-Pipelines.
-Dies macht es zu einem wertvollen Werkzeug für Entwickler und Sicherheitsexperten, die die Robustheit und Sicherheit von
-Softwareanwendungen sicherstellen möchten.
-Insgesamt stellt boofuzz ein flexibles und leistungsfähiges Fuzzing-Framework dar, das durch seine Open-Source-Natur anpassbar
-und erweiterbar ist.
-Es hat sich in der Sicherheitsforschung und der Qualitätssicherung als nützliches Tool etabliert, insbesondere bei der
-Identifizierung von Sicherheitslücken in komplexen Systemen und Netzwerkanwendungen.
+willkürlicher Natur ist, handelt es sich bei boofuzz um einen \textit{"Brute Force"} Black-Box-Fuzzer.
 \subsubsection{Setup}
 Zur Entwicklung einer Fuzzing-Kampagne mit boofuzz sind mehrere Schritte erforderlich.
 Zunächst muss das Zielsystem identifiziert und analysiert werden, um die relevanten Protokollspezifikationen und
@@ -102,14 +91,19 @@ das Topic und der Variable Header, festgesetzt sind.\newline\newline
     \item Payload: Enthält die tatsächlichen Daten, die gesendet werden (z.B.\ die Nachricht im \texttt{PUBLISH}-Paket)
     oder eine Liste von Topic-Filtern im \texttt{SUBSCRIBE}-Paket.
 \end{itemize}
-Fixed Header:
-Der Fixed Header besteht aus zwei Hauptbestandteilen:
+Der Fixed Header besteht aus drei Hauptbestandteilen:
 \begin{itemize}
-    \item Kontrollpakettyp und Flags: Das erste Byte des Headers kodiert den Typ des Pakets (z.B.\ \texttt{CONNECT, PUBLISH})
-    und bestimmte Flags (z.B.\ QoS-Level, DUP-Flag).
-    Es gibt nur eine begrenzte Anzahl von gültigen Kombinationen für dieses Byte, abhängig von den \gls{mqtt}-Spezifikationen.
-    \item Verbleibende Länge: Die verbleibende Länge gibt an, wie viele Bytes nach dem Fixed Header folgen.
+    \item Steuerpakettyp: (4 Bits): MQTT definiert 15 Pakettypen (im Bereich von \texttt{0001} bis \texttt{1111}), was
+    bedeutet, dass es 15 mögliche Werte für diese 4 Bits gibt
+    \item Flags (4 Bits): Die Flags hängen vom Pakettyp ab, was die Anzahl der gültigen Kombinationen verringert
+    \item Verbleibende Länge: Die verbleibende Länge gibt an, wie viele Bytes nach dem Fixed Header folgen
 \end{itemize}
+Diese Länge wird durch ein spezielles Codierungsschema dargestellt, das ein bis vier Bytes in Anspruch nehmen kann.
+Jeder dieser Bytes verwendet nur 7 Bits für die Länge (also Werte von 0 bis 127) und ein höchstwertiges Bit, um anzuzeigen,
+ob ein weiteres Byte folgt.
+In einem realistischen Szenario kann die Remaining Length also eine Vielzahl von Werten annehmen, und die Wahrscheinlichkeit,
+dass eine zufällige Länge gültig ist, hängt davon ab, ob du nur ein, zwei, drei oder vier Bytes zulässt.
+Für den Zweck dieser Berechnung werde ich die vereinfachte Annahme verwenden, dass die Remaining Length auf ein Byte beschränkt ist (d.h.\ Werte zwischen 0 und 127)
 Man nehme an, dass der Byte-Wert des Steuerpakettyps und der Flags eine von \textit{M} gültigen Kombinationen sein kann und der
 verbleibende Längen-Byte eine von \textit{N} möglichen Werten sein kann (z.B.\ 256 für 8-Bit-Bytes), dann ist die Wahrscheinlichkeit,
 dass ein zufällig generierter Fixed Header gültig ist:
@@ -119,7 +113,7 @@ dass ein zufällig generierter Fixed Header gültig ist:
 Der Variable Header variiert je nach Pakettyp.
 Beispielsweise enthält der Variable Header eines \texttt{PUBLISH}-Pakets den Topic-Namen.
 Der Header muss bestimmte Format- und Inhaltsanforderungen erfüllen, um gültig zu sein.\newline
-Wenn \textit{K} gültige Kombinationen für den Variable Header existieren und die Länge des Headers \textit{$L_{\textsubscript{p}}$} Bytes beträgt,
+Wenn \textit{K} gültige Kombinationen für den Variable Header existieren und die Länge des Headers \textit{$L_{\textsubscript{v}}$} Bytes beträgt,
 dann ist die Wahrscheinlichkeit, dass der Variable Header gültig ist:
 \[
     P(\text{gültiger Variable Header}) = \frac{K}{N^{L_v}}
