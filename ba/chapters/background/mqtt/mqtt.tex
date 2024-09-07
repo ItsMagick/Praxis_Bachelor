@@ -3,7 +3,7 @@
 
 \subsection{Grundlagen des Mosquitto MQTT-Brokers}\label{subsec:mosquitto-mqtt}
 Mosquitto ist ein Open-Source-Message-Broker, der das \gls{mqtt}-Protokoll implementiert.
-\gls{mqtt} ist ein leichtgewichtiges Publish/Subscribe-Protokoll, das speziell für Netzwerke mit geringer Bandbreite,
+\gls{mqtt} ist ein Publish/Subscribe-Protokoll, das für Netzwerke mit geringer Bandbreite,
 hoher Latenz oder unzuverlässigen Verbindungen entwickelt wurde.
 Es wird häufig in der \gls{iot}-Kommunikation verwendet, um Daten zwischen Geräten, Sensoren und Anwendungen auszutauschen.
 \gls{mqtt}, und damit auch Mosquitto, baut auf dem \gls{tcp}/\gls{ip}-Stack auf, was eine zuverlässige Datenübertragung zwischen Client und
@@ -36,15 +36,15 @@ Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten~\cite{mqtt}:
     \item \textbf{Unsubscribe:} Ein Client beendet das Abonnement eines Themas und empfängt keine weiteren Nachrichten zu
           diesem Thema.
 \end{itemize}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/mosquitto_state_machine}
-    \caption{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker ab Start der Applikation
-    durchlaufen kann. Beginnend mit der Inintialisierung, über den zuhörenden Modus in dem der Broker auf eingehende Nachrichten
-    wartet, bis hin zum Senden von Nachrichten an die Clients. Clients können sich mit dem Broker verbinden, Nachrichten
-    abonnieren und Nachrichten senden. Der Broker kann Nachrichten an die Clients senden, die diese abonniert haben.}
-    \label{fig:mosquitto_state_machine}
-\end{figure}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.6\textwidth]{img/mosquitto_state_machine}
+%    \caption[]{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker ab Start der Applikation
+%    durchlaufen kann. Beginnend mit der Inintialisierung, über den zuhörenden Modus in dem der Broker auf eingehende Nachrichten
+%    wartet, bis hin zum Senden von Nachrichten an die Clients. Clients können sich mit dem Broker verbinden, Nachrichten
+%    abonnieren und Nachrichten senden. Der Broker kann Nachrichten an die Clients senden, die diese abonniert haben.}
+%    \label{fig:mosquitto_state_machine}
+%\end{figure}
 Der erste Schritt in diesem Zustand ist das Starten des \gls{mqtt}-Brokers.
 Der Broker dient als Vermittler für die Nachrichten, die zwischen verschiedenen \gls{mqtt}-Clients ausgetauscht werden.
 Dieser Schritt ist entscheidend für den weiteren Betrieb des Systems.
@@ -53,7 +53,7 @@ Hier wird die Netzwerkschnittstelle initialisiert, die für die Kommunikation ü
 Diese Initialisierung stellt sicher, dass das System in der Lage ist, sich mit anderen Geräten im Netzwerk zu verbinden
 und Nachrichten zu senden oder zu empfangen.
 Nach erfolgreicher Initialisierung wechselt das System in den Zustand \textit{Listening}.
-In diesem Zustand wartet das System entweder darauf, dass es eine \gls{mqtt}-Nachricht empfängt, oder es ist in einem Leerlaufzustand (Idle).
+In diesem Zustand wartet das System entweder darauf, dass es eine \gls{mqtt}-Nachricht empfängt oder es ist in einem Leerlaufzustand (Idle).
 Dieser Zustand ist zentral für das System, da hier die Hauptoperationen entweder initiiert oder beendet werden.
 Wenn eine MQTT-Nachricht empfangen wird, wechselt das System in den Verarbeitungszustand.
 In diesem Zustand werden die empfangenen Nachrichten verarbeitet, und es kann entweder eine Nachricht veröffentlicht oder
@@ -71,16 +71,17 @@ Der endgültige Zustand des Systems ist \textit{Stopped}.
 Nachdem alle Ressourcen bereinigt wurden, ist das System inaktiv und bereit, vollständig heruntergefahren zu werden.\newline
 Diese Nachrichten werden über das \gls{tcp}-Protokoll zwischen Client und Broker ausgetauscht.
 Der Broker verfügt über eine interne Datenstruktur, die die Themen und die zugehörigen Abonnenten speichert.
-Diese Speicherung und das Weiterreichen dieser nachrichten kann in einer State Machine abgebildet werden.
+Diese Speicherung und das Weiterreichen dieser N
+achrichten kann in einer State Machine abgebildet werden.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/state_machine}
-    \caption{State Machine des Mosquitto MQTT-Protokolls. Sie beschreibt alle Zustände, die der Broker nach Empfangen von
+    \includegraphics[width=\textwidth]{img/state_machine}
+    \caption[State Machine des MQTT-Protokolls]{State Machine des Mosquitto MQTT-Protokolls. Sie beschreibt alle Zustände, die der Broker nach Empfangen von
     Nachrichten durchläuft. Beginnend mit der Überprüfung der Nachricht, über das Weiterleiten der Nachricht an die Abonnenten,
     bis hin zum Senden der Nachricht an die Clients.}
     \label{fig:mqtt_state_machine}
 \end{figure}
-\noindent Das zweite Diagramm zeigt eine Zustandsmaschine (State Machine) für das \gls{mqtt}-Protokoll und beschreibt den Übergang zwischen
+\noindent Die Abbildung~\ref{fig:mqtt_state_machine} zeigt eine Zustandsmaschine (State Machine) für das \gls{mqtt}-Protokoll und beschreibt den Übergang zwischen
 verschiedenen Verbindungszuständen eines \gls{mqtt}-Clients.
 Diese Zustandsmaschine veranschaulicht, wie der \gls{mqtt}-Client in verschiedenen Situationen reagiert, z.B.\ beim Verbinden,
 Abonnieren, Veröffentlichen und Trennen der Verbindung.\newline

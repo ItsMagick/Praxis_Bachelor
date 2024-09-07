@@ -2,18 +2,6 @@
 %! Date = 13.08.24
 
 \subsection{Fuzzing mit boofuzz}\label{subsec:boofuzz}
-Boofuzz ist ein Open-Source-Fuzzing-Framework, das zur automatisierten Sicherheitsprüfung von Software verwendet wird.
-Es wurde als Fork des populären Sulley Fuzzing Frameworks entwickelt und bietet verbesserte Stabilität, erweiterte Funktionen
-und aktive Wartung.
-Boofuzz ist in Python geschrieben und ermöglicht das Erstellen von Fuzzing-Kampagnen durch die Definition von Testfällen,
-die systematisch verschiedene Protokollfelder und Eingabeparameter abdecken.
-Das Framework unterstützt sowohl Netzwerkprotokolle als auch dateibasierte Anwendungen, was es vielseitig einsetzbar macht.
-Dabei kann es beispielsweise Protokolle wie HTTP, FTP oder Telnet fuzzen, um Schwachstellen in Netzwerkdiensten zu identifizieren.
-Ein zentrales Merkmal von boofuzz ist seine Fähigkeit zur Überwachung des Zustands des Zielsystems während des Fuzzings.
-Hierbei handelt es sich jedoch nicht um \textit{state-awareness} -- also den tatsächlich erreichten Zustand eines Programms --
-sondern ob ein Dienst abgestürzt ist, und entsprechend reagieren, indem es den Testprozess anpasst oder erneut startet.
-Da keine Informationen über den internen Zustand des Zielsystems benötigt werden und die Generierung der Eingaben
-willkürlicher Natur ist, handelt es sich bei boofuzz um einen \textit{"Brute Force"} Black-Box-Fuzzer.
 \subsubsection{Setup}
 Zur Entwicklung einer Fuzzing-Kampagne mit boofuzz sind mehrere Schritte erforderlich.
 Zunächst muss das Zielsystem identifiziert und analysiert werden, um die relevanten Protokollspezifikationen und
@@ -25,7 +13,7 @@ Das Fuzz-Template besteht aus einer Reihe von Feldern, die die verschiedenen Tei
 Fixed Header, den Variable Header und den Payload bei \gls{mqtt}-Nachrichten.
 Jedes Feld kann verschiedene Eigenschaften wie den Typ, die Länge und den Wertebereich der Eingabe enthalten.
 In dem Fall der \gls{mqtt}-Nachrichten können die Felder z.B.\ den Steuerpakettyp, die QoS-Ebene und den Topic-Namen,
-wie in ~\ref{subsec:mosquitto-mqtt}beschrieben, repräsentieren.
+wie in Kapitel~\ref{subsec:mosquitto-mqtt} beschrieben, repräsentieren.
 Hierbei ist es wichtig, die Protokollspezifikationen und die erwarteten Eingabewerte zu berücksichtigen, um realistische
 Testfälle zu erstellen.
 Nachdem die Testfälle definiert sind, wird eine Fuzzing-Kampagne gestartet, bei der boofuzz automatisch eine Vielzahl

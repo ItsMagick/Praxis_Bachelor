@@ -13,7 +13,7 @@ Der dadurch einhergehende Mangel von Automatisierung führt dazu, dass ein weite
 um die generierten Eingaben und den Zustand des \gls{zup} zu überwachen.\newline
 Der nächst schnellere Fuzzer ist \gls{afl}Net mit durchschnittlich 8 Ausführungen pro Sekunde.
 Bei der Ausführungsgeschwindigkeit von \gls{afl}Net ist zu beachten, dass der Fuzzer aufgrund der Fuzzing-Strategie
-in Kombination des bereits integrierten Monitoring des \gls{zup} etwas langsame ist.
+in Kombination des bereits integrierten Monitoring des \gls{zup} etwas langsamer ist.
 Die Geschwindigkeit des Fuzzers ist jedoch ausreichend, um eine Vielzahl von Eingaben zu generieren und an das \gls{zup}
 zu senden.
 Außerdem anzumerken ist, dass \gls{afl}Net das \gls{zup} immer wieder erneut startet.
@@ -35,9 +35,7 @@ Logs nach simplen Brute-Force angriffen aussehen.\newline\newline
 Die Anzahl der Ausführungen pro Sekunde ist jedoch nicht ausschlaggebend für die Effektivität eines Fuzzers.
 Sie wird anhand der Anzahl der gefundenen Bugs pro Zeit gemessen.
 Die Anzahl der gefundenen Bugs beläuft sich bei \gls{afl}Net auf 3 Bugs, bei Pulsar und boofuzz auf keinen einzigen.
-In einem Zeitintervall von 48 Stunden wurden bei \gls{afl}Net 151 Bugs gefunden, welche wie bereits in Sektion~\ref{subsubsec:bugs}
-genauer beschrieben in drei Bug-Kategorien eingeordnet werden konnten.
-Trotz einer niedrigen Anzahl an Ausführungen pro Sekunde konnte \gls{afl}Net bereits in sieben Minuten (vgl.\ Fig.~\ref{fig:aflnet_bugs})
+Trotz einer niedrigen Anzahl an Ausführungen pro Sekunde konnte \gls{afl}Net bereits in sieben Minuten (vgl.\ Abb.~\ref{fig:aflnet_bugs})
 den ersten Bug finden.
 Dies spricht für eine hohe Effektivität des Fuzzing-Ansatzes von code-coverage und der Fuzzing-Strategie von \gls{afl}Net.
 Die Zunahme der Präzision von generierten validen Paketen spiegelt sich ebenso in der Grafik~\ref{fig:mqtt-aflnet_stdout}
