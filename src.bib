@@ -558,8 +558,6 @@
     month = {05}
 }
 
-
-
 @inproceedings {mutuation-analysis,
     author = {Philipp G{\"o}rz und Bj{\"o}rn Mathis und Keno Hassler und Emre G{\"u}ler und Thorsten Holz und Andreas Zeller und Rahul Gopinath},
     title = {Systematic Assessment of Fuzzers using Mutation Analysis},
@@ -616,4 +614,57 @@
     year = {2022},
     keywords = {Aerospace electronics, Conferences, Fuzzing, input selection, metrics, performance fuzzing, Software reliability, Testing},
     pages = {128--129},
+}
+@article{fuzzing-assessment,
+    title = {Improving fuzzing assessment methods through the analysis of metrics and experimental conditions},
+    volume = {124},
+    issn = {0167-4048},
+    url = {https://www.sciencedirect.com/science/article/pii/S0167404822003388},
+    doi = {10.1016/j.cose.2022.102946},
+    abstract = {Fuzzing is nowadays one of the most widely used bug hunting techniques. By automatically generating malformed inputs, fuzzing aims to trigger unwanted behavior on its target. While fuzzing research has matured considerably in the last years, the evaluation and comparison of different fuzzing proposals remain challenging, as no standard set of metrics, data, or experimental conditions exist to allow such observation. This paper aims to fill that gap by proposing a standard set of features to allow such comparison. For that end, it first reviews the existing evaluation methods in the literature and discusses all existing metrics by evaluating seven fuzzers under identical experimental conditions. After examining the obtained results, it recommends a set of practices –particularly on the metrics to be used–, to allow proper comparison between different fuzzing proposals.},
+    urldate = {2024-09-07},
+    journal = {Computers \& Security},
+    author = {Eceiza, Maialen and Flores, Jose Luis and Iturbe, Mikel},
+    month = jan,
+    year = {2023},
+    keywords = {Security, Fuzzing, Evaluation methodology, Metrics, Software testing},
+    pages = {102946},
+}
+@article{cnn,
+    title = {{CNNPRE}: {A} {CNN}-{Based} {Protocol} {Reverse} {Engineering} {Method}},
+    volume = {11},
+    issn = {2169-3536},
+    shorttitle = {{CNNPRE}},
+    url = {https://ieeexplore.ieee.org/document/10287339/?arnumber=10287339},
+    doi = {10.1109/ACCESS.2023.3325391},
+    abstract = {Given the growth in computer networks and Internet usage, the traditional network environment has evolved into a more intricate system. Many applications utilize unknown communication protocols, for which the specification documentation is not available. The use of undocumented network protocols raises various security and management concerns. Protocol reverse engineering based on network traffic aims to infer the behavior and format of unknown network protocols. Clustering same-type messages or packets is a crucial initial step in correctly performing reverse engineering of protocol syntax or behavior. Therefore, this paper proposes a new method called CNNPRE, utilizing deep learning techniques to identify and group traffic message types. Our method employs network traffic and traffic features as input. Specifically, we use convolutional neural networks and deep transfer learning for feature extraction and message type identification and to tackle the challenge of unlabeled training data in the real world scenarios of protocol reverse engineering. The experimental results demonstrate that our proposed method works well and outperforms other methods for different protocols and achieves an average Homogeneity score of more than 0.87 on all datasets. This means that the method can identify message types according to the changing characteristics of messages and traffic features without the need for human expert intervention.},
+    urldate = {2024-09-08},
+    journal = {IEEE Access},
+    author = {Garshasbi, Javad and Teimouri, Mehdi},
+    year = {2023},
+    note = {Conference Name: IEEE Access},
+    keywords = {Feature extraction, Protocols, Reverse engineering, Clustering algorithms, Convolutional neural networks, deep learning, deep transfer learning, message type identification, network protocols, protocol reverse engineering, Telecommunication traffic, Transfer learning},
+    pages = {116255--116268},
+}
+
+@online{fuzzbench,
+    author = {Google},
+    title = {FuzzBench: Fuzzer Benchmarking as a Service},
+    utldate = {2024-09-08},
+    url = {https://github.com/google/FuzzBench},
+}
+@inproceedings{lava,
+    title = {{LAVA}: {Large}-{Scale} {Automated} {Vulnerability} {Addition}},
+    shorttitle = {{LAVA}},
+    url = {https://ieeexplore.ieee.org/document/7546498},
+    doi = {10.1109/SP.2016.15},
+    abstract = {Work on automating vulnerability discovery has long been hampered by a shortage of ground-truth corpora with which to evaluate tools and techniques. This lack of ground truth prevents authors and users of tools alike from being able to measure such fundamental quantities as miss and false alarm rates. In this paper, we present LAVA, a novel dynamic taint analysis-based technique for producing ground-truth corpora by quickly and automatically injecting large numbers of realistic bugs into program source code. Every LAVA bug is accompanied by an input that triggers it whereas normal inputs are extremely unlikely to do so. These vulnerabilities are synthetic but, we argue, still realistic, in the sense that they are embedded deep within programs and are triggered by real inputs. Using LAVA, we have injected thousands of bugs into eight real-world programs, including bash, tshark, and the GNU coreutils. In a preliminary evaluation, we found that a prominent fuzzer and a symbolic execution-based bug finder were able to locate some but not all LAVA-injected bugs, and that interesting patterns and pathologies were already apparent in their performance. Our work forms the basis of an approach for generating large ground-truth vulnerability corpora on demand, enabling rigorous tool evaluation and providing a high-quality target for tool developers.},
+    urldate = {2024-09-08},
+    booktitle = {2016 {IEEE} {Symposium} on {Security} and {Privacy} ({SP})},
+    author = {Dolan-Gavitt, Brendan and Hulin, Patrick and Kirda, Engin and Leek, Tim and Mambretti, Andrea and Robertson, Wil and Ulrich, Frederick and Whelan, Ryan},
+    month = may,
+    year = {2016},
+    note = {ISSN: 2375-1207},
+    keywords = {Computer bugs, Geophysical measurement techniques, Ground penetrating radar, Length measurement, Pathology, Privacy, Security},
+    pages = {110--121},
 }

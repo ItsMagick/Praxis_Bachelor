@@ -45,3 +45,30 @@ behandelt, insbesondere im Hinblick auf die Fuzzer Pulsar, AFLNet und boofuzz.\n
 - Network prot testing mit ML/AI -> CNN, Pulsar, SoK, A survey of network prot fuzz, Fuzzing state of the art, Learning Guided network fuzzing for testing cyber-physical systems
 - Ausreiser: AI Based Framework for Automatic Test Data Generation, Bit-oriented format extraction approach for automatic binary protocol reverse engineering, IoTFuzzer: Discovering Memory Corruptions in IoT Through App-based Fuzzing | Welcome,
             Systematic Assessment of Fuzzers using Mutation Analysis, Towards Effective Performance Fuzzing
+
+Beim Fuzzing von Applikationen entwickeln sich mit den sich ständig wechselnden technologischen Fortschritten auch die
+Anforderungen und Herangehensweisen an das Fuzzing.
+Mit einer immer weiter zunehmenden Anzahl an \gls{iot}-Geräten und der zunehmenden Vernetzung von Geräten und Systemen
+werden auch die Anforderungen an das Fuzzing immer komplexer.
+Somit ist es notwendig, dass Fuzzer nicht nur Applikationen, sondern auch Netzwerkprotokolle testen können.
+Holz et al.~\cite{fuzzing-evaluation,mutuation-analysis} und Flores et al.~\cite{fuzzing-assessment} beschreiben in ihrer Arbeit die Notwendigkeit, dass Fuzzer auch mit sich ständig
+ändernden Anforderungen eine Evaluation und Performance-Analyse von Fuzzern eine wichtige Rolle bei der Auswahl des richtigen
+Fuzzers spielt.
+Hierzu wurden Herangehensweisen und Methoden entwickelt, um die Performance von Fuzzern zu bewerten und diese Ansätze als
+neuen Standard zu empfehlen.\newline
+Desweiteren werden neuere Ansätze und Methoden zur Analyse von Netzwerkprotokollen vorgestellt.
+Diese Ansätze basieren auf Machine Learning und künstlicher Intelligenz und ermöglichen es, Netzwerkprotokolle zu analysieren
+und Schwachstellen zu identifizieren.
+Der Ansatz von Gascon~\cite{pulsar} basiert auf der Verwendung einer Markov-Kette, um das Verhalten von Netzwerkprotokollen
+zu modellieren und anhand des erlernten Zustandsmodells eingaben zu generieren und unerwartete Zustände zu provozieren.
+Die Arbeit von Garshasbi~\cite{cnn} beschreibt die Verwendung von Convolutional Neural Networks, um Netzwerkprotokolle zu analysieren.
+Hierbei wird ein Modell trainiert um Netzwerkprotokolle und vorallem die Struktur der Eingaben des Protokolls
+auf binärer Ebene zu erlernen.
+Das Erlernen der Struktur einer Eingabe und der damit verbundenen Zustandsmaschine eines Programms wird ebenfalls mit
+Fuzzern wie AFLNet~\cite{AFLNet} mit der bereits bewährten Methode der Codepfadabdeckung durchgeführt.\newline
+Die Auswertung der Güte von Fuzzern ist ein weiterer Teilbereich der Fuzzing-Forschung.
+Hierbei werden bereits existierende Standards, wie Googles FuzzBench Suite~\cite{fuzzbench} oder LAVA~\cite{lava}, verwendet,
+um die Performance von Fuzzern zu bewerten.
+
+%TODO: Mehr ausführen und vorallem mehr auf IoT eingehen!
+% Mehr auf benchmarking eingehen, wie SoK. Nimm dir die Arbeit ab und gehe auf diesen "Heiligen Graal" mehr ein.
