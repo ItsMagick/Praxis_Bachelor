@@ -185,6 +185,8 @@ mindestens ein gültiges Paket zu erhalten:
     \text{Da }\log(1 - \frac{1}{1099511627776}) \approx -\frac{1}{1099511627776}\\
     n \approx \frac{\log(0.01)}{-\frac{1}{1099511627776}} \approx \frac{-2}{-9.05 \times 10^{-13}} \approx 2.21 \times 10^{12}
 \end{gather*}
+% TODO: Hier nochmal feingranularer eingehen auf die verwendeten Parameter und die Berechnung von Anfang bis Ende Herleiten.#
+%  beschreiben welche annahmen getroffen wurden und vereinfachungen gemacht wurden.
 Diese Berechnungen zeigen, dass das Fixieren von Teilen des Pakets (wie Fixed Header, Topic und Variable Header) die
 Anzahl der benötigten Pakete zur Erzeugung eines gültigen Pakets erheblich reduziert.
 Dies ist besonders wichtig für die Effizienz von Fuzzing-Tests, da es die Anzahl der Tests verringert, die benötigt werden,
