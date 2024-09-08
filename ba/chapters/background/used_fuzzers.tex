@@ -1,6 +1,14 @@
 %! Author = chaorn
 %! Date = 06.09.24
 \subsection{Verwendete Fuzzer}\label{subsec:verwendete-fuzzer}
+In diesem Kapitel werden die in dieser Arbeit verwendeten Fuzzer vorgestellt.
+Die Fuzzer \gls{afl}Net, boofuzz und Pulsar werden im Kontext der Performance-Analyse von Netzwerkfuzzern
+verwendet und auf ihre Effektivität bei der Identifizierung von Schwachstellen in Netzwerkprotokollen untersucht.
+Die Fuzzer boofuzz und \gls{afl}Net wurden in dieser Arbeit ausgewählt, da sie weit verbreitete Fuzzer mit umfangreicher
+Dokumentation sind.
+Pulsar wurde aufgrund seiner einzigartigen Fähigkeit, Netzwerkprotokolle zu erlernen und zu simulieren, ausgewählt.
+Die Auswahl der drei Fuzzer ermöglicht es, verschiedene Ansätze und Techniken des Netzwerkfuzzings zu vergleichen und
+einen möglichst umfassenden Einblick in die Herangehensweisen der Fuzzer zu erhalten.
 \subsubsection{AFLNet}\label{subsubsec:aflnet}
 \gls{afl} ist ein Fuzzer, der auf dem Prinzip der Codeabdeckung basiert.
 Er zählt somit zu der Familie der Grey-Box Fuzzer und basiert auf einer mutationsbasierten Fuzzing-Technik.
@@ -35,7 +43,10 @@ Besonderes Augenmerk hierbei liegt auf der Analyse des Netzwerkverkehrs und der 
 Werden bei der Ausführung von Nachrichten bestimmte Zustände erreicht, so werden diese Zustände in einer State Machine
 abgebildet und die State Machine mit dem neuen Zustand als Node erweitert.
 Die State Machine wird mithilfe von \gls{afl}Net erlernt und ermöglicht es, den Zustand des \gls{zup} nachzuverfolgen.
-\textcolor{red}{Hier nochmal auf das erlernen der State machine eingehen}
+Das Erlernen der State Machine erfolgt durch das Aufstellen eines Graphen, der die Zustände des \gls{zup} abbildet.
+Hierbei werden die Zustände basierend auf den gesendeten Nachrichten und den vom \gls{zup} generierten Antworten identifiziert.
+Dieser Graph wird initial bei der Testphase der Nachrichten erstellt und bei jeder neuen Nachricht erweitert.
+Die Erweiterung des Graphen erfolgt durch das Hinzufügen von neuen Zuständen, die durch die Nachrichten erreicht werden~\cite{AFLNet}.
 \newline
 Anschließend werden die Nachrichten mit den enthaltenen Nachrichtensequenzen an einen in \gls{afl}Net implementierten
 Sequence-Mutator übergeben.
