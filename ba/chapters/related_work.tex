@@ -3,71 +3,32 @@
 
 \section{Verwandte Arbeiten}\label{sec:related-work}
 Die Evaluierung und Analyse der Performance von Fuzzern ist ein Forschungsgebiet in der Cybersicherheitsforschung.
-In dieser Sektion werden relevante wissenschaftliche Arbeiten und Methodiken zur Performance-Analyse von Netzwerkfuzzern
-behandelt, insbesondere im Hinblick auf die Fuzzer Pulsar, AFLNet und boofuzz.\newline\newline
-%In der wissenschaftlichen Arbeit von Wressnegger~\cite{pulsar} wird Pulsar als Fuzzer beschrieben, der ein feedback-orientiertes
-%Modell verwendet, um systematisch Schwachstellen in Protokollen zu identifizieren.
-%Die Forscher verwenden Benchmarking-Methoden, die auf der Analyse der Fehlerraten und der Geschwindigkeit der
-%Fehlerentdeckung basieren.
-%Eine entscheidende Methode zur Performance-Bewertung von Pulsar ist die Messung der Anzahl und Schwere der entdeckten
-%Schwachstellen im Vergleich zu anderen Fuzzern.
-%\gls{afl}Net, eine Erweiterung des bekannten American Fuzzy Lop für Netzwerkschnittstellen, wird in der Literatur~\cite{afl,AFLNet,AFLplusplus-Woot20,iot-fuzzing} als ein
-%leistungsfähiges Werkzeug für das Fuzzing von Netzwerkprotokollen beschrieben.
-%Die Performance von \gls{afl}Net wird durch Metriken wie die Codeabdeckung und die Anzahl entdeckter Schwachstellen gemessen.
-%Die Autoren (u.a.\ Thorsten Holz und Moritz Schloegel) verwenden Benchmarking-Techniken, um die Effizienz von verschiedenen
-%State of the Art Fuzzern bei der Erkennung von u.a.\ Protokollfehlern zu vergleichen und die Performance über verschiedene
-%Testfälle hinweg zu bewerten~\cite{fuzzing-evaluation}.
-%Boofuzz ist eine Weiterentwicklung des Sulley-Fuzzers und bietet eine umfassende Plattform für das Netzwerkfuzzing.
-%Die Performance-Bewertung von boofuzz erfolgt durch die Analyse der Anzahl und Art der entdeckten Fehler.
-%Die wissenschaftliche Literatur bietet verschiedene Ansätze zur Performance-Analyse von Netzwerkfuzzern.
-%In der Arbeit von Holz werden zwei Hauptmethoden zur Performance-Bewertung vorgestellt: die quantitative und die qualitative Analyse.
-%\begin{itemize}
-%    \item Quantitative Analyse: Diese Methode umfasst die Messung von Metriken wie der Anzahl entdeckter Schwachstellen.
-%    Quantitative Methoden sind in der Arbeit von detailliert beschrieben und beinhalten die Berechnung von Kennzahlen wie der Rate der Fehlerentdeckung und der Effizienz der Testausführung.
-%    Die Forscher bewerten, wie schnell und effektiv verschiedene Fuzzer Schwachstellen finden und welche Menge an Testfällen benötigt wird, um signifikante Fehler zu identifizieren~\cite{fuzzing-evaluation}.
-%    \item Qualitative Analyse: Diese Methode konzentriert sich auf die Qualität der gefundenen Schwachstellen und deren praktische Relevanz.
-%    Es wird untersucht, wie die Reproduzierbarkeit und Ausnutzbarkeit der Schwachstellen bewertet werden können.
-%    Die Forscher analysieren, ob die gesammelten Daten über mehrere Publikationen reproduzierbar sind oder ob die Entdeckung
-%    von Schwachstellen auf einer Art von Zufall basieren~\cite{fuzzing-evaluation}.
-%\end{itemize}
-%Eine weitere Arbeit von Görz und Mathis zeigt eine weitere Benchmarking-Methode für Fuzzer, in der die Performance der
-%Mutationen und Generatoren von Fuzzern analysiert~\cite{mutuation-analysis} wird.\newline
-%Zusammenfassend zeigen die wissenschaftlichen Veröffentlichungen, dass die Performance von Netzwerkfuzzern wie Pulsar,
-%\gls{afl}Net und boofuzz durch eine Kombination von quantitativen und qualitativen Methoden bewertet wird.
-%Die Analyse der Performance erfolgt durch die Untersuchung von Metriken wie Fehlerentdeckungsrate, sowie durch die Bewertung
-%der Qualität und Relevanz der gefundenen Schwachstellen.
-%Die Literatur bietet umfassende Benchmarking-Methoden und Fallstudien, die eine detaillierte Bewertung der Fuzzer-Leistung
-%ermöglichen und zur Weiterentwicklung der Fuzzing-Techniken beitragen.
-%
-%- Fuzzing methodology ->  iot, A survey, evaluating directed fuzzers, SoK, a survey of network prot fuzz
-%- Fuzzing trends -> Pulsar, A survey, Protocol reversing, AFLNet,
-%- Fuzz benching -> SoK, Effective, Improving fuzzing assessment, Evaluating directed fuzzers,
-%- Network prot testing mit ML/AI -> CNN, Pulsar, SoK, A survey of network prot fuzz, Fuzzing state of the art, Learning Guided network fuzzing for testing cyber-physical systems
-%- Ausreiser: AI Based Framework for Automatic Test Data Generation, Bit-oriented format extraction approach for automatic binary protocol reverse engineering, IoTFuzzer: Discovering Memory Corruptions in IoT Through App-based Fuzzing | Welcome,
-%            Systematic Assessment of Fuzzers using Mutation Analysis, Towards Effective Performance Fuzzing
-Beim Fuzzing von Applikationen entwickeln sich mit den sich ständig wechselnden technologischen Fortschritten auch die
-Anforderungen und Herangehensweisen an das Fuzzing.
-Mit einer immer weiter zunehmenden Anzahl an \gls{iot}-Geräten und der zunehmenden Vernetzung von Geräten und Systemen
-werden auch die Anforderungen an das Fuzzing immer komplexer.
-Somit ist es notwendig, dass Fuzzer nicht nur Applikationen, sondern auch Netzwerkprotokolle testen können.
-Holz et al.~\cite{fuzzing-evaluation,mutuation-analysis} und Flores et al.~\cite{fuzzing-assessment} beschreiben in ihrer Arbeit die Notwendigkeit, dass Fuzzer auch mit sich ständig
-ändernden Anforderungen eine Evaluation und Performance-Analyse von Fuzzern eine wichtige Rolle bei der Auswahl des richtigen
-Fuzzers spielt.
-Hierzu wurden Herangehensweisen und Methoden entwickelt, um die Performance von Fuzzern zu bewerten und diese Ansätze als
-neuen Standard zu empfehlen.\newline
-Desweiteren werden neuere Ansätze und Methoden zur Analyse von Netzwerkprotokollen vorgestellt.
-Diese Ansätze basieren auf Machine Learning und künstlicher Intelligenz und ermöglichen es, Netzwerkprotokolle zu analysieren
-und Schwachstellen zu identifizieren.
-Der Ansatz von Gascon~\cite{pulsar} basiert auf der Verwendung einer Markov-Kette, um das Verhalten von Netzwerkprotokollen
-zu modellieren und anhand des erlernten Zustandsmodells eingaben zu generieren und unerwartete Zustände zu provozieren.
-Die Arbeit von Garshasbi~\cite{cnn} beschreibt die Verwendung von Convolutional Neural Networks, um Netzwerkprotokolle zu analysieren.
-Hierbei wird ein Modell trainiert um Netzwerkprotokolle und vorallem die Struktur der Eingaben des Protokolls
-auf binärer Ebene zu erlernen.
-Das Erlernen der Struktur einer Eingabe und der damit verbundenen Zustandsmaschine eines Programms wird ebenfalls mit
-Fuzzern wie AFLNet~\cite{AFLNet} mit der bereits bewährten Methode der Codepfadabdeckung durchgeführt.\newline
-Die Auswertung der Güte von Fuzzern ist ein weiterer Teilbereich der Fuzzing-Forschung.
-Hierbei werden bereits existierende Standards, wie Googles FuzzBench Suite~\cite{fuzzbench} oder LAVA~\cite{lava}, verwendet,
-um die Performance von Fuzzern zu bewerten.
-
-%TODO: Mehr ausführen und vorallem mehr auf IoT eingehen!
-% Mehr auf benchmarking eingehen, wie SoK. Nimm dir die Arbeit ab und gehe auf diesen "Heiligen Graal" mehr ein.
+In der vorliegenden Sektion erfolgt eine Darstellung relevanter wissenschaftlicher Arbeiten und Methodiken zur Performance-Analyse
+von Fuzzern sowie eine Erörterung moderner Ansätze zum Fuzzing und zur Analyse von Netzwerkprotokollen.\newline\newline
+Die Forschung hat sich in zwei Hauptrichtungen entwickelt: Zum einen wird Fuzzing auf eine Vielzahl von Zielsystemen angewendet,
+von großen verteilten Anwendungen bis hin zu eingebetteten Geräten~\cite{iot-fuzzing,fuzzing-assessment,embedded-fuzzing,iot-fuzzer}.
+Zum anderen wurden die internen Abläufe von Fuzzern kontinuierlich verbessert, um eine effizientere Entdeckung von Schwachstellen
+zu ermöglichen~\cite{fuzzing-evaluation,a-survey-of-network-protocol-fuzzing,AFLplusplus-Woot20, mutuation-analysis}.
+In den letzten sechs Jahren wurden über 280 wissenschaftliche Arbeiten zu Fuzzing veröffentlicht, die zahlreiche Verbesserungen
+und neue Techniken vorschlagen~\cite{fuzzing-evaluation}.\newline
+Darüber hinaus wird in der Forschung die Anwendung von Mutationsanalysen zur Bewertung von Fuzzern untersucht~\cite{mutuation-analysis}.
+Diese Technik ermöglicht es, Fuzzer anhand einer Vielzahl von unvoreingenommenen Mutationen zu vergleichen, um deren Fähigkeit
+zur Fehlererkennung zu bewerten.
+Studien zeigen, dass heutige Fuzzer nur einen kleinen Prozentsatz der Mutationen erkennen können, was eine Herausforderung
+für zukünftige Forschungsarbeiten darstellt~\cite{mutuation-analysis}.\newline
+Ein innovativer Ansatz in diesem Bereich ist das \enquote{Smart Fuzzing}, das maschinelles Lernen nutzt, um Test-Suiten für
+Netzwerkangriffe zu konstruieren~\cite{smart-fuzzing,pulsar,cnn}.
+Dieser Ansatz hat sich als effektiv erwiesen, um verschiedene unsichere Zustände in Cyber-Physical Systems zu identifizieren,
+und zeigt das Potenzial, neue Angriffe zu entdecken, die in herkömmlichen Benchmarks nicht erfasst werden.\newline
+Ein weiterer Aspekt ist das Reverse Engineering von Netzwerkprotokollen, das als automatisierter Prozess zur
+Extraktion von Protokollformat, Syntax und Semantik definiert ist~\cite{cnn}.
+Dieser Prozess erfolgt durch die Überwachung und Analyse der Eingaben und Ausgaben der Protokollsoftware, ohne auf die
+Protokollspezifikation angewiesen zu sein~\cite{a-survey-of-network-protocol-fuzzing}.
+Dies ermöglicht eine tiefere Einsicht in die Funktionsweise von Protokollen, insbesondere bei nicht dokumentierten oder
+proprietären Protokollen.\newline
+Benchmarking und Auswertung von Fuzzern sind entscheidende Aspekte der Fuzzing-Forschung, um die Effektivität und Effizienz
+verschiedener Fuzzing-Methoden zu vergleichen.
+Bekannte Benchmarking-Tools sind FuzzBench~\cite{fuzzbench}, das von Google entwickelt wurde und eine standardisierte Umgebung für die
+Bewertung von Fuzzern bietet oder LAVA~\cite{lava}.
+Es ermöglicht die Evaluierung von Fuzzern anhand verschiedener Zielprogramme und bietet wichtige Erkenntnisse über die Leistung
+von Fuzzern, insbesondere in Bezug auf die Anzahl der verwendeten Anfangsseed-Daten und die Verwendung eines gesättigten Korpus~\cite{fuzzing-evaluation}.
