@@ -16,8 +16,19 @@ Auch wenn Pulsar mithilfe vieler Testdaten die State Machine des Protokolls erle
 Netzwerkverkehr zu achten.
 Geeignete Testdaten sollten so generiert werden, dass möglichst viele Zustände des \gls{zup} erreicht werden und möglichst
 viele valide Eingaben generiert werden, welche der Fuzzer Pulsar als Anhaltspunkt zum Erlernen valider Eingaben benötigt.\newline\newline
-% TODO: Hier nochmal auf die lezte Forschungsfrage eingehen und sagen, dass sogar AFLNet nicht in der Lage war alle Fehler zu finden
-Die Forschungsfrage \textit{Q2} (siehe~\ref{researc-questions})
+Trotz der Tatsache, dass AFLNet in der Lage war, einige Fehler in der manipulierten Implementierung von \gls{mqtt} zu finden, war der Fuzzer
+nicht in der Lage, alle Fehler zu finden.
+Dies zeigt, dass die Implementierung von Protokollen und Netzwerkdiensten weiterhin fehleranfällig ist und dass
+Fuzzing Kampagnen auf einen größeren Zeitraum mit mehreren Iterationen durchgeführt werden sollten, um komplexere Schwachstellen
+zu finden.
+Die Schwachstellen, die von \gls{afl}Net nicht gefunden wurden belaufen sich auf den Buffer Overflow in der Verarbeitung
+des Verbindungsaufbaus mit dem Broker, den Off-by-One Fehler in der Verarbeitung von Publish Nachrichten und den Use-After-Free
+Fehler in der Verarbeitung von Subscribe Nachrichten.
+Die Forschungsfrage \textit{Q2} (siehe Aufzählung~\ref{researc-questions}) konnte somit nur teilweise beantwortet werden,
+da sowohl boofuzz als auch Pulsar keine potenziellen Schwachstellen entdecken konnten und \gls{afl}Net nur drei von sechs
+entdeckt hat.
+Für bessere Ergebnisse müssen die Eingaben und die Implementierungen der Kampagnen weiter untersucht werden und weitere
+Experimente durchgeführt werden.\newline\newline
 In Zukunft sollte die Fuzzing Kampagne mit Pulsar weitergeführt werden.
 Hierbei sollte darauf geachtet werden, dass fürs Erste die Startsequenz des Protokolls korrekt erlernt wird, sodass Pulsar
 einen validen Startpunkt für eine effektivere Fuzzing Kampagne hat.

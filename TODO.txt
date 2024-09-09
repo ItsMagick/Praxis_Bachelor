@@ -1,23 +1,5 @@
-- Hintergrund erweitern mit TCP und MQTT basics
-- Hintergrund erweitern mit PULSAR
-- Mittelteil erweitern mit PULSAR
-- Einleitung schreiben:
-    - Problemstellung
-    - Zielsetzung
-    - Vorgehensweise
-    - Aufbau der Arbeit
-    - Auf wissenschaftliche Fragestellungen eingehen
-- Probleme im Schluss aufnehmen:
-    - Probleme bei der Implementierung
-    - Probleme bei der Evaluation
-    - Probleme bei PULSAR (IPv4 ist nur unterstützt)
-    - Automatisierung der fuzzing campagne nicht möglich, da Rice Theorem
-    - Probleme bei der Kompilierung von AFLNet
-- Schluss erweitern:
-    - Zusammenfassung
-    - Ausblick
-    - Fazit
-    - Kritische Würdigung
-    - Verbesserungsvorschläge
-    - Persönliche Meinung
-- Setup beschreiben und Herangehensweise der Mosquitto (Um-)Implementierung
+- Nochmal Statistik überarbeiten
+- Einleitungen für Fuzzing mit AFLNET, boo und Pulsar schreiben
+- Grafiken nochmal mehr einbinden
+- Denglisch entfernen
+- Grafik für MQTT Message Format überarbeiten, da nicht valides packet
