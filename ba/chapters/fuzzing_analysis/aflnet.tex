@@ -97,8 +97,6 @@ Anzumerken ist, dass das \gls{zup} mit einem AddressSanitizer kompiliert wurde, 
 beim Fuzzing verlangsamt.
 Das resultiert aus dem zusätzlichen Speicher, welchen bei Start des Programms allokiert wird, um die Speicherzugriffe
 zu überwachen.
-Der Vorteil des AddressSanitizers ist, dass er Buffer Overflows, Memory Leaks, Use-after-free, Use-after-return,
-Use-after-scope und Double-free Bugs erkennt und das Programm bei diesen Fehlern zu einem kontrollierten Absturz bringt~\cite{asan}.
 Zu Beginn der Kampagne gibt es einen kurzen Zeitraum mit erhöhter Variabilität, bevor sich die Ausführungsrate stabilisiert.
 Im weiteren Verlauf der Kampagne ist eine leichte Abnahme der Ausführungsrate zu beobachten, gefolgt von einer leichten
 Erholung gegen Ende der Kampagne.

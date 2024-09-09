@@ -20,9 +20,13 @@ In dieser Arbeit wird die Performance dieser Netzwerkfuzzer im Kontext des \gls{
 Ziel ist es, durch einen Vergleich der Fuzzing-Techniken und deren Effektivität Erkenntnisse zu gewinnen, die über die bloße
 Anwendung hinausgehen und zu einer fundierten Bewertung der getesteten Tools führen.
 Die Untersuchung fokussiert sich auf folgende Forschungsfragen:
-\begin{questions}
-    \item Welchen Performanceunterschied gibt es unter den Netzwerkfuzzern?
-    \item Inwiefern sind gefundene Bugs reproduzierbar?
+\begin{questions}\label{researc-questions}
+    \item Welche Performanceunterschiede gibt es unter den Netzwerkfuzzern in den Aspekten von gefundenen Bugs, Ausführgeschwindigkeit
+        und Effizienz der generierten Eingaben?
+    \item Sind Fuzzer in der Lage künstlich platzierte Schwachstellen in Netzwerkprotokollen zu identifizieren?
 \end{questions}
-
-
+Performance soll hierbei aus den Metriken der Anzahl der gefundenen Bugs, der Ausführungsgeschwindigkeit und der Effizienz
+der generierten Testfälle gemessen werden.
+Die Ergebnisse der Tests werden in Kapitel~\ref{subsec:vergleich-der-erhobenen-metriken} vorgestellt und diskutiert.
+Hierbei wird die Forschungsfrage \textit{Q1}~\ref{researc-questions} beantwortet.
+Die Forschungsfrage \textit{Q2} wird in Kapitel~\ref{sec:conclusion} beantwortet und diskutiert.
