@@ -39,4 +39,17 @@ Trotz einer niedrigen Anzahl an Ausführungen pro Sekunde konnte \gls{afl}Net be
 den ersten Bug finden.
 Dies spricht für eine hohe Effektivität des Fuzzing-Ansatzes von code-coverage und der Fuzzing-Strategie von \gls{afl}Net.
 Die Zunahme der Präzision von generierten validen Paketen spiegelt sich ebenso in der Grafik~\ref{fig:mqtt-aflnet_stdout}
-wider.
+wider.\newline\newline
+Zusammenfassend ist in Hinsicht der Forschungsfrage \textit{Q1} (siehe~\ref{researc-questions}) festzustellen, dass
+\gls{afl}Net im Rahmen der vollzogenen Experimente der effektivste Fuzzer ist.
+Die Anzahl der gefundenen Bugs und die Effizienz der generierten Eingaben sprechen für eine hohe Effektivität des Fuzzers
+im Gegensatz zu den anderen Fuzzern.
+Im Hinblick auf die Ausführungsgeschwindigkeit ist boofuzz der schnellste Fuzzer, jedoch konnte er keine Bugs finden.
+Stellt man beide Fuzzer einander gegenüber, so beläuft sich die Ausführungsgeschwindigkeit von \gls{afl}Net auf durchschnittlich
+8 Ausführungen pro Sekunde (siehe Abb.~\ref{fig:aflnet_execs}), während boofuzz auf durchschnittlich 77,88 Ausführungen pro
+Sekunde (siehe Abb.~\ref{fig:exec_speed_boo_normal}) kommt.\newline
+Auch in der Hinsicht der Effizienz der generierten Eingaben ist \gls{afl}Net der effizienteste Fuzzer.
+Die generierten Eingaben sind präzise und enthalten mit zunehmender Zeit der Kampagne weniger ungültige Eingaben (siehe Abb.~\ref{fig:mqtt-aflnet_stdout}).
+Dies ist jedoch nicht der Fall bei boofuzz, welcher eine Vielzahl von Eingaben generiert, die nach Brute-Force-Angriffen
+aussehen und direkt beim Empfangen von dem \gls{mqtt}-Broker verworfen werden~\ref{fig:boo_case_log}.\newline
+Zu dem Fuzzer Pulsar konnten jedoch keine aufschlussreichen Ergebnisse erzielt werden.
