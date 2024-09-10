@@ -1,5 +1,2 @@
-- Nochmal Statistik überarbeiten
+- Nochmal Statistik überarbeiten (remaining length und gesamtwahrschinlichkeit)
 - Einleitungen für Fuzzing mit AFLNET, boo und Pulsar schreiben
-- Grafiken nochmal mehr einbinden
-- Denglisch entfernen
-- Grafik für MQTT Message Format überarbeiten, da nicht valides packet

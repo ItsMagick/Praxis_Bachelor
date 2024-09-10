@@ -79,114 +79,148 @@ das Topic und der Variable Header, festgesetzt sind.\newline\newline
     \item Payload: Enthält die tatsächlichen Daten, die gesendet werden (z.B.\ die Nachricht im \texttt{PUBLISH}-Paket)
     oder eine Liste von Topic-Filtern im \texttt{SUBSCRIBE}-Paket.
 \end{itemize}
-Der Fixed Header besteht aus drei Hauptbestandteilen:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/fixed_header_structure}
+    \caption[Struktur des Fixed Headers in einem \gls{mqtt}-Paket]{Aus der Spezifikation von \gls{mqtt} Version 3.1.1~\cite{mqtt}
+        zeigt die Struktur des Fixed Headers in einem \gls{mqtt}-Paket.
+        Er besteht aus 2 Bytes und enthält den Steuerpakettyp (\textit{hier} 0010 für \texttt{CONNECT}) und Flags (hier \textit{Reserved})
+        sowie die verbleibende Länge des Pakets.}
+    \label{fig:fixed_header_structure}
+\end{figure}
+Der Fixed Header besteht aus drei Hauptbestandteilen~\ref{fig:fixed_header_structure}:
 \begin{itemize}
-    \item Steuerpakettyp: (4 Bits): MQTT definiert 15 Pakettypen (im Bereich von \texttt{0001} bis \texttt{1111}), was
-    bedeutet, dass es 15 mögliche Werte für diese 4 Bits gibt
+    \item Steuerpakettyp: (4 Bits): MQTT definiert 14 Pakettypen (im Bereich von \texttt{0001} bis \texttt{1110}), was
+    bedeutet, dass es 14 mögliche Werte für diese 4 Bits gibt
     \item Flags (4 Bits): Die Flags hängen vom Pakettyp ab, was die Anzahl der gültigen Kombinationen verringert
     \item Verbleibende Länge: Die verbleibende Länge gibt an, wie viele Bytes nach dem Fixed Header folgen
 \end{itemize}
-Diese Länge wird durch ein spezielles Codierungsschema dargestellt, das ein bis vier Bytes in Anspruch nehmen kann.
-Jeder dieser Bytes verwendet nur 7 Bits für die Länge (also Werte von 0 bis 127) und ein höchstwertiges Bit, um anzuzeigen,
-ob ein weiteres Byte folgt.
-In einem realistischen Szenario kann die Remaining Length also eine Vielzahl von Werten annehmen, und die Wahrscheinlichkeit,
-dass eine zufällige Länge gültig ist, hängt davon ab, ob du nur ein, zwei, drei oder vier Bytes zulässt.
-Für den Zweck dieser Berechnung werde ich die vereinfachte Annahme verwenden, dass die Remaining Length auf ein Byte beschränkt ist (d.h.\ Werte zwischen 0 und 127)
-Man nehme an, dass der Byte-Wert des Steuerpakettyps und der Flags eine von \textit{M} gültigen Kombinationen sein kann und der
-verbleibende Längen-Byte eine von \textit{N} möglichen Werten sein kann (z.B.\ 256 für 8-Bit-Bytes), dann ist die Wahrscheinlichkeit,
-dass ein zufällig generierter Fixed Header gültig ist:
+Die Spezifikation von \gls{mqtt} sieht vor, dass von den 14 möglichen Werten für den Steuerpakettyp nur 10 gültige Werte
+für einen validen Steuerpakettypen existieren, die von dem Client zum Broker gesendet werden können~\cite{mqtt-fixed-header}.
+Ausgegangen wird von der Generierung eines validen Connect Pakets, welches den Steuerpakettyp \texttt{CONNECT} hat.
+Betrachtet wird zunächst die Wahrscheinlichkeit, dass der Fixed Header gültig ist.
+Hierbei wird folgende Annahme getroffen:
 \[
-    P(\text{gültiger Fixed Header}) = \frac{M}{N} \times \frac{1}{N} = \frac{M}{N^2}
+    P(\text{gültiger Fixed Header}) = P(\text{gültiger Steuerpakettyp}) \times P(\text{gültige Flags}) \times P(\text{gültige verbleibende Länge})
 \]
-Der Variable Header variiert je nach Pakettyp.
-Beispielsweise enthält der Variable Header eines \texttt{PUBLISH}-Pakets den Topic-Namen.
-Der Header muss bestimmte Format- und Inhaltsanforderungen erfüllen, um gültig zu sein.\newline
-Wenn \textit{K} gültige Kombinationen für den Variable Header existieren und die Länge des Headers \textit{$L_{\textsubscript{v}}$} Bytes beträgt,
-dann ist die Wahrscheinlichkeit, dass der Variable Header gültig ist:
+Die Wahrscheinlichkeit, dass der Steuerpakettyp gültig ist, beträgt:
 \[
-    P(\text{gültiger Variable Header}) = \frac{K}{N^{L_v}}
+    P(\text{gültiger Steuerpakettyp}) = \frac{M}{N} = \frac{1}{16}
 \]
-Der Payload ist der flexibelste Teil des Pakets, mit den wenigsten Einschränkungen.
-Der Payload muss jedoch inhaltlich zu den Angaben im Fixed und Variable Header passen.
-Wenn die Länge des Payloads \textit{$L_{\textsubscript{p}}$} beträgt, dann ist die Wahrscheinlichkeit, dass der Payload gültig ist:
+Wobei \textit{M} die Anzahl der gültigen Werte für den Steuerpakettyp \texttt{CONNECT} 0001 ist und \textit{N} die Anzahl der möglichen Werte, die
+für die 4 Bits des Steuerpakettyps verwendet werden können.
+Die Wahrscheinlichkeit, dass die Flags gültig sind, beträgt:
 \[
-    P(\text{gültiger Payload}) = \frac{1}{N^{L_p}}
+    P(\text{gültige Flags}) = \frac{K}{N} = \frac{1}{16}
 \]
-Die Wahrscheinlichkeit, dass ein vollständig zufällig generiertes \gls{mqtt}-Paket gültig ist, ergibt sich aus dem Produkt
-der Wahrscheinlichkeiten der einzelnen Teile:
+Wobei \textit{K} die Anzahl der gültigen Kombinationen für die Flags ist und \textit{N} die Anzahl der möglichen Werte für die 4 Bits der Flags.
+Hierbei ist zu beachten, dass die Flags bei einem \texttt{CONNECT}-Paket reserviert sind und somit nur die gültige Kombination
+0000 für die Flags existieren.
+Die Wahrscheinlichkeit, dass der Fixed Header gültig ist, beträgt:
+\[
+    P(\text{gültiger Fixed Header}) = \frac{1}{16} \times \frac{1}{16} = \frac{1}{256}
+\]
+Der Variable Header enthält zusätzliche Informationen, die je nach Pakettyp variieren.
+Für ein \texttt{CONNECT}-Paket enthält der Variable Header die Bytes für den Protokollnamen, die Protokollversion, Connect Flags
+und Keep Alive.
+Die Länge des Variable Headers beträgt 10 Bytes.
+Die Wahrscheinlichkeit, dass der Variable Header gültig ist, beträgt:
 \begin{multline}
-    P(\text{gültiges Paket}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) \\ \times P(\text{gültiger Payload})
+    P(\text{gültiger Variable Header}) = P(\text{gültige Länge des Protokollnamens}) \\
+    \times P(\text{gültiger Protokollnamen}) \times P(\text{gültige Protokollversion}) \times P(\text{gültige Connect Flags}) \\
+    \times P(\text{gültiges Keep Alive})
 \end{multline}
-Substituiert man die oben angegebenen Wahrscheinlichkeiten:
+Die Länge des Protokollnamens ist festgelegt und beträgt 2 Bytes.
+Die Wahrscheinlichkeit, dass die Länge des Protokollnamens gültig ist, beträgt:
 \[
-    P(\text{gültiges Paket}) = \frac{M}{N^2} \times \frac{K}{N^{L_v}} \times \frac{1}{N^{L_p}}
+    P(\text{gültige Länge des Protokollnamens}) = \frac{1}{256} \times \frac{1}{256}
 \]
-Wenn der Fixed Header, der Variable Header und das Topic festgelegt sind und nicht gefuzzt werden, vereinfacht sich die Berechnung erheblich.
-In diesem Fall ist die Wahrscheinlichkeit, dass diese Teile korrekt sind, 1, da sie nicht zufällig generiert werden.
-Es bleibt nur die Wahrscheinlichkeit für den Payload:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/mqtt_prot_name}
+    \caption[Struktur des Protokollnamens in einem \gls{mqtt}-Paket]{Zeigt die Struktur des Protokollnamens, entnommen aus der Spezifikation von \gls{mqtt} Version 3.1.1~\cite{mqtt-variable-header}.
+        Der Protokollname ist festgelegt und muss \texttt{MQTT} sein und ist sechs Bytes lang.}
+    \label{fig:mqtt_prot_name}
+\end{figure}
+Der Protokollname ist festgelegt auf vier Bytes und muss \texttt{MQTT} sein~\ref{fig:mqtt_prot_name}.
+Aus der Struktur in der Abbildung~\ref{fig:mqtt_prot_name} ergibt sich die Wahrscheinlichkeit, dass der Protokollname gültig ist:
 \[
-    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{N^{L_p}}
+    P(\text{gültiger Protokollname}) = \frac{1}{256}^4
 \]
-Angenommen werden folgende Parameter:
+Zudem kommt hinzu, dass die Protokollversion festgelegt ist und \texttt{0x4} sein muss.
+Die Protokollversion ist ein Byte lang und kann 256 mögliche Werte annehmen.
+Somit ergibt sich die Wahrscheinlichkeit, dass die Protokollversion gültig ist:
+\[
+    P(\text{gültige Protokollversion}) = \frac{1}{256}
+\]
+Die Connect Flags sind ein Byte lang und können 256 mögliche Werte annehmen.
+Die Wahrscheinlichkeit, dass die Connect Flags gültig sind, erschließt sich aus folgendem Regelwerk:
 \begin{itemize}
-    \item \textit{N} = 256 (entsprechend 8-Bit-Byte-Werten)
-    \item \textit{M} = 16 (gültige Kombinationen für den Fixed Header)
-    \item \textit{K} = 256 (gültige Kombinationen für den Variable Header)
-    \item Länge des Variable Headers: \textit{$L_{\textsubscript{v}}$} = 2 Bytes
-    \item Länge des Payloads: \textit{$L_{\textsubscript{p}}$} = 10 Bytes
+    \item Bit 0 muss immer 0 sein
+    \item Bit 1 kann 0 oder 1 sein. Wenn Bit 1 den Wert 0 hat, dann müssen die Bits 3-5 auch 0 sein
+    \item Bit 2 kann 0 oder 1 sein
+    \item Bit 3 und 4 können die Werte 00, 01 oder 10 annehmen, wenn Bit 1 den Wert 1 hat
+    \item Bit 5 kann nur 1 sein, wenn Bit 1 den Wert 1 hat, ansonsten muss Bit 5 den Wert 0 besitzen
+    \item Bit 6 und 7 können 0 oder 1 sein
 \end{itemize}
-Dann ergibt sich die Wahrscheinlichkeit, dass ein gültiges Paket bei zufälligem Fuzzing generiert wird, zu:
+Daraus ergibt sich die Wahrscheinlichkeit, dass die Connect Flags gültig sind:
+\begin{equation}\label{eq:valid_connect_flags}
+    P(\text{gültige Connect Flags}) = P(\text{Bit0}) \times P(\text{Bit1}) \times P(\text{Bit2}) \times P(\text{Bit3,4}) \times P(\text{Bit5}) \times P(\text{Bit6,7})
+\end{equation}
+\begin{itemize}
+    \item Wenn Bit 2 = 0:
+
+    \begin{itemize}
+        \item Bit 3 + 4 = 00 (1 Möglichkeit)
+        \item Bit 5 = 0 (1 Möglichkeit)
+    \end{itemize}
+\begin{multline}
+    P(\text{Bit 3 + 4 + 5} \mid \text{Bit 2} = 0) = \frac{1}{8} \quad \\ \text{(es gibt 8 mögliche Kombinationen für Bit 3, 4 und 5, aber nur eine gültige)}
+\end{multline}
+    \item Wenn Bit 2 = 1:
+
+    \begin{itemize}
+        \item Bit 3 + 4 = 00, 01 oder 10 (3 Möglichkeiten)
+        \item Bit 5 = 0 oder 1 (2 Möglichkeiten)
+    \end{itemize}
+\begin{multline}
+    P(\text{Bit 3 + 4 + 5} \mid \text{Bit 2} = 1) = \frac{6}{8} \quad \\ \text{(es gibt 8 mögliche Kombinationen für Bit 3, 4 und 5, und 6 davon sind gültig)}
+\end{multline}
+\end{itemize}
+
+\begin{multline}
+    P(\text{Bit 3 + 4 + 5}) = P(\text{Bit 2} = 0) \times P(\text{Bit 3 + 4 + 5} \mid \text{Bit 2} = 0)+ P(\text{Bit 2} = 1) \times \\
+    P(\text{Bit 3 + 4 + 5} \mid \text{Bit 2} = 1)
+\end{multline}
 \[
-        P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{256^2} \times \frac{256}{256^2} \times \frac{1}{256^{10}} \approx 3{,}55 \times 10^{-27}
+    P(\text{Bit 3 + 4 + 5}) = \frac{1}{2} \times \frac{1}{8}+ \frac{1}{2} \times \frac{6}{8}= \frac{1}{16}+ \frac{6}{16}= \frac{7}{16}
 \]
-Im Gegensatz dazu ist die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, wenn Fixed Header, Variable Header und Topic festgelegt sind:
+Somit ergibt sich aus der Gleichung~\ref{eq:valid_connect_flags} die Wahrscheinlichkeit, dass die Connect Flags gültig sind:
 \[
-    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{256^{10}} \approx 1{,}00 \times 10^{-24}
+    P(\text{gültige Connect Flags}) = \frac{1}{2} \times 1 \times 1 \times \frac{7}{16} \times 1 \times 1 = \frac{7}{32}
 \]
-Der Unterschied in den Wahrscheinlichkeiten ist beträchtlich.
-Beim zufälligen Fuzzing aller Teile liegt die Wahrscheinlichkeit, dass ein gültiges Paket generiert wird, bei ungefähr
-\(3{,}55 \times 10^{-27}\).
-Wenn jedoch der Fixed Header, der Variable Header und das Topic festgelegt sind, steigt diese Wahrscheinlichkeit auf
-\(1{,}00 \times 10^{-24}\).
-Dieser drastische Unterschied ist auf die Reduktion der Anzahl der zufällig zu generierenden Bytes zurückzuführen.
-Da der Fixed Header und der Variable Header spezifische Anforderungen haben und die Anzahl der gültigen Kombinationen
-begrenzt ist, erhöht das Festlegen dieser Felder die Wahrscheinlichkeit eines gültigen Pakets erheblich.
-Die Wahrscheinlichkeit hängt also stark davon ab, wie viele Teile des Pakets zufällig generiert werden und wie viele festgesetzt sind.
-\newline\newline
-Berechnung der Wahrscheinlichkeit für ein valides Paket:
-\begin{gather*}
-    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{256^2} \times \frac{256}{256^2} \times \frac{1}{256^{10}}\\
-    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{16}{65536} \times \frac{256}{65536} \times \frac{1}{1099511627776}\\
-    P(\text{gültiges Paket bei zufälligem Fuzzing}) = \frac{1}{4194304} \times \frac{1}{1099511627776}\\
-    P(\text{gültiges Paket bei zufälligem Fuzzing}) \approx 2.28 \times 10^{-25}
-\end{gather*}
-Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrscheinlichkeit (z.B.\ \SI{99}{\percent})
-mindestens ein gültiges Paket zu erhalten, verwenden wir die Formel:
+Das Keep Alive-Intervall ist ein 2-Byte-Wert, der die Zeit in Sekunden angibt, die der Client auf eine Antwort des Brokers
+wartet.
+Das Intervall kann Werte von 0 bis 65535 annehmen.
+Die Wahrscheinlichkeit, dass das Keep Alive-Intervall gültig ist, beträgt 1, da alle Werte innerhalb der zwei Bytes zugelassen
+werden.\newline
+Die Wahrscheinlichkeiten für einen gültigen Variable Header sind somit:
 \[
-    n = \frac{\log(1 - \text{Wahrscheinlichkeit})}{\log(1 - P)}
+    P(\text{gültiger Variable Header}) = \left(\frac{1}{256}\right)^2 \times \left(\frac{1}{256}\right)^4 \times \frac{1}{256} \times \frac{7}{32} \times 1 \approx 3.036 \times 10^{-18}
 \]
-Für eine Wahrscheinlichkeit von \SI{99}{\percent}, dass mindestens ein Paket gültig ist:
+Um die Anzahl der Versuche zu berechnen, die notwendig sind, um mit einer 99-prozentigen Wahrscheinlichkeit ein gültiges
+Paket mit korrekt generiertem Fixed und Variable Header zu erzeugen, wird folgende Formel verwendet:
 \[
-    n = \frac{\log(1 - 0.99)}{\log(1 - 2.28 \times 10^{-25})}\\
+    n = \frac{\log(1 - P_{\text{Ziel}})}{\log(1 - P_{\text{Erfolg}})}
 \]
-Da $\log(1 - x) \approx -x$ für sehr kleine Werte von $x$:
-\[
-    n \approx \frac{\log(0.01)}{-2.28 \times 10^{-25}} \approx \frac{-2}{-2.28 \times 10^{-25}} \approx 8.77 \times10^{24}\\
-\]
-Berechnung der Wahrscheinlichkeit für ein valides Paket:
-\begin{gather*}
-    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{256^{10}}\\
-    P(\text{gültiges Paket bei festen Headern}) = \frac{1}{1099511627776}\\
-\end{gather*}
-Um die Anzahl der Pakete zu berechnen, die erforderlich sind, um mit hoher Wahrscheinlichkeit (z.B.\ \SI{99}{\percent})
-mindestens ein gültiges Paket zu erhalten:
-\begin{gather*}
-    n = \frac{\log(1 - 0.99)}{\log(1 - \frac{1}{1099511627776})}\\
-    \text{Da }\log(1 - \frac{1}{1099511627776}) \approx -\frac{1}{1099511627776}\\
-    n \approx \frac{\log(0.01)}{-\frac{1}{1099511627776}} \approx \frac{-2}{-9.05 \times 10^{-13}} \approx 2.21 \times 10^{12}
-\end{gather*}
-% TODO: Hier nochmal feingranularer eingehen auf die verwendeten Parameter und die Berechnung von Anfang bis Ende Herleiten.#
-%  beschreiben welche annahmen getroffen wurden und vereinfachungen gemacht wurden.
+Dabei beschreibt \textit{$P_{\textsubscript{Ziel}}$} die Zielwahrscheinlichkeit, dass ein gültiges Paket generiert wird, und
+\textit{$P_{\textsubscript{Erfolg}}$} die Wahrscheinlichkeit, dass ein gültiger Fixed und Variable Header generiert wird.
+Die Gesammtwahrscheinlichkeit für ein Paket mit einem gültigen Fixed und Variable Header beträgt:
+\begin{multline}
+    P(\text{gültiges Paket}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) = \\
+    \frac{1}{256}^2 \times 3.036 \times 10^{-18} \approx 3.906 \times 10^{-20}
+    \approx 3.036 \times 10^{-18}
+\end{multline}
 Diese Berechnungen zeigen, dass das Fixieren von Teilen des Pakets (wie Fixed Header, Topic und Variable Header) die
 Anzahl der benötigten Pakete zur Erzeugung eines gültigen Pakets erheblich reduziert.
 Dies ist besonders wichtig für die Effizienz von Fuzzing-Tests, da es die Anzahl der Tests verringert, die benötigt werden,
