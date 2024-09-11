@@ -1,0 +1,11 @@
+%! Author = chaorn
+%! Date = 21.02.24
+
+\begin{lstlisting}[language=bash, caption={Mounten der von chroot benötigten Verzeichnisse},label={lst:chroot-mount}]
+$ sudo mount -t proc root/proc root/proc/
+$ sudo mount -t sysfs root/sys root/sys/
+$ sudo mount --rbind /dev root/dev/
+$ sudo mount --rbind root/run root/run/
+$ sudo mount --rbind /lib64 root/lib64/
+$ sudo mount --rbind root/tmp root/tmp/
+\end{lstlisting}

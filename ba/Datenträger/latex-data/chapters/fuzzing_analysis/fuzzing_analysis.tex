@@ -1,0 +1,30 @@
+%! Author = charon
+%! Date = 6/4/24
+
+\section{Analyse der Fuzzer Performance}\label{sec:analyse-der-performance}
+In diesem Kapitel wird die Performance von \gls{afl}Net, Pulsar und boofuzz analysiert.
+Der Begriff Performance ist jedoch sehr vielseitig zu interpretieren und wird in dieser Arbeit unter den Gesichtspunkten
+Effektivität, Geschwindigkeit und Reproduzierbarkeit bewertet.\newline
+Die Effektivität eines Fuzzers wird anhand der Anzahl der gefundenen Bugs gemessen.
+Die Geschwindigkeit eines Fuzzers wird anhand der Anzahl der generierten Eingaben pro Sekunde gemessen.
+Die Reproduzierbarkeit eines Fuzzers wird anhand der Anzahl der reproduzierten Bugs gemessen.
+Zur Analyse der Performance werden die Fuzzer \gls{afl}Net, Pulsar und boofuzz verwendet.\newline\newline
+Zur Analyse der Effektivität wurden drei Schwachstellen im \gls{mqtt} Protokoll implementiert.
+Die Schwachstellen belaufen sich auf drei Buffer Overflows und Seiteneffekte von der Aufhebung von Sanity-Checks beim
+Empfangen einer Publish-Nachricht.
+Diese implementierten Schwachstellen wurden an verschiedenen Stellen im \gls{mqtt} Broker Mosquitto eingefügt, sodass
+auch eine Bewertung der Komplexität der gefundenen Schwachstelle erfolgen kann.
+Die einfachste Schwachstelle ist ein Buffer Overflow in der Funktion \texttt{mqtt\_handle\_connect} (Listing~\ref{lst:handle-connect}) und wird genau dann
+getriggert, wenn ein Client eine Verbindung zum Broker aufbaut und der Client im Payload über eine \texttt{will}-Nachricht
+verfügt.
+Die mittlere Schwachstelle ist ein Integer Overflow in der Funktion \texttt{mqtt\_handle\_publish} (Listing~\ref{lst:handle-publish}) und wird getriggert,
+wenn ein Client eine Nachricht an den Broker sendet und die Nachricht eine bestimmte Länge überschreitet.
+Diese Schwachstelle kann nur getriggert werden, wenn ein Client \texttt{C1} ein Topic mit einer Nachricht veröffentlicht hat und ein
+zweiter Client \texttt{C2} dieses Topic abonniert hat.
+Nur in diesem Fall wird auch die von \texttt{C1} veröffentlichte Nachricht an \texttt{C2} weitergeleitet und auch vom Broker verarbeitet.
+Die komplexeste Schwachstelle ist ein Memory Leak in der Funktion \texttt{mqtt\_handle\_subscribe} (Listing~\ref{lst:handle-subscribe}) und wird getriggert,
+wenn ein Client ein Topic abonniert und der Broker die Abonnement-Nachricht verarbeitet.
+\input{ba/chapters/fuzzing_analysis/aflnet}
+\input{ba/chapters/fuzzing_analysis/boofuzz}
+\input{ba/chapters/fuzzing_analysis/pulsar}
+\input{ba/chapters/fuzzing_analysis/overall_analysis}

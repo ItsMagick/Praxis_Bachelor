@@ -1,0 +1,14 @@
+%! Author = chaorn
+%! Date = 21.02.24
+\lstdefinestyle{chroot}{
+    showstringspaces=false
+}
+
+\begin{lstlisting}[language=bash, style=chroot, caption={Wechseln in ein anderes Wurzelverzeichnis mit chroot und ausführen von AFL},label={lst:chroot-fuzzen}]
+$ sudo chroot root/
+    bash -c 'export AFL_DEBUG=1; export AFL_PRELOAD=./sockfuzz.so;
+    export QEMU_LD_PREFIX=/;
+    export PATH="/usr/gnu/bin:/usr/local/sbin:/usr/local/bin:/bin:/sbin:/usr/bin:.";
+    export QT_X11_NO_MITSHM=1; export DISPLAY=:10;
+    ./afl-fuzz -Q -i in -o out -t 50000 -- /app/mmapp @@'
+\end{lstlisting}

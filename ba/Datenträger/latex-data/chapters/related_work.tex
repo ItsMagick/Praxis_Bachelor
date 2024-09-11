@@ -1,0 +1,34 @@
+%! Author = charon
+%! Date = 6/4/24
+
+\section{Verwandte Arbeiten}\label{sec:related-work}
+Die Evaluierung und Analyse der Performance von Fuzzern ist ein Forschungsgebiet in der Cybersicherheitsforschung.
+In der vorliegenden Sektion erfolgt eine Darstellung relevanter wissenschaftlicher Arbeiten und Methodiken zur Performance-Analyse
+von Fuzzern sowie eine Erörterung moderner Ansätze zum Fuzzing und zur Analyse von Netzwerkprotokollen.\newline\newline
+Die Forschung hat sich in zwei Hauptrichtungen entwickelt: Zum einen wird Fuzzing auf eine Vielzahl von Zielsystemen angewendet,
+von großen verteilten Anwendungen bis hin zu eingebetteten Geräten~\cite{iot-fuzzing,fuzzing-assessment,embedded-fuzzing,iot-fuzzer,libafl}.
+Zum anderen wurden die internen Abläufe von Fuzzern kontinuierlich verbessert, um eine effizientere Entdeckung von Schwachstellen
+zu ermöglichen~\cite{fuzzing-evaluation,a-survey-of-network-protocol-fuzzing,AFLplusplus-Woot20, mutuation-analysis}.
+In den letzten sechs Jahren wurden über 280 wissenschaftliche Arbeiten zu Fuzzing veröffentlicht, die zahlreiche Verbesserungen
+und neue Techniken vorschlagen~\cite{fuzzing-evaluation}.\newline
+Darüber hinaus wird in der Forschung die Anwendung von Mutationsanalysen zur Bewertung von Fuzzern untersucht~\cite{mutuation-analysis}.
+Diese Technik ermöglicht es, Fuzzer anhand einer Vielzahl von unvoreingenommenen Mutationen zu vergleichen, um deren Fähigkeit
+zur Fehlererkennung zu bewerten.
+Studien zeigen, dass heutige Fuzzer nur einen kleinen Prozentsatz der Mutationen erkennen können, was eine Herausforderung
+für zukünftige Forschungsarbeiten darstellt~\cite{mutuation-analysis}.\newline
+Ein innovativer Ansatz in diesem Bereich ist das \enquote{Smart Fuzzing}, das maschinelles Lernen nutzt, um Test-Suiten für
+Netzwerkangriffe zu konstruieren~\cite{smart-fuzzing,pulsar,cnn}.
+Dieser Ansatz hat sich als effektiv erwiesen, um verschiedene unsichere Zustände in Cyber-Physical Systems zu identifizieren,
+und zeigt das Potenzial, neue Angriffe zu entdecken, die in herkömmlichen Benchmarks nicht erfasst werden.\newline
+Ein weiterer Aspekt ist das Reverse Engineering von Netzwerkprotokollen, das als automatisierter Prozess zur
+Extraktion von Protokollformat, Syntax und Semantik definiert ist~\cite{cnn}.
+Dieser Prozess erfolgt durch die Überwachung und Analyse der Eingaben und Ausgaben der Protokollsoftware, ohne auf die
+Protokollspezifikation angewiesen zu sein~\cite{a-survey-of-network-protocol-fuzzing}.
+Dies ermöglicht eine tiefere Einsicht in die Funktionsweise von Protokollen, insbesondere bei nicht dokumentierten oder
+proprietären Protokollen.\newline
+Benchmarking und Auswertung von Fuzzern sind entscheidende Aspekte der Fuzzing-Forschung, um die Effektivität und Effizienz
+verschiedener Fuzzing-Methoden zu vergleichen.
+Bekannte Benchmarking-Tools sind FuzzBench~\cite{fuzzbench}, das von Google entwickelt wurde und eine standardisierte Umgebung für die
+Bewertung von Fuzzern bietet oder LAVA~\cite{lava}.
+Es ermöglicht die Evaluierung von Fuzzern anhand verschiedener Zielprogramme und bietet wichtige Erkenntnisse über die Leistung
+von Fuzzern, insbesondere in Bezug auf die Anzahl der verwendeten Anfangsseed-Daten und die Verwendung eines gesättigten Korpus~\cite{fuzzing-evaluation}.

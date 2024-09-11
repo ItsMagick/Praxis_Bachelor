@@ -1,0 +1,27 @@
+%! Author = charon
+%! Date = 5/23/24
+
+\subsubsection{Intelligenz von Fuzzern}\label{subsubsec:intelligenz-von-fuzzern}
+Die Intelligenz verschiedener Fuzzer kann in zwei Kategorien~\cite{fuzzer-intelligence} unterteilt werden:
+\begin{itemize}
+    \item Brute-Force Fuzzer
+    \item Intelligente Fuzzer
+\end{itemize}
+Zu den \textit{Brute-Force} Fuzzern gehören diejenigen, die das Feedback eines Programms nicht interpretieren.
+Hierzu werden die Eingaben zufällig generiert und an das \gls{zup} übergeben.
+Aufgrund dessen werden die Eingaben nicht auf ihre Gültigkeit oder Korrektheit überprüft.
+Dumme Fuzzer sind in der Regel einfach zu implementieren und erfordern keine speziellen Kenntnisse über das \gls{zup}.
+Sie sind jedoch weniger effektiv als intelligente Fuzzer~\cite{fuzzer-intelligence}, da sie keine Informationen über das Verhalten des Programms
+sammeln und somit nicht in der Lage sind, gezieltere Eingaben zu generieren.
+Ein Vorteil der Verwendung von dummen Fuzzern ist, dass sie in der Regel schneller sind als intelligente Fuzzer.
+Das ist darauf zurückzuführen, dass aufgrund der nicht verwendeten Feedback-Schleife -- in der die Antworten des \gls{zup}
+auf die Eingaben bewertet werden und anhand dessen eine passende Generierung der Eingaben gewählt wird --
+die Eingaben schneller generiert werden können.\newline\newline
+\noindent Intelligente Fuzzer adaptieren die Generierung der Eingaben anhand des Feedbacks.
+Hierzu werden die Reaktion des Programms auf die Eingabe, die Anzahl der ausgeführten Instruktionen
+oder die Anzahl der gefundenen Bugs analysiert.
+Der Fokus der Analyse hängt von der Implementierung des Fuzzers ab.
+Intelligente Fuzzer können das Verhalten des Programms überwachen und auf unerwartete Ereignisse reagieren~\cite{smart-fuzzing}.
+Sie können auch Informationen über die Struktur des Programms sammeln und diese Informationen verwenden, um gezieltere Eingaben zu generieren.\newline
+Intelligente Fuzzer sind in der Regel effektiver als dumme Fuzzer, da sie gezieltere Eingaben generieren können.
+Sie sind jedoch auch komplexer zu implementieren und erfordern spezielle Kenntnisse über das \gls{zup}.

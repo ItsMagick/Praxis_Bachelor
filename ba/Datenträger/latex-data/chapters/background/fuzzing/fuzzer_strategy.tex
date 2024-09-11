@@ -1,0 +1,23 @@
+%! Author = charon
+%! Date = 5/23/24
+\subsubsection{Strategien von Fuzzern}\label{subsubsec:strategien-von-fuzzern}
+Fuzzer können verschiedene Strategien verfolgen, um Eingaben zu generieren und das Verhalten der Software zu überwachen.
+Die Strategien können in zwei Kategorien unterteilt~\cite{iot-fuzzing} werden:
+\begin{itemize}
+    \item Abdeckung von Codepfaden
+    \item Zielgerichtetes Fuzzen
+\end{itemize}
+Bei dem zielgerichteten Fuzzen werden nur bestimmte Teile des Codes getestet.
+Der Fuzzer generiert Eingaben, die auf bestimmten Kriterien basieren, um gezielt Fehler in diesen Teilen des Codes zu finden.
+Zu den Kriterien gehören beispielsweise die Anzahl der ausgeführten Instruktionen, die Anzahl der gefundenen Bugs oder
+die Reaktion des Programms auf die Eingabe.
+Bei dieser Technik handelt es sich in der Regel um einen White-Box Fuzzer.
+Um nur auf bestimmte Teile eines Programms zu fokussieren, wird der Quellcode benötigt~\cite{directed-greybox-fuzzing}.\newline\newline
+Bei der Strategie der Codepfadabdeckung wird versucht, möglichst viele Pfade und Verzweigungen des Codes abzudecken.
+Der Fuzzer generiert Eingaben, die verschiedene Pfade und Verzweigungen des Codes abdecken, um potenzielle Fehler in verschiedenen
+Teilen des Codes zu finden.
+Diese Technik wird in der Regel von Black- und Grey-Box Fuzzern verwendet, da sie keine Kenntnis des Quellcodes benötigen und sich
+somit anderer Informationen bedienen müssen.
+Die Codepfadabdeckung ist eine effektive Methode, um sicherzustellen, dass große Teile des Codes getestet wurden~\cite{iot-fuzzing}.
+Somit ist es ebenso möglich besonders komplexe Bugs und Schwachstellen in einem System zu finden, da die Eingaben besonders
+tief in den Programmcode gelangen.

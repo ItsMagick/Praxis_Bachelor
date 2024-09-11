@@ -1,0 +1,26 @@
+%! Author = chaorn
+%! Date = 10.03.24
+
+\begin{lstlisting}[language=bash, caption={Zeigt die Ausgabe des \texttt{ldd} commands auf mmapp.
+\texttt{ldd} ist ein Programm zur Ausgabe von benötigten Bibliotheken eines Binarys.},label={lst:ldd-mmapp}]
+ldd mmapp
+	libX11.so.6 => not found
+	libXmuu.so.1 => not found
+	libappmsg.so => not found
+	librt.so.1 => /usr/lib/librt.so.1 (0x3f7e0000)
+	libMoviePlayer.so => not found
+	libieumultiM.so => not found
+	libdatamgr.so => not found
+	libIEUSDK.so => not found
+	libcmn.so => not found
+	libudev.so.0 => not found
+	libQtWebKit.so.4 => not found
+	libQtGui.so.4 => not found
+	libQtCore.so.4 => not found
+	libpthread.so.0 => /usr/lib/libpthread.so.0 (0x3f7c0000)
+	libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x3f5c0000)
+	libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x3f590000)
+	libc.so.6 => /usr/lib/libc.so.6 (0x3f3f0000)
+	/lib/ld-linux-armhf.so.3 => /usr/lib/ld-linux-armhf.so.3 (0x40000000)
+	libm.so.6 => /usr/lib/libm.so.6 (0x3f390000)
+\end{lstlisting}
