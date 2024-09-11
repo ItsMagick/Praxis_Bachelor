@@ -2,6 +2,8 @@
 %! Date = 13.08.24
 
 \subsection{Pulsar}\label{subsec:pulsar}
+Im Folgenden werden alle Schritte zur Vorbereitung und Durchführung der Fuzzing Kampagne mit Pulsar beschrieben und
+anschließend der daraus entstandene Erkenntnisgewinn geschlussfolgert.
 \subsubsection{Setup}
 Pulsar wurde mithilfe des von Pahl bereitgestellten Docker-Images~\cite{pulsar-docker} installiert.
 Das Docker-Image wurde auf einem Ubuntu 20.04 LTS System installiert.
@@ -17,11 +19,9 @@ Für den Start werden zusätzlich die \gls{pcap}-Dateien im Ordner \textit{traff
 Docker-Container eingehängt.
 Alle gesammelten pcap-Dateien dienen für den weiteren Verlauf der Untersuchung.
 Pulsar verwendet die \gls{pcap}-Dateien, um die State Machine zu erlernen.\newline\newline
-%TODO: Hier nochmal auf die fehlerhafte Startsequenzauswahl von Pulsar eingehen und darauf eingehen, dass im Rahmen der Arbeit
-% dieser Fuzzer nicht zum Laufen gebracht wurde, da zu wenig Zeit.
 Die Daten wurden in Kombination eines Python-Skripts, der Fuzzing Kampagne mit \gls{afl}Net und dem Tool
 \texttt{tcpdump} gesammelt.
-Das Python-Skript~\cite{python-script-input-generation} und \gls{afl}Net~\cite{aflnet-capture-traffic} wurden bereits in den vorherigen Kapiteln vorgestellt und im Falle der Vorbereitung
+Das Python-Skript~\cite{python-script-input-generation} und \gls{afl}Net~\cite{aflnet-capture-traffic} wurden im Falle der Vorbereitung
 auf die Fuzzing Kampagne mit Pulsar als Input-Generatoren verwendet.
 Mithilfe dieser Tools wurde der Netzwerkverkehr aufgezeichnet und in \gls{pcap}-Dateien abgelegt.
 Die \gls{pcap}-Dateien wurden in den Docker-Container mithilfe eines live-volumes eingehängt und Pulsar wurde gestartet~\cite{run-pulsar}.

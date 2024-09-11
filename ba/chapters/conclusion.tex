@@ -6,7 +6,7 @@ Abschließend ist zu sagen, dass die Effektivität eines Fuzzers nicht anhand de
 gemessen werden kann.
 Bei komplexeren Protokollen wie \gls{mqtt} ist es wichtig, dass die generierten Eingaben valide sind und möglichst viele
 Zustände des \gls{zup} erreichen.
-Ähnliche Schlussfolgerungen wurden bereits in der Arbeit von u.a.\ Thorsten Holz in \textit{\enquote{SoK: Prudent Evaluation Practices for Fuzzing}}
+Ähnliche Schlussfolgerungen wurden bereits in der Arbeit von Holz et.\ al.\ in \textit{\enquote{SoK: Prudent Evaluation Practices for Fuzzing}}
 \cite{fuzzing-evaluation} gezogen.
 Bei einem Fuzzer wie boofuzz, welcher eine Vielzahl von Eingaben generiert, ist es wichtig, dass die generierten Eingaben
 strenger definiert werden müssen und nicht nur auf dem Prinzip von Brute-Force basieren sollten.
@@ -28,7 +28,11 @@ Die Forschungsfrage \textit{Q2} (siehe Aufzählung~\ref{researc-questions}) konn
 da sowohl boofuzz als auch Pulsar keine potenziellen Schwachstellen entdecken konnten und \gls{afl}Net nur drei von sechs
 entdeckt hat.
 Für bessere Ergebnisse müssen die Eingaben und die Implementierungen der Kampagnen weiter untersucht werden und weitere
-Experimente durchgeführt werden.\newline\newline
+Experimente durchgeführt werden.\newline
+Zudem wurde mit der Rechnung in~\ref{subsec:boofuzz} eine Möglichkeit gegeben die Anzahl der benötigten Zeit der Generierung
+eines validen Pakets gegeben.
+Aufgrund der gezeigten Berechnung ist es ebenso ratsam mehrere Instanzen des boofuzz Fuzzers zu starten, die bestimmte Felder
+eines \gls{mqtt}-Pakets zu fuzzen und jeder Fuzzer-Instanz ein genau definiertes Feld zuzuweisen.\newline\newline
 In Zukunft sollte die Fuzzing Kampagne mit Pulsar weitergeführt werden.
 Hierbei sollte darauf geachtet werden, dass fürs Erste die Startsequenz des Protokolls korrekt erlernt wird, sodass Pulsar
 einen validen Startpunkt für eine effektivere Fuzzing Kampagne hat.

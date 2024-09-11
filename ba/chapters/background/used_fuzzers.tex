@@ -25,6 +25,9 @@ Diese Dump-Files enthalten den Netzwerkverkehr, der zwischen zwei Kommunikations
 Um diese Dump-Files zu generieren und somit den Netzwerkverkehr aufzunehmen wird das Tool \texttt{tcpdump} verwendet.
 Zur Generierung der Netzwerkpakete wird das \gls{pcap}-Dump-File in ein \gls{afl}-kompatibles Format umgewandelt, indem
 die rohen Datenflüsse extrahiert und in eine Datei geschrieben werden.
+Die Extraktion der Datenflüsse kann mit Netzwerkanalyse-Tools wie \texttt{Wireshark} oder \texttt{tcpdump} erfolgen.
+Hierzu wird im Repository von \gls{afl}Net~\cite{aflnet-repo} bereits eine Herangehensweise vorgestellt, wie die Datenflüsse mit
+Wireshark extrahiert werden können.
 Diese Datenflüsse werden dann als Bytestream von \gls{afl} als Eingabe verwendet, um das \gls{zup} zu fuzzen.
 \begin{figure}[H]
     \centering

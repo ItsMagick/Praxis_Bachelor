@@ -2,6 +2,8 @@
 %! Date = 13.08.24
 
 \subsection{Fuzzing mit boofuzz}\label{subsec:boofuzz}
+In dem folgenden Kapitel wird das Aufsetzen der Testumgebung und die darin durchgeführten Experimente mit dem Fuzzing-Tool
+boofuzz beschrieben.
 \subsubsection{Setup}
 Zur Entwicklung einer Fuzzing-Kampagne mit boofuzz sind mehrere Schritte erforderlich.
 Zunächst muss das Zielsystem identifiziert und analysiert werden, um die relevanten Protokollspezifikationen und
@@ -115,10 +117,17 @@ Die Wahrscheinlichkeit, dass die Flags gültig sind, beträgt:
 \]
 Wobei \textit{K} die Anzahl der gültigen Kombinationen für die Flags ist und \textit{N} die Anzahl der möglichen Werte für die 4 Bits der Flags.
 Hierbei ist zu beachten, dass die Flags bei einem \texttt{CONNECT}-Paket reserviert sind und somit nur die gültige Kombination
-0000 für die Flags existieren.
+0000 für die Flags existieren.\newline
+Das Zweite Byte des Fixed Headers enthält die verbleibende Länge des Pakets.
+Die verbleibende Länge ist ein variable-length-integer, der die Anzahl der Bytes angibt, die nach dem Fixed Header folgen.
+Sie kann Werte von 0 bis 127 annehmen.
+Somit ergibt sich die Wahrscheinlichkeit, dass die verbleibende Länge gültig ist:
+\[
+    P(\text{gültige verbleibende Länge}) = \frac{127}{256}
+\]
 Die Wahrscheinlichkeit, dass der Fixed Header gültig ist, beträgt:
 \[
-    P(\text{gültiger Fixed Header}) = \frac{1}{16} \times \frac{1}{16} = \frac{1}{256}
+    P(\text{gültiger Fixed Header}) = \frac{1}{16} \times \frac{1}{16} \times \frac{127}{256} \approx 1.938 \times 10^{-3}
 \]
 Der Variable Header enthält zusätzliche Informationen, die je nach Pakettyp variieren.
 Für ein \texttt{CONNECT}-Paket enthält der Variable Header die Bytes für den Protokollnamen, die Protokollversion, Connect Flags
@@ -217,11 +226,19 @@ Dabei beschreibt \textit{$P_{\textsubscript{Ziel}}$} die Zielwahrscheinlichkeit,
 \textit{$P_{\textsubscript{Erfolg}}$} die Wahrscheinlichkeit, dass ein gültiger Fixed und Variable Header generiert wird.
 Die Gesammtwahrscheinlichkeit für ein Paket mit einem gültigen Fixed und Variable Header beträgt:
 \begin{multline}
-    P(\text{gültiges Paket}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) = \\
-    \frac{1}{256}^2 \times 3.036 \times 10^{-18} \approx 3.906 \times 10^{-20}
-    \approx 3.036 \times 10^{-18}
+    P(\text{Erfolg}) = P(\text{gültiger Fixed Header}) \times P(\text{gültiger Variable Header}) = \\
+    1.938 \times 10^{-3} \times 3.036 \times 10^{-18} \\
+    \approx 5.89 \times 10^{-21}
 \end{multline}
-Diese Berechnungen zeigen, dass das Fixieren von Teilen des Pakets (wie Fixed Header, Topic und Variable Header) die
+Nun kann die Anzahl der Versuche berechnet werden, die notwendig sind, um mit einer 99-prozentigen Wahrscheinlichkeit ein
+gültiges Paket zu generieren:
+\[
+    n = \frac{\log(1 - 0.99)}{\log(1 - 5.89 \times 10^{-21})} \approx 7.819 \times 10^{20}
+\]
+Bei einer gemessenen Ausführgeschwindigkeit von ca.\ 78 Paketen pro Sekunde würde es also ca. $10^{19}$ Sekunden dauern, um
+mit einer Wahrscheinlichkeit von \SI{99}{\percent} ein gültiges Paket zu generieren.
+Das entspricht ca.\ $3.22 \times 10^{11}$ Jahren für die Generierung eines korrekten Fixed und Variable Headers.\newline
+Diese Berechnungen zeigen, dass das Fixieren von Teilen des Pakets (wie Fixed Header und Variable Header) die
 Anzahl der benötigten Pakete zur Erzeugung eines gültigen Pakets erheblich reduziert.
 Dies ist besonders wichtig für die Effizienz von Fuzzing-Tests, da es die Anzahl der Tests verringert, die benötigt werden,
 um die gewünschten Ergebnisse zu erzielen.
@@ -235,7 +252,7 @@ Dies ist besonders wichtig für effizientes Fuzzing, da es die Anzahl der mögli
     \caption{Vergleich der gültigen Pakete bei zufälligem Fuzzing mit boofuzz ohne statisch definierte Felder}
     \label{fig:valid_packets}
 \end{figure}
-\noindent Diese Grafik ist das Ergebnis einer Fuzzing-Kampagne, bei der über einen Zeitraum von 48 Stunden eine extrem hohe Anzahl an Verbindungsversuchen durchgeführt wurde.
+\noindent Diese Grafik~\ref{fig:valid_packets} ist das Ergebnis einer Fuzzing-Kampagne, bei der über einen Zeitraum von 48 Stunden eine extrem hohe Anzahl an Verbindungsversuchen durchgeführt wurde.
 Auch trotz der hohen Anzahl an Verbindungsversuchen, die in dieser Grafik dargestellt sind, konnte kein gültiges Paket generiert werden.
 Das Fixieren der bereits genannten Felder führte bei einer weiteren Kampagne über 48 Stunden auch zu keinem gültigen Paket.
 \begin{figure}[H]
@@ -263,4 +280,11 @@ Dies führte dazu, dass die Wahrscheinlichkeit eines gültigen Pakets weiterhin 
     \label{fig:boo_case_log}
 \end{figure}
 \noindent Erkennbar ist die Generierung falscher Pakete durch den festen definierten Header \texttt{0x020x03MQTT}, welcher aus der
-Abbildung~\ref{fig:boo_case_log} hervorgeht.
+Abbildung~\ref{fig:boo_case_log} hervorgeht.\newline\newline
+Aus diesem Kapitel geht hervor, dass die Effektivität dieses Fuzzers stark von der Definition mehrerer Felder abhängt.
+Im Falle von komplexeren Protokollen wie \gls{mqtt} ist es wichtig, dass eine Definition der Struktur der Felder in
+der Implementierung des Fuzzers vonnöten ist, sodass die generierten Eingaben möglichst Effektiv sind.
+Hierzu ist es wichtig, mehrere Aspekte des Protokolls zu definieren und zu fuzzen, um möglichst strukturiert und effektiv
+an die Generierung von gültigen Paketen heranzugehen.
+Dies kann in Zukunft dadurch umgesetzt werden, dass mehrere Instanzen des Fuzzers gestartet werden, die jeweils auf ein
+bestimmtes Feld des \gls{mqtt}-Pakets fokussiert sind und somit die Wahrscheinlichkeit eines gültigen Pakets erhöht wird.

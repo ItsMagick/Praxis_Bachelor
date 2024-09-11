@@ -12,22 +12,13 @@ Server gewährleistet.
 Reihenfolge und fehlerfrei übertragen werden.
 Diese Basis auf dem \gls{tcp}/\gls{ip}-Stack macht \gls{mqtt} zu einem robusten und weit verbreiteten Protokoll für den Einsatz
 in vernetzten Umgebungen, insbesondere im \gls{iot}-Bereich.
-Ursprünglich von Andy Stanford-Clark und Arlen Nipper entwickelt, wurde \gls{mqtt} als schlankes Protokoll konzipiert,
-das minimale Netzwerkressourcen benötigt.
-Mosquitto, erstmals 2009 von Roger Light veröffentlicht, hat sich als einer der populärsten \gls{mqtt}-Broker etabliert und
-bietet eine einfache und effiziente Möglichkeit, \gls{mqtt}-Nachrichten zwischen verschiedenen Clients zu vermitteln.
+Mosquitto bietet eine Möglichkeit, \gls{mqtt}-Nachrichten zwischen verschiedenen Clients zu vermitteln.
 Der \gls{mqtt}-Broker ermöglicht es Clients, Nachrichten an bestimmte Themen (Topics) zu senden (Publish) und/oder zu
 empfangen (Subscribe).
 Durch seine geringe Overhead-Belastung und die Unterstützung für \gls{qos}-Ebenen, stellt Mosquitto eine zuverlässige
 Lösung für die Kommunikation in verteilten Systemen dar.
 Es bietet auch erweiterte Funktionen wie Authentifizierung, Verschlüsselung (\gls{tls}) und Integration mit anderen
-Diensten, was es für industrielle Anwendungen und Smart-Home-Lösungen attraktiv macht.
-Mosquitto ist plattformunabhängig und unterstützt eine Vielzahl von Betriebssystemen, einschließlich Linux, Windows und
-macOS\@.
-Durch seine Open-Source-Lizenz ist es anpassbar und erweiterbar, was zu seiner weiten Verbreitung in der
-Entwicklergemeinschaft beiträgt.
-Mosquitto hat somit eine bedeutende Rolle in der Entwicklung von \gls{iot}-Systemen und der Echtzeit-Kommunikation in
-modernen vernetzten Umgebungen eingenommen.\newline
+Diensten.\newline
 Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten~\cite{mqtt}:
 \begin{itemize}
     \item \textbf{Publish:} Ein Client sendet eine Nachricht an einen Broker, die dieser an alle Abonnenten weiterleitet.
@@ -36,15 +27,6 @@ Das Protokoll \gls{mqtt} definiert drei Arten von Nachrichten~\cite{mqtt}:
     \item \textbf{Unsubscribe:} Ein Client beendet das Abonnement eines Themas und empfängt keine weiteren Nachrichten zu
           diesem Thema.
 \end{itemize}
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=0.6\textwidth]{img/mosquitto_state_machine}
-%    \caption[]{State Machine des Mosquitto MQTT-Brokers. Sie beschreibt alle Zustände, die der Broker ab Start der Applikation
-%    durchlaufen kann. Beginnend mit der Inintialisierung, über den zuhörenden Modus in dem der Broker auf eingehende Nachrichten
-%    wartet, bis hin zum Senden von Nachrichten an die Clients. Clients können sich mit dem Broker verbinden, Nachrichten
-%    abonnieren und Nachrichten senden. Der Broker kann Nachrichten an die Clients senden, die diese abonniert haben.}
-%    \label{fig:mosquitto_state_machine}
-%\end{figure}
 Der erste Schritt in diesem Zustand ist das Starten des \gls{mqtt}-Brokers.
 Der Broker dient als Vermittler für die Nachrichten, die zwischen verschiedenen \gls{mqtt}-Clients ausgetauscht werden.
 Dieser Schritt ist entscheidend für den weiteren Betrieb des Systems.
