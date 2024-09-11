@@ -41,6 +41,9 @@ Diese Sequenzen wurden ebenfalls in das Verzeichnis \texttt{aflnet\_in/} abgeleg
 Die Fuzzing-Kampagne wurde über einen Zeitraum von 48 Stunden durchgeführt.
 Zur Analyse der Effektivität der gesendeten Pakete wurde eine preload bibliothek verwendet, die die Ausgaben des \gls{zup}
 der Kanäle \texttt{sdtout} und \texttt{stderr} in eine Log-Datei \texttt{mqtt-aflnet\_stdout.log} umleitet.
+Mit den folgenden Experimenten und Auswertungen soll ein Teil der Forschungsfrage \textit{Q1}~\ref{researc-questions}
+beantwortet werden.
+Nun wird analysiert, wie effektiv die generierten Nachrichten des \gls{afl}Net-Fuzzers sind.\newline
 Diese Log-Datei wurde auf die Häufigkeit der Ausgaben von erfolgreichen und fehlgeschlagenen Verbindungsaufbauten analysiert.
 \begin{figure}[H]
     \centering
@@ -56,6 +59,9 @@ Die lineare Zunahme zeigt, dass die Rate der erfolgreichen Verbindungen konstant
 Einbrüche oder Schwankungen.
 Die rote Linie (siehe Abb.~\ref{fig:mqtt-aflnet_stdout}) zeigt die Anzahl der erfolglosen Verbindungen an.
 Diese bleibt über den gesamten Zeitraum sehr niedrig und erreicht gegen Ende der Kampagne etwa 26.888 erfolglose Verbindungen.
+Dies entspricht einer Erfolgsrate von über \SI{97}{\percent} und einer Fehlerrate von ca. $\sim \SI{2.32}{\percent}$
+in denen \gls{afl}Net keine erfolgreichen Verbindungsaufbauten mit dem \gls{mqtt}-Broker über das \gls{mqtt}-Protokoll
+entstanden sind.
 Der minimale Anstieg im Vergleich zu den erfolgreichen Verbindungen weist darauf hin, dass die Mehrheit der Verbindungen
 erfolgreich war.
 Bei der Analyse der Fehleranfälligkeit von nicht validen Nachrichten wurde festgestellt, dass am Anfang der Fuzzing-Kampagne
@@ -67,7 +73,7 @@ vermehrt valide Nachrichten generiert wurden.
     \includegraphics[width=\textwidth]{img/connection_evaluation_aflnet_beginning}
     \caption[Diagram zur Auswertung erfolgreicher Verbindungsaufbauten mit dem \gls{mqtt}-Protokoll zu Beginn der Fuzzing Kampagne]{
         Dieses Diagramm zeigt eine vergrößerte Ansicht der ersten
-        10 Minuten der Fuzzing-Kampagne mit \gls{afl}Net zur Veranschaulichung der Fehleranfälligkeit zu Beginn der Fuzzing-Kampagne.
+        10 Minuten der Fuzzing-Kampagne aus Abbildung~\ref{fig:mqtt-aflnet_stdout} mit \gls{afl}Net zur Veranschaulichung der Fehleranfälligkeit zu Beginn der Fuzzing-Kampagne.
         Aus dem Diagramm geht hervor, dass zu Beginn der Kampagne viele erfolglose Verbindungen mit dem \gls{zup} generiert
         wurden, die jedoch im Laufe der Zeit abnahmen.
     }
@@ -86,8 +92,9 @@ steigenden Erfolgsrate bei den Verbindungen.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/exec_speed}
-    \caption[Diagramm zur Veranschaulichung der Ausführungsgeschwindigkeit von AFLNet während der Fuzzing-Kampagne]{Analyse der generierten Nachrichtensequenzen von \gls{afl}Net. Es wird die Anzahl der generierten Nachrichtensequenzen
-    und die Anzahl der Nachrichtensequenzen, die an das \gls{zup} gesendet wurden, analysiert.}
+    \caption[Diagramm zur Veranschaulichung der Ausführungsgeschwindigkeit von AFLNet während der Fuzzing-Kampagne]{Diese Abbildung zeigt die Ausführgeschwindigkeit von \gls{afl}Net.
+    Es wird die Anzahl der Nachrichtensequenzen pro Sekunde (y-Achse), die an das \gls{zup} während des Zeitrahmens der
+    Kampagne (x-Achse) gesendet wurden, veranschaulicht.}
     \label{fig:aflnet_execs}
 \end{figure}
 \noindent Die Ausführungsrate ist eine Metrik, um den Fortschritt und die Effektivität einer Fuzzing-Kampagne zu bewerten.
@@ -162,7 +169,8 @@ Prüfung der Pfade hinweist.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/low_freq}
-    \caption{Analyse der gefundenen Bugs von \gls{afl}Net. Es wird die Anzahl der gefundenen Bugs und die Art der Bugs analysiert.}
+    \caption[Grafik zur Veranschaulichung der Gefundenen Bugs mit AFLNet]{Diese Abbildung zeigt die Anzahl der gefundenen
+    Bugs (auf der y-Achse) von \gls{afl}Net in Relation zur vergangenen Zeit (x-Achse).}
     \label{fig:aflnet_bugs}
 \end{figure}
 \noindent Die Anzahl der einzigartigen Abstürze (pink siehe Abb.~\ref{fig:aflnet_bugs}) zeigt einen kontinuierlichen Anstieg über den gesamten Kampagnenzeitraum.

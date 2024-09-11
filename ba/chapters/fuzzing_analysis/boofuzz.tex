@@ -72,8 +72,10 @@ ein zufällig generiertes Paket tatsächlich gültig ist.
 Diese Wahrscheinlichkeit hängt stark davon ab, welche Teile des \gls{mqtt}-Pakets zufällig generiert werden und welche festgelegt
 (d.h.\ nicht gefuzzt) sind.
 In diesem Abschnitt wird die Berechnung dieser Wahrscheinlichkeit detailliert beschrieben, sowohl für den Fall, dass alle
-Teile des Pakets gefuzzt werden, als auch für den Fall, dass bestimmte Teile, wie der Fixed Header,
-das Topic und der Variable Header, festgesetzt sind.\newline\newline
+Teile des Pakets gefuzzt werden, als auch für den Fall, dass bestimmte Teile, wie der Fixed Header und der Variable Header,
+festgesetzt sind.
+Dieser Teil adressiert die Forschungsfrage \textit{Q1}~\ref{researc-questions} und beschäftigt sich mit der Auswertung
+und Analyse der Effektivität und Erfolgsrate der generierten Eingaben mit boofuzz.\newline\newline
 \noindent Ein \gls{mqtt}-Paket besteht aus mehreren wesentlichen Teilen:
 \begin{itemize}
     \item Fixed Header: Enthält den Steuerpakettyp (z.B.\ \texttt{PUBLISH, SUBSCRIBE}) und Flags sowie die verbleibende Länge des Pakets.
@@ -123,11 +125,11 @@ Die verbleibende Länge ist ein variable-length-integer, der die Anzahl der Byte
 Sie kann Werte von 0 bis 127 annehmen.
 Somit ergibt sich die Wahrscheinlichkeit, dass die verbleibende Länge gültig ist:
 \[
-    P(\text{gültige verbleibende Länge}) = \frac{127}{256}
+    P(\text{gültige verbleibende Länge}) = \frac{128}{256}
 \]
 Die Wahrscheinlichkeit, dass der Fixed Header gültig ist, beträgt:
 \[
-    P(\text{gültiger Fixed Header}) = \frac{1}{16} \times \frac{1}{16} \times \frac{127}{256} \approx 1.938 \times 10^{-3}
+    P(\text{gültiger Fixed Header}) = \frac{1}{16} \times \frac{1}{16} \times \frac{128}{256} \approx 1.938 \times 10^{-3}
 \]
 Der Variable Header enthält zusätzliche Informationen, die je nach Pakettyp variieren.
 Für ein \texttt{CONNECT}-Paket enthält der Variable Header die Bytes für den Protokollnamen, die Protokollversion, Connect Flags
