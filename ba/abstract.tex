@@ -1,0 +1,30 @@
+%! Author = charon
+%! Date = 4/12/24
+\clearpage
+\newgeometry{top=2.4cm, bottom=2.4cm}
+\pagestyle{empty}
+\section*{Abstract}
+Die Bachelorarbeit \textit{Auswertung von Netzwerkfuzzern am Beispiel des MQTT Protokolls} untersucht die Effektivität und Leistungsfähigkeit von drei spezifischen Netzwerkfuzzern—Pulsar, AFLNet
+und boofuzz—im Kontext des MQTT-Protokolls, das weit verbreitet in IoT- und M2M-Anwendungen zum Einsatz kommt.
+Netzwerkfuzzing ist eine Methode des Softwaretestens, die darauf abzielt, Sicherheitslücken und Schwachstellen in
+Netzwerkprotokollen aufzudecken, indem gezielt fehlerhafte oder unerwartete Eingaben an ein System gesendet werden.
+Die Arbeit beginnt mit einer umfassenden Einführung in die Grundlagen des Softwaretestens und des Fuzzings, wobei
+verschiedene Testmethoden wie White-Box, Black-Box und Grey-Box Testing erläutert werden.
+Es folgt eine detaillierte Darstellung des MQTT-Protokolls und der spezifischen Anforderungen, die es an Fuzzing-Tools stellt.\newline\newline
+Im Kern der Arbeit steht die Analyse der drei Fuzzer, die hinsichtlich ihrer Fähigkeit, Sicherheitslücken im MQTT-Broker
+Mosquitto zu identifizieren, verglichen werden.
+Dazu wurden verschiedene Metriken herangezogen, darunter die Anzahl gefundener Bugs, die Geschwindigkeit der Testfallgenerierung
+und die Reproduzierbarkeit der entdeckten Schwachstellen.
+AFLNet, ein Grey-Box-Fuzzer, der speziell für Netzwerkprotokolle entwickelt wurde, zeigte in der Untersuchung eine hohe
+Effizienz bei der Entdeckung von Schwachstellen, insbesondere bei der Analyse von Verbindungsfehlern und Buffer Overflows.
+Boofuzz, ein Black-Box-Fuzzer, der durch Zufall generierte Testfälle verwendet, zeigte eine geringere Effizienz, konnte
+jedoch durch seine einfache Handhabung und Flexibilität punkten.
+Pulsar, das sich durch einen feedback-orientierten Ansatz auszeichnet, bot eine ausgeglichene Performance zwischen Effektivität
+und Geschwindigkeit, erwies sich jedoch als weniger effektiv in der Reproduzierbarkeit von Bugs.\newline\newline
+Die Arbeit schließt mit einem Vergleich der Stärken und Schwächen der getesteten Fuzzer und bietet Empfehlungen für deren
+Einsatz in der Praxis.
+Zudem werden Ansätze für zukünftige Arbeiten aufgezeigt, die darauf abzielen, die Fuzzing-Techniken weiter zu optimieren
+und ihre Anwendung in sicherheitskritischen Netzwerksystemen zu verbessern.
+Die Ergebnisse dieser Bachelorarbeit liefern wertvolle Erkenntnisse für die Weiterentwicklung von Fuzzing-Kampagnen und tragen
+zur Verbesserung der Sicherheitsüberprüfung von Netzwerkprotokollen wie MQTT bei.
+\restoregeometry

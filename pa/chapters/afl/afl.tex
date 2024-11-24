@@ -1,0 +1,20 @@
+%! Author = charon
+%! Date = 2/1/24
+
+\section{American Fuzzy Lop}\label{sec:american-fuzzy-loop}
+Bei der Wahl eines Fuzzers gilt es auf folgende Merkmale zu achten:
+\begin{itemize}
+    \item Kompatibilität mit verschiedenen ~\gls{cpu}-Architekturen
+    \item Art des Fuzzers
+    \item Strategie des Fuzzers
+    \item Features des Fuzzers
+    \item Benutzbarkeit des Fuzzers
+\end{itemize}
+Gerade bei~\gls{iot}-Programmen ist die Kompatibilität mit verschiedenen \gls{cpu}-Architekturen ausschlaggebend.
+Im Fall dieser Arbeit handelt es sich um ein Netzwerk-Binary mit einer \gls{arm}v7-Architektur.
+\gls{aflpp} stellt die in diesem Projekt benötigten Werkzeuge bereits zur Verfügung.
+Die genauere Funktionsweise, Strategie, Kompatibilität sowie die entscheidenden Features von~\gls{aflpp} werden im Folgenden näher betrachtet.
+\input{pa/chapters/afl/greybox-fuzzing}
+\input{pa/chapters/afl/corpus}
+\input{pa/chapters/afl/features}
+\input{pa/chapters/afl/risiken}

@@ -1,0 +1,8 @@
+%! Author = chaorn
+%! Date = 10.03.24
+
+
+\begin{lstlisting}[language=bash, caption={Syntax des AFL fuzzing Befehls mit der Definition einer
+Nebeninstanz mithilfe des \texttt{-S} Flags},label={lst:multiple-cores-second}]
+$ afl-fuzz -Q -S qasan -i in/ -o out/ -- /app/mmapp @@
+\end{lstlisting}

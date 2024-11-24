@@ -1,0 +1,23 @@
+%! Author = charon
+%! Date = 2/8/24
+\subsection{Internet of Things Gerätesicherheit}\label{subsec:internet-of-things-als-trusted-network}
+~\gls{iot} kann wie folgt definiert werden: \\
+\textit{"Das Internet of Things ist eine Gruppe von Infrastrukturen, welche verbundene Objekte miteinander verbindet und somit das
+Verwalten, Data-Mining und die Verfügbarkeit der von ihnen generierten Daten stellen."}\cite[vgl.][2]{iot-definition} \\
+\linebreak
+Das zu untersuchende Gerät erfüllt die Charakteristik der Interkonnektivität, Stellung von Daten und der Sensorik.
+Umgesetzt werden diese Merkmale mittels eines \gls{tcp}/~\gls{ip}-Stack, mit dem dieses Gerät gesteuert werden kann.
+Oftmals wird die hohe Verfügbarkeit und Bedienbarkeit zur erleichterten Bedienung und Automatisierung des Alltags gewünscht.
+Diese Funktionalitäten stehen jedoch oftmals im Kontrast zur Gerätesicherheit von Infrastrukturen und
+der Integrität der darin enthaltenen Daten.\\
+\linebreak
+\gls{iot}-Geräte sind im Bestfall in einem separaten Netzwerk mit einer sehr restriktiven Konfiguration.
+Von diesem Szenario ist jedoch nicht immer auszugehen, da gerade kleine und mittelständische Unternehmen und
+Institutionen nicht immer das Know-how zu einer sauberen Trennung von Netzwerken mit sich bringen.
+In solchen Szenarien können gerade Geräte mit Protokollen, mit denen es möglich ist, Geräte fernzusteuern, verheerende Folgen
+auf die Gesundheit eines Netzwerkes haben.
+Dieser Protokolle kann sich ein erfahrener Angreifer zu eigen machen, um unbefugten Zugang zur Infrastruktur eines Netzwerks
+zu erlangen.\\
+\linebreak
+Um die Gerätesicherheit solcher Geräte weiter zu stärken und den Einfallswinkel potenzieller Schwachstellen möglichst
+gering zu halten, wird der \gls{tcp}-\gls{ip}-Stack genauer analysiert.

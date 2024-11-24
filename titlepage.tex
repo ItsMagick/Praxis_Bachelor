@@ -1,0 +1,59 @@
+\newgeometry{top=8.0cm, bottom=55mm, right=3cm, left=3cm}
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+  \setstretch{1}
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\textbf{\Large \mytitle}\\[0.5cm]
+	\textbf{\large \mysubtitle}\\[0.5cm]
+
+  \vspace{3cm}
+
+  \textbf{\Large \textls{\mydoctype}}\\[0.8cm]
+	
+  \textbf{\myuniname{}\\
+  Fakultät \myfaculty{}\\
+  Studiengang \mycourse{}}\\[0.5cm]
+	
+  \vfill\vfill\vfill
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\textbf{Vorgelegt bei\\
+      \mydocent{}\\
+      \myunistreet{} \myuninumber{}\\
+      \myunizip{} \myuniplace{}
+      }
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\textbf{
+      Vorgelegt von\\
+      \myname{}\\
+      Mtr. Nr.: \mymatrnr{}\\
+      \mystreet{} \mynumber{}\\
+      \myzip{} \myplace{}
+      }
+		\end{flushright}
+	\end{minipage}
+	
+  \vfill
+
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+	\textbf{Hof, \today} % Date, change the \today to a set date if you want to be precise
+	
+	
+\end{titlepage}
+\restoregeometry

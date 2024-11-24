@@ -1,0 +1,37 @@
+%! Author = charon
+%! Date = 2/7/24
+
+\subsection{Motivation}\label{subsec:motivation}
+Diese Arbeit soll als Anleitung zum Entwickeln einer Fuzzing-Kampagne mit \gls{afl} dienen.
+Mit der immer weiter ansteigenden Nutzung ovn \gls{iot}-Geräten im Alltag muss in dem Bereich der Netzwerksicherheit
+von untereinander verbundenen Geräten ein besonderes Augenmerk geworfen werden.
+Die derzeitige Schätzung der aktuell mit dem Internet verbundenen \gls{iot}-Geräte liegt bei ca.\ 3,5 Milliarden Geräten
+im Jahr 2023~\cite{iot-statistik}. \\
+Die derzeit führende Sprache für die Entwicklung der Firmware solcher Geräte ist die Programmiersprache C\@.
+Auch trotz bereits existierender Frameworks und Programmiersprachen, wie Rust oder Go wird die Programmiersprache
+C oft den anderen Optionen vorgezogen und zählt somit zu einer der meistverwendeten Programmiersprachen~\cite{tiobe-programming-trends}.
+Das ist der Leichtgewichtigkeit und vor allem Geschwindigkeit der Programmiersprache geschuldet.
+Diese zwei Faktoren spielen eine tragende Rolle bei der Implementierung von Software für \gls{iot}-Geräte aufgrund
+der sehr limitierten Ressourcen, die solche Geräte mit sich bringen.
+Bei der Auswahl der passenden Programmiersprache werden jedoch wichtige Kriterien, wie die Sicherheit einer Programmiersprache
+weniger in Erwägung gezogen.
+In Programmen, die in der Programmiersprache C geschrieben wurden, werden die häufigsten schwerwiegenden Schwachstellen
+mit einer Bewertung eines \gls{cvss} Score von mindestens 7 gefunden.
+Dabei ist diese Programmiersprache für über \SI{50}{\percent} aller öffentlich dokumentierten Schwachstellen verantwortlich~\cite{most-secure-programming}.
+Das \gls{cvss} ist ein Bewertungssystem, das die Schwere von Sicherheitslücken kategorisiert.
+Die dabei verwendete Skala der \gls{cvss} Version 3.0 ordnet hierbei Schwachstellen mit einem Score von 0.0 als
+gering, 0.1-3.9 als niedrig, 4.0-6.9 als medium, 7.0-8.9 als hoch und 9.0-10.0 als kritisch ein~\cite{cvss}.
+Als kritisch eingestufte Schwachstellen sind in der Regel Schwachstellen, welche es einem Angreifer erlauben, \gls{rce}
+auszuführen und somit die Möglichkeit besteht, unbefugt Informationen und Daten über ein System zu erlangen.
+Zu der Klasse der meistverbreiteten Schwachstellen dieser Art gehören Memory Corruption Schwachstellen, welche es ermöglichen
+auf unbefugten Speicher eines Systems zugreifen zu können.
+Genau diese Schwachstellen beispielsweise in Form eines Buffer Overflows gehören zu den meist gefundenen Schwachstellen in
+Programmen, welche auf der Programmiersprache C basieren.
+Aufgrund der weiten Verbreitung und gewinnenden Bedeutung von \gls{iot}-Geräten im alltäglichen Leben soll diese Arbeit
+eine Möglichkeit darbieten, mithilfe von Fuzzing automatisiert Schwachstellen in diesen Geräten zu finden.
+Mithilfe solcher Methodiken soll in Zukunft die Ausnutzung schwerwiegender Schwachstellen vorgebeugt werden.\\
+\linebreak
+Das Fuzzing von Netzwerkapplikationen ist derzeit in den Startlöchern und eine weitaus unerforschte Disziplin.
+Dabei zu beachten ist, dass die Performance der Protokoll-Fuzzer weitaus unter der, der Applikations-Fuzzer liegt.
+Somit bietet diese Arbeit einen alternativen Ansatz zum Fuzzen von Netzwerkprotokollen auf Applikationsebene, um diesem
+Performanceverlust entgegenzuwirken.

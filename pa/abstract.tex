@@ -1,0 +1,35 @@
+%! Author = chaorn
+%! Date = 12.03.24
+
+\clearpage
+\newgeometry{top=2.4cm, bottom=2.4cm}
+\pagestyle{empty}
+\section*{Abstract}
+Die Arbeit \emph{\mytitle} beschäftigt sich mit dem Fuzzing eines Netzwerkprotokolls und der damit verbundenen
+Analyse eines bereits kompilierten Programms.
+Nach der Einordnung und Kategorisierung des zu untersuchenden Programms werden grundlegende Begriffe und Herangehensweisen
+der Programmanalyse und des Fuzzing mit \emph{AFL} erarbeitet. \\
+\linebreak
+Folgend wird eine detaillierte Übersicht über den in dieser Arbeit verwendeten Fuzzer \emph{AFL++} gegeben.
+Hierzu werden die verwendete Strategie und die verbauten Technologien des Fuzzers beschrieben.
+Anand der Funktionsweise des Fuzzers werden die mit ihm verbundenen Risiken offengelegt. \\
+\linebreak
+Im folgenden praktischen Teil der Arbeit werden die entwickelten und verwendeten Testumgebungen erklärt.
+Dazu werden die Unterschiede der beiden entwickelten Ansätze aufgezeigt und ein Fazit zur Benutzbarkeit der
+Testumgebungen gezogen.\\
+\linebreak
+Im Anschluss wird die Vorgehensweise zum Fuzzen eines Netzwerkprotokolls auf Applikationsebene erläutert.
+Dazu gehört das Implementieren einer Preload-Library zum Überschreiben von Syscalls, die für die Kommunikation
+über das Netzwerk verantwortlich sind.
+Es werden drei Ansätze zur Leistungssteigerung beschrieben, indem die
+von AFL++ bereitgestellten Funktionen zur Minimierung der Eingaben, zur Verwendung des Persistent Modes und zur Skalierung
+der Kampagne über mehrere CPU-Kerne genutzt werden.\\
+\linebreak
+Abschließend werden die vom Fuzzer erzeugten Ausgaben der Statusanzeige des laufenden Fuzzers erklärt.
+Die erzeugten Dateien und deren Inhalt werden anschließend ausgewertet und der Erfolg des Fuzzingprozesses ermittelt. \\
+\linebreak
+Zum Abschluss werden die während der Arbeit aufgetretenen Probleme offengelegt und die Arbeit reflektiert.
+Der verwendete Fuzzer kann als Erweiterung dieser Arbeit durch die Bibliothek \emph{LibAFL} erweitert und den Anforderungen
+der Arbeit angepasst werden.
+
+\restoregeometry

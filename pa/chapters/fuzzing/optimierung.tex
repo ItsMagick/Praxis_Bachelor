@@ -1,0 +1,95 @@
+%! Author = charon
+%! Date = 2/8/24
+
+\subsection{Optimierungen}\label{subsec: optimierung}
+Aufgrund der langsamen Durchführung eines Fuzzing-Zyklus, muss die Kampagne angepasst werden.
+Je öfter ein Zyklus durchlaufen wird, desto höher ist die chance innerhalb eines Zeitintervalls Fehler im Programm zu finden.
+Ein Zyklus besteht aus dem Starten der Applikation, Weiterreichen der Daten bis zur gewünschten Stelle, der Terminierung
+des Programms und Mutation des Inputs anhand des erlangten Feedbacks.\\
+Ein Schritt zur Beschleunigung der Kampagne wäre, den Netzwerkservice der Applikation mittels Reverse-Engineering-Techniken
+zu isolieren.
+Dieser Prozess ist jedoch sehr zeitintensiv und zum Zeitpunkt der Verfassung dieser Arbeit nicht umsetzbar.
+\subsubsection{Minimierung des Korpus}
+Ein wichtiger Bestandteil einer erfolgreichen Fuzzing-Kampagne ist der Korpus.
+Er ist das Mittel, mit dem \gls{afl} neue Codepfade (bzw.\ Call-trees) durchlaufen kann.
+Ein Korpus ist nur dann einzigartig, wenn alle darin enthaltenen Daten jeweils unterschiedliche Codepfade ablaufen und eine möglichst
+große Tiefe -- also möglichst viele branch edges -- im Code erreichen.
+Für den ersten test des Fuzzers werden alle dokumentierten Funktionen verwendet und getestet.
+Die Funktionen haben jeweils anders implementierte Handler für ihren speziellen Anwendungsfall.
+Zum Prüfen, ob es redundanten Input gibt, empfiehlt es sich, die Umgebungsvariable \texttt{AFL\_DEBUG=1} zu setzen.
+Sie ermöglicht es, weitere Informationen, wie Debug-Instruktionen des Programms (alle print-Statements und alle \texttt{puts()} aufrufe)
+oder Informationen zur aktuell laufenden Kampagne anzuzeigen.
+\begin{figure}[h]
+    \frame{\includegraphics[width=\linewidth]{img/unique-corpus}}
+    \caption{Zeigt eine Warnung von \gls{afl}.
+    Sie warnt vor einem oder mehrerer Testcases, welche duplizierte Codepfadabdeckung
+    bezwecken.}\label{fig:unique-corpus}
+\end{figure}\\
+\gls{afl} bietet ein Tool namens \texttt{afl-cmin}~\cite{afl-cmin} zum Minimieren der Testcases und zum Prüfen des Korpus.
+Das Tool folgt einer ähnlichen Syntax wie \texttt{afl-fuzz} (siehe Listing: \ref{lst:afl-synthax}), wobei das Flag \texttt{-i} für den Ordner mit dem Korpus steht,
+der analysiert werden soll.
+Das Flag \texttt{-o} steht für den Ordner, in den der minimierte Korpus geschrieben werden soll.
+Die Verwendung des Tools hat den Vorteil, dass das Fuzzing und die Mutation des Inputs nach jeder Stage eines Fuzzing-Zyklus,
+aufgrund geringen Inputs, welcher mutiert werden muss und geringeren Inputs, welcher getestet werden muss, beschleunigt wird.
+\subsubsection{Verwendung des Persistent Modes}\label{subsubsec:persistent-mode}
+Als nächsten Performanceboost empfiehlt es sich, den bereits von \gls{afl} implementierten \textit{Persistent Mode} zu verwenden.
+Der Persistent Mode erlaubt es \gls{afl}, ein Programm innerhalb zweier Speicheradressen mehrmals zu fuzzen, ohne dass der Prozess,
+auf dem der Fuzzer läuft, erneut geforkt wird.
+Hierzu muss das zu fuzzende Programm mit einem Hilfsprogramm wie dem \gls{gdb} des \gls{gnu}-Projekts untersucht werden,
+um eine geeignete Speicheradresse als Einsprungspunkt definieren zu können.\\
+Hierzu wird exemplarisch eine selbst entwickelte Applikation~\cite{example-tcp-server} zu Demonstrationszwecken hergenommen
+und analysiert, welche ebenfalls einen \gls{tcp}-Stack verwendet.
+Diese Applikation ist stark vereinfacht und bringt nicht die gleiche umfangreiche Funktionalität und Komplexität, wie das Ursprungsbinary
+\textit{mmapp}, mit sich.
+Um sich der Analyse eines \gls{arm}-Binarys anzunähern, wurde das Beispielsbinary für \gls{arm} kompiliert.
+Dazu wurde ein Komfortskript~\cite{compile-script} geschrieben, welches einen bereits für diesen Zweck gebauten Docker-Container~\cite{docker-gcc} verwendet, um
+das Binary zu kompilieren.
+Die Besonderheit bei der Kompilierung des Binarys, um möglichst wenig Abweichung zu haben, ist die von dem Ursprungsbinary
+\textit{mmapp} verwendete \gls{gcc} Version \textit{4.8.1}.
+\begin{figure}[h]
+    \frame{\includegraphics[width=\linewidth]{img/example-server-disassembly}}
+    \caption{Zeigt den disassemblierten Code des selbst implementerten \gls{tcp}-Servers.
+    In der Abbildung ist eine Funktion \texttt{simulateHeavyWorkload} in der Speicheradresse \texttt{0x001034a} zu sehen.
+    Das Ziel der Definitiion der Startadresse ist es, diese zeitintensive Funktion zu umgehen.}\label{fig:example-server-disassembly}
+\end{figure}\\
+In Abbildung~\ref{fig:example-server-disassembly} ist der dazugehörige Disassembly Code des Beispielprogramms.
+Hier ist zu sehen, dass die \texttt{main()} Funktion einen Funktionsaufruf auf eine Funktion namens \\ \texttt{simulateHeavyWorkload()}
+macht.
+Diese Funktion ist im übertragenen Sinne für das Initialisieren des \gls{iot}-Geräts verantwortlich.
+Diese Funktion sollte während des Fuzzens möglichst nur ein Mal aufgerufen werden, da das Initialisieren der gesamten Peripherie
+viel Zeit in Anspruch nimmt.
+Das kann erzielt werden, indem man \gls{afl} mittels eines \textit{"persistent loop"}s innerhalb zweier Speicheradressen
+instrumentiert.
+Hierfür muss eine Startadresse \texttt{AFL\_QEMU\_PERSISTENT\_ADDR} an der gewünschten Speicheradresse \texttt{0x0001034e},
+an der der Persistent-Loop anfangen soll, definiert werden.
+Da hier nur ein Teil der \texttt{main()} Funktion gefuzzt werden soll und das Programm nicht unter normalen Bedingungen terminieren
+sollte, muss eine Schlussadresse \texttt{AFL\_QEMU\_PERSISTENT\_RET}~\cite{qemu-persistent} definiert werden.
+In diesem Fall soll der Persistent-Loop nach der Verarbeitung der empfangenen Daten enden. \\
+\begin{figure}[h]
+    \frame{\includegraphics[width=\linewidth]{img/example-server-disassembly-end}}
+    \caption{Disassembly des selbst implementierten \gls{tcp}-Servers. Diese Abbildung zeigt die für das Fuzzing wichtige
+    Logik, in der die empfangenen Daten verarbeitet werden.
+    Hierbei ist die Schlussadresse \texttt{0x000104ae} ausschlaggebend, in der die Verarbeitung der empfangenen
+    Daten stattfindet.}\label{fig:example-server-disassembly-return}
+\end{figure}\\
+Die letzte Instruktion, die ausgeführt werden soll ist somit in der Speicheradresse \texttt{0x000104ae}~\ref{fig:example-server-disassembly-return}.
+\subsubsection{Verwendung mehrerer CPU-Kerne}
+Mit \gls{afl} ist es auch möglich, mehrere Instanzen des Fuzzers laufen zu lassen, um die Performance weiter zu verbessern.
+Dazu wurde eine Funktionalität implementiert, die es mehreren Instanzen ermöglicht, parallel zueinander zu fuzzen.
+Die Limitation besteht darin, dass nicht mehr Instanzen gestartet werden können, als \gls{cpu}-Kerne auf dem System verfügbar
+sind.
+Außerdem ist es ratsam, die Anzahl der Kerne zu untersuchen, die zur Verwendung einer Kampagne nützlich sind ohne einen
+Perfomanceverlust zu bezwecken.
+Diese Zahl liegt in der Regel zwischen 32 und 64 Kernen~\cite{afl-multiple-cores}.\\
+\linebreak
+Das Feature ist mit dem Setzen zweier Flags umsetzbar.
+Under Verwendung des Flags \texttt{-M} kann die Hauptinstanz definiert werden.
+Der Zweck eines Hauptfuzzers ist das Sammeln aller Testcases.
+Dadurch werden nach der Terminierung einer Fuzzer-Instanz die gefundenen einzigartigen Testcases in den Hauptfuzzer importiert.\\
+Jeder Untergeordnete Fuzzer wird mit dem \texttt{-S} Flag deklariert.\\
+Dadurch entsteht die daraus resultierende Syntax zum Starten mehrerer Instanzen:
+\input{listings/multiple-cores-main}
+\input{listings/multiple-cores-second}
+Das Fuzzing mittels mehrerer Kerne macht am meisten Sinn, wenn jede Instanz eine andere Strategie umsetzt.
+Es wird dabei empfohlen, andere Mutationsstrategien des Fuzzers zu verwenden, um möglichst viele mutierte Eingaben zu
+erzielen, die voneinander abweichen.

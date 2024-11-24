@@ -1,0 +1,41 @@
+%! Author = charon
+%! Date = 2/8/24
+\subsection{Risiken}\label{subsec:risiken}
+Das Fuzzen von Applikationen bringt auch einige Risiken mit sich, die vor dem Start der Kampagne berücksichtigt werden sollten.
+Es handelt sich dabei um sehr leistungsintensive Anweisungen.
+Darunter fallen das Transpilieren -- also Übersetzen -- von Instruktionen auf eine andere Architektur,
+das Mutieren der Eingaben und das Verfolgen der abgedeckten Programmpfade, sowie das Lesen von Eingaben und das Schreiben von Output.
+Insbesondere bei der Parallelisierung der Kampagne und der Ausführung dieser auf mehreren \gls{cpu}-Kernen ist auf die Temperatur
+des Testsystems zu achten.
+Die folgenden Absätze basieren auf der Dokumentation~\cite{fuzzing-risks} von \gls{aflpp} und wurden zur besseren
+Veranschaulichung erweitert. \\
+\linebreak
+Lese- und Schreibinstruktionen, die eine große Belastung eines Systems darstellen, und das damit verbundene Caching
+können einen wesentlichen Faktor der Erhitzung der \gls{cpu} sein.
+Dies kann zur Drosselung der Leistung des Systems als Selbstschutzmechanismus und im Extremfall zum
+Systemabsturz oder zur Beschädigung der Hardware führen.
+Es wird daher empfohlen, eine spezialisierte Langzeitkampagne auf einem System mit ausreichender Kühlung durchzuführen,
+damit die im System verbauten Komponenten keinen Schaden davontragen. \\
+\linebreak
+Darüber hinaus besteht die Gefahr, dass es bei einer lang anhaltenden Kampagne zum Datenverlust kommen kann.
+Dieses Risiko wird durch die häufige Generierung vieler Dateien und deren Abspeicherung verursacht.
+Außerdem können viele Logdateien, wie Absturzprotokolle oder \textit{core dumps}, zu einem hohen Speicherverbrauch während
+der Kampagne führen.
+Wenn dabei nicht genug Speicherplatz zur Verfügung steht, kann es passieren, dass Daten von dem von \gls{afl} erzeugten
+Output überschrieben werden.
+Daraus folgt, dass eine Langzeitkampagne -- über mehrere Tage -- nicht auf Systemen durchgeführt werden sollte, bei denen
+ein resultierender Datenverlust nicht tragbar ist.
+Daher sollte man immer feststellen, dass genug Speicherplatz für eine lange Fuzzing-Kampagne zur Verfügung steht. \\
+\linebreak
+Schließlich trägt das Fuzzing einer Applikation dazu bei, die Lebensdauer einer physischen Speichereinheit wie einer~\gls{hdd}
+oder einer~\gls{ssd}, erheblich zu reduzieren.
+Dieser Beschädigung der Hardware ist auf sehr intensiven Lese- und Schreibaktivität auf dem Speichermedium zurückzuführen.
+Bei der Generierung von mutierten Daten und dem Lesen und Schreiben dieser Daten auf ein Speichermedium geschehen im Verlauf
+einer Kampagne Milliarden von Lese- und Schreibzyklen.
+Bei dem häufigen Schreiben und Lesen von Daten eines Speichermediums verschleißen die darin eingebauten Teile.
+Eine Möglichkeit, dem Verschleiß eines Speichermediums im gewissen Umfang entgegenzuwirken, ist das Caching der temporär erzeugten Daten
+im~\gls{ram}. \\
+\linebreak
+Unter Abwägung aller Risiken ist es daher ratsam, anspruchsvolle Fuzzing-Kampagnen auf einem dedizierten System laufen zu lassen.
+Wenn diese Möglichkeit nicht besteht, sollte darauf geachtet werden, dass eine solche Kampagne nur für eine ausreichend kurze Zeit läuft.
+Des Weiteren sollte immer eine gute Backup-Strategie zur Hand sein, um einem möglichen Datenverlust entgegenzuwirken.

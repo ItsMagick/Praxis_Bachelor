@@ -1,0 +1,38 @@
+%! Author = charon
+%! Date = 1/22/24
+
+\section{Fuzzing-Kampagne}\label{sec: fuzzing-kampagne}
+Eine Fuzzing-Kampagne folgt einer in der Regel festen Struktur.
+\begin{figure}[h]
+    \frame{\includegraphics[width=\linewidth]{img/fuzzing-process-overview}}
+    \caption{Visuelle Darstellung einer Fuzzing-Kampagne in mehreren Etappen, wenn der Quellcode eines Programms zur Verfügung steht~\cite{fuzzing-process-image}.}\label{fig:fuzzing-zyklus}
+\end{figure}\\
+Der erste Schritt besteht darin, das zu untersuchende Programm zu instrumentieren.
+Wenn der Quellcode der Applikation verfügbar ist, können in diesem Schritt Anpassungen am Quellcode gemacht werden.
+Dies geschieht, indem von~\gls{afl} bereitgestellte Funktionen und Makros in den Code geschrieben werden.
+Dadurch ist es möglich, den Teil der Applikation zu isolieren, der untersucht werden soll.\\
+\linebreak
+Als Nächstes kommt die Sammlung möglicher Inputs für das instrumentierte Programm.
+Hierbei werden alle gültigen Eingaben gesammelt.
+Dabei ist zu beachten, dass die Dateien, die die Eingaben beinhalten, möglichst klein gehalten werden.
+Um möglichst wenig Zeit und Performance der Kampagne zu verlieren, sollte mit dem von~\gls{afl} bereitgestellten Werkzeug
+\texttt{afl-cmin} sichergestellt werden, dass jede Eingabe für das Ablaufen eines anderen Codepfades verantwortlich ist.\\
+\linebreak
+Im Anschluss wird der Fuzzer gestartet und das Programm wird mit dem gelieferten Input getestet.
+Der Fuzzer mutiert den Input, nachdem alle Testfälle bereits mindestens ein Mal mit dem zu untersuchenden Programm
+geprüft wurden.
+Es wird empfohlen, dass die Mindestdauer einer Kampagne mindestens eine Stage beträgt.
+Eine Stage ist der Durchlauf der Kampagne, bis keine neuen Codepfade mehr entdeckt werden.
+Die benötigte Zeit für das Durchlaufen einer Stage hängt von der Komplexität des Programms ab.
+Sie kann von einem Tag bis zu einer Woche dauern.\\
+\linebreak
+Zuletzt werden die gefundenen Abstürze und Hänger -- sofern sie gefunden wurden -- untersucht und verifiziert.\\
+Beim Fuzzing ohne Sourcecode fällt jedoch der Schritt der Instrumentierung weg.
+Dieser Schritt wird von dem~\gls{qemu} Modus des Fuzzers übernommen.\\
+\linebreak
+Eine solche Kampagne stellt einen zyklischen Prozess dar.
+Nachdem eine Kampagne abgeschlossen wurde, ist es ratsam die bereits gefundenen Daten im Output-Verzeichnis wiederzuverwenden
+und beim Schritt der Vorbereitung der Kampagne von vorne anzufangen.
+\input{pa/chapters/fuzzing/instrumentation}
+\input{pa/chapters/fuzzing/ld-preload}
+\input{pa/chapters/fuzzing/optimierung}

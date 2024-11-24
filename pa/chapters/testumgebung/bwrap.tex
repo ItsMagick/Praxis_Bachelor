@@ -1,0 +1,22 @@
+%! Author = charon
+%! Date = 2/8/24
+
+\subsection{Aufbau der Testumgebung mit bwrap}\label{subsec: bwrap}
+Bubblewrap ist ein Low-Level Sandboxing-Tool.
+Es ermöglicht dem Nutzer, eine containerisierte Laufzeitumgebung ähnlich wie Docker, zu erstellen.
+Der Unterschied zu Docker ist, dass Bubblewrap~\cite{bwrap} (oder kurz \textit{bwrap}) es ermöglicht, auch unprivilegierten Benutzern
+Container -- mithilfe von Linux Kernel-User-Namespaces -- zur Verfügung zu stellen.
+Der Vorteil bei der Umsetzung einer Testumgebung mit einem Container liegt darin, dass es unwahrscheinlicher ist,
+das Host-System fälschlicherweise umzukonfigurieren.
+Wie bereits in Abschnitt~\ref{subsec: chroot} angesprochen, müssen auch mit bwrap die entsprechenden Verzeichnisse gemountet werden,
+sodass das Binary fehlerfrei funktioniert.
+Das muss jedoch nicht wie bei chroot auf dem Host-System erfolgen, sondern in einer Containerumgebung.
+Bwrap erstellt bei Aufruf zuerst ein leeres \gls{fs}.
+Danach können alle benötigten Verzeichnisse in den Container gemountet werden~\ref{lst:bwrap-env}.
+Diese Methode hat sich als die beste Methode für das hardwareunabhängige Testen erwiesen.
+Mit der Isolation der Applikation über Kernel-Namespaces bietet \gls{bwrap} mit einer einfachen Syntax eine sichere Möglichkeit,
+Applikationen in eine Testumgebung zu packen.
+Aufgrund der Containerisierung ist es im Gegensatz zu chroot nur erschwert möglich, das eigene Betriebssystem mit dem falschen Mounten
+von Verzeichnissen zu beschädigen.
+Auch hat man bei der Konfiguration und Inbetriebnahme der Applikation keinen Overhead der Virtualisierung einer kompletten Plattform
+wie mit Docker, was bwrap zu einem geeigneten Tool zur Implementierung einer leichtgewichtigen Testumgebung macht.

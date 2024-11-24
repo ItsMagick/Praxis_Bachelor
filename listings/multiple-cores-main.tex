@@ -1,0 +1,7 @@
+%! Author = chaorn
+%! Date = 10.03.24
+
+\begin{lstlisting}[language=bash, caption={Syntax des AFL fuzzing Befehls mit der Definition der
+                    Hauptinstanz mithilfe des \texttt{-M} Flags},label={lst:multiple-cores-main}]
+$ afl-fuzz -Q -M main -i in/ -o out/ -- /app/mmapp @@
+\end{lstlisting}

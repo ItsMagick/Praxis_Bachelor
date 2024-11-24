@@ -1,0 +1,57 @@
+%! Author = chaorn
+%! Date = 13.08.24
+
+\subsection{Pulsar}\label{subsec:pulsar}
+Im Folgenden werden alle Schritte zur Vorbereitung und Durchführung der Fuzzing Kampagne mit Pulsar beschrieben und
+anschließend der daraus entstandene Erkenntnisgewinn geschlussfolgert.
+\subsubsection{Setup}
+Pulsar wurde mithilfe des von Pahl bereitgestellten Docker-Images~\cite{pulsar-docker} installiert.
+Das Docker-Image wurde auf einem Ubuntu 20.04 LTS System installiert.
+Weitere Abhängigkeiten, welche nicht in der Installation der Docker-Images enthalten sind, wurden manuell installiert und
+in einer \texttt{requirements.txt} Datei festgehalten.
+Für das Fuzzing mit Pulsar wird ein Netzwerkverkehr benötigt.
+Dieser Netzwerkverkehr wird in Form von \gls{pcap}-Dateien gespeichert.
+Hierfür wurde ein Python-Skript entwickelt, welches \gls{mqtt} spezifische Nachrichten an den Broker sendet und möglichst
+viele Zustände vom Broker erreicht.
+Die Nachrichten werden mithilfe des Tools \texttt{tcpdump} aufgezeichnet und in \gls{pcap}-Dateien abgelegt.
+Die \gls{pcap}-Dateien werden in einem Ordner \textit{traffic} abgelegt.
+Für den Start werden zusätzlich die \gls{pcap}-Dateien im Ordner \textit{traffic} über ein live-volume in den
+Docker-Container eingehängt.
+Alle gesammelten pcap-Dateien dienen für den weiteren Verlauf der Untersuchung.
+Pulsar verwendet die \gls{pcap}-Dateien, um die State Machine zu erlernen.\newline\newline
+Die Daten wurden in Kombination eines Python-Skripts, der Fuzzing Kampagne mit \gls{afl}Net und dem Tool
+\texttt{tcpdump} gesammelt.
+Das Python-Skript~\cite{python-script-input-generation} und \gls{afl}Net~\cite{aflnet-capture-traffic} wurden im Falle der Vorbereitung
+auf die Fuzzing Kampagne mit Pulsar als Input-Generatoren verwendet.
+Mithilfe dieser Tools wurde der Netzwerkverkehr aufgezeichnet und in \gls{pcap}-Dateien abgelegt.
+Die \gls{pcap}-Dateien wurden in den Docker-Container mithilfe eines live-volumes eingehängt und Pulsar wurde gestartet~\cite{run-pulsar}.
+Die gesammelten Daten wurden dann von Pulsar als Trainingsdaten verwendet, um das zu analysierende Protokoll zu erlernen.
+\subsubsection{Erkenntnisgewinn}
+Die Erkenntnisse des Fuzzing Kampagne mit Pulsar belaufen sich dabei auf die Art und Weise, wie Pulsar
+den Netzwerkverkehr analysiert und das Protokoll erlernt.
+Bei der Generierung von Input mit \gls{afl}Net und dem Python-Skript wurde darauf geachtet, dass möglichst viele Zustände
+erreicht werden.
+Jedoch wurde bei der Analyse des Netzwerkverkehrs festgestellt, dass Pulsar nicht in der Lage war, die State Machine
+des \gls{mqtt} Protokolls korrekt zu erlernen.
+Die Ursache hierfür ist, dass Pulsar die Startsequenz des Protokolls nicht korrekt erlernen konnte.
+Durch das Generieren von Input mit \gls{afl}Net wurden viele falsche Pakete generiert, welche auch häufiger auftraten.
+Mit unter ist das der Fall gewesen, dass Pulsar eine oft vorkommende Sequenz von vielen \textit{A}s als Startsequenz
+des Protokolls interpretiert hat.
+Diese Sequenzen sollten einen Fehlerzustand im Protokoll darstellen und nicht als Startsequenz interpretiert werden.
+Da jedoch viele Implementierungen von Fehlerbehebungen in der State Machine des Protokolls vorhanden sind, wurde von
+\gls{afl}Net auch eine Vielzahl von Fehlerzuständen generiert.
+Dies liegt an der Art, wie \gls{afl}Net geeignete eingaben bewertet.
+Eine Eingabe, die von \gls{afl}Net als geeignet bewertet wird, wird auch häufiger generiert.
+Diese geeigneten Eingaben werden als geeignet bewertet, wenn sie viele Zustände erreichen.
+Da jedoch viele Fehlerzustände in der State Machine des Protokolls vorhanden sind, werden auch viele Fehlerzustände
+generiert.
+Die vorhergehenden Versuche eines Verbindungsaufbaus mit einer Connect-Nachricht wurden nicht als Startsequenz
+interpretiert.
+Dies hatte zur Folge, dass im Zeitrahmen dieser Arbeit Pulsar nicht effektiv zum Laufen gebracht werden konnte.
+Pulsar benötigt nämlich viel Zeit eine Markov-Kette zu erlernen und die State Machine zu approximieren, wenn besonders
+viel Netzwerkverkehr aufgezeichnet wurde.
+Im Rahmen dieser Arbeit wurden bis zu 7 Gigabyte an Netzwerkverkehr aufgezeichnet und Pulsar benötigte mehrere (ca.\ 35)
+Stunden, um die State Machine zu erlernen.\newline\newline
+Eine weitere Erkenntnis ist -- aufgrund der Geschwindigkeit des Lernprozesses -- dass Pulsar noch keine Hardwarebeschleunigung
+mit bspw.\ einer \gls{gpu} unterstützt.
+Die Hardwarebeschleunigung würde den Lernprozess beschleunigen und somit auch die State Machine schneller erlernen.

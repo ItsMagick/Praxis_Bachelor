@@ -1,0 +1,40 @@
+%! Author = charon
+%! Date = 2/7/24
+\section{Probleme}\label{sec:probleme}
+Im Verlauf der Bearbeitung der Aufgabenstellung traten Probleme auf, deren Lösung im Folgenden aufgezeigt wird. \\
+\linebreak
+Das erste Problem, welches sich bereits am Anfang der Arbeit stellte, war die Erstellung eines Docker Containers.
+Dieser Docker Container sollte es ermöglichen, die in dieser Arbeit verwendeten shared library mithilfe einer alten,
+vom Binary genutzten \gls{gcc}-Version, für \gls{arm} zu kompilieren. \\
+Der ursprüngliche Ansatz der Aufgabe bestand daraus, die Instruktionen aus dem Dockerfile eines bereits vorhandenen \gls{arm}-Containers
+aus Dockerhub~\cite{docker-gcc} herauszukopieren und diese auf die gestellte Anforderung der \gls{gcc}-Version 4.8.1 anzupassen.
+Dieser Ansatz stellte sich jedoch schnell als sehr Zeitintensiv heraus, da das Nachvollziehen fremder Logik innerhalb eines
+Dockerfiles viel Zeit in Anspruch nimmt.
+Der nächste Ansatz war es, ein Installationsskript anhand der Dokumentation von \gls{gcc}~\cite{gcc-doc} selbst zu erstellen.
+Dieser Ansatz war jedoch erfolglos.
+Die Schwierigkeit bestand daraus, die von der Version des Compilers benötigten Dependencies zu erfüllen.
+Eine effiziente Lösung des Problems war es, ein altes Image zu verwenden, welches ein Betriebssystem aus dem Erscheinungsjahr
+der \gls{gcc}-Version verwendet.
+Daraufhin konnte die Installation des Compilers begonnen werden.
+Da das Kompilieren von \gls{gcc} sehr Zeit- und Ressourcenintensiv (ca.\ 20 Minuten) ist, wurden mehrere Instanzen des Docker Containers gestartet,
+um parallel an anderen Lösungsansätzen beim Auftreten eines Fehlers zu arbeiten.
+Diese Fehler waren jedoch der Inkompatibilität der auf dem Image verwendeten glibc Version geschuldet.
+Aufgrund der Komplexität und des hohen Zeitaufwands dieser Aufgabe wurde der Ansatz des Bauens eines eigenen Docker Image
+verworfen.
+Der letzte und schlussendlich eingesetzte Ansatz ist das Suchen eines bereits funktionierenden \gls{gcc} Binaries, das
+für eine auf Debian basierte Linux Distribution gebaut wurde.
+Dafür wurde in den Archiven der Debian und Ubuntu Repositories~\cite{ubuntu-archive} nach einer kompatiblen \gls{gcc}-Version gesucht.
+Die kompatible \gls{gcc}-Version wurde dann innerhalb eines Shellscripts in einem für \gls{arm} gebauten Container
+installiert und konnte dann verwendet werden.\\
+\linebreak
+Bei der Entwicklung des Testsystems kam es ebenso zu einigen schwerwiegenden Problemen.
+Eines der Probleme beinhaltet die Entwicklung der chroot Umgebung.
+Bei dem Mounten der verschiedenen Verzeichnisbäume in eine isolierte Umgebung kann es zu unerwünschten Beierscheinungen,
+wie dem Neudefinieren von für das Betriebssystem notwendigen Verzeichnissen.
+Ebenfalls hat das chroot Skript eine Bereinigungsfunktion, welche den Zustand des im Gitlab~\cite{gitlab} enthaltenen rootfs berücksichtig.
+Diese Funktion löscht alle neu angelegten Dateien, welche nicht im Git Repository nachverfolgt werden, um möglichst nah am
+Ausgangszustand der Firmware zu bleiben.
+Somit kann es passieren, dass falsch gemountete Verzeichnisse gelöscht werden und damit für das Betriebssystem wichtige Dateien
+verloren gehen.
+Es ist also ratsam, eine virtuelle Maschine zu Testzwecken des chroot Skripts zu verwenden, damit das eigene Betriebssystem
+unversehrt bleibt.

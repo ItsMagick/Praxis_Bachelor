@@ -1,0 +1,24 @@
+%! Author = chaorn
+%! Date = 21.02.24
+
+\begin{lstlisting}[language=bash, caption={Einstellen der Containerumgebung mit bwrap},label={lst:bwrap-env}]
+$ bwrap \
+     --clearenv \
+     --die-with-parent \
+     --bind root/ / \
+     --setenv DISPLAY :10 \
+     --setenv QT_X11_NO_MITSHM 1 \
+     --setenv PATH "/usr/gnu/bin:/usr/local/sbin:/usr/local/bin:/bin:/sbin:/usr/bin:." \
+     --proc /proc \
+     --dev /dev \
+     --dev-bind /tmp/ttyACM0 /dev/ttyACM0 \
+     --uid 0 \
+     --gid 0 \
+     --chdir / \
+     --unshare-all \
+     --share-net \
+     --cap-add CAP_SYS_ADMIN \
+     --ro-bind /lib64 /lib64 \
+     --setenv AFL_PRELOAD ./sockfuzz.so \
+     /afl-fuzz -Q -i in/ -o out/ -t 50000 -- /app/mmapp @@
+\end{lstlisting}

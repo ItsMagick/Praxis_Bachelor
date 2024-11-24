@@ -1,0 +1,17 @@
+\clearpage
+\section{Ausblick}\label{sec:ausblick}
+Aufgrund der beliebig steigenden Komplexität der Herangehensweisen beim fuzzen gibt es bereits erste Baukastensysteme zum Bauen
+eigener Fuzzer.
+Von \gls{aflpp} selbst gibt es eine in RUST geschriebene Bibliothek LibAFL~\cite{libafl} zum Bauen modularer Fuzzer.
+Diese Art des Fuzzen erlaubt es dem Tester, noch schnellere Ausführgeschwindigkeiten zu erzielen.
+Mithilfe dieser Frameworks ist es möglich, Fuzzing komplett Plattformunabhängig durchzuführen.
+Zudem ist es möglich, den mit LibAFL gebauten fuzzer in ein gewünschtes Binary zu integrieren und somit natives Fuzzing
+zu ermöglichen.\\
+Nachdem sich in dieser Arbeit mit \gls{aflpp} auseinandergesetzt wurde, soll sich in der auf dieser Arbeit aufbauenden
+Bachelorarbeit mit den alternativen Ansätzen des Fuzzing beschäftigt werden.
+Dazu gehören die Abwägungen von Netzwerk basierenden Fuzzern wie boofuzz und modernen Baukastensystemen wie der bereits genannten
+Fuzzing-Bibliothek LibAFL\@. \\
+\linebreak
+In einer zukünftigen Arbeit soll ein -- an das untersuchte Binary -- angepasster Fuzzer mithilfe des bereits angesprochenen
+Frameworks LibAFL umgesetzt werden.
+Hierbei soll die Performance der bereits existierenden Kampagne weiter optimiert werden.

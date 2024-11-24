@@ -1,0 +1,53 @@
+\section{Einleitung}\label{sec:einleitung}
+Immer mehr gewinnen smarte Geräte Bedeutung in unser aller Alltag.
+Die Verwendung solcher Geräte reicht von Glühlampen, welche sich an den Stromverbrauch des Endnutzers anpassen,
+bis hin zu einem Beamer, welcher vielseitig und alltäglich in Firmen, Freizeitanlagen und auch Bildungsinstituten zum
+Einsatz kommt.
+Gerade bei diesen Geräten sollte, aufgrund der vielseitigen Ausnutzungsmöglichkeiten für beispielsweise \gls{ddos} Angriffe,
+ein genaues Augenmerk auf Sicherheit gesetzt werden~\cite{iot-exploitations}. \\
+Um solchen Gefahren vorzubeugen, führt die Forschungsgruppe \textit{Systems and Network Security} regelmäßige Schwachstellenscans durch.
+Die Scans werden mithilfe eines angepassten Abbildes des Greenbone~\cite{greenbone} Schwachstellenscanners durchgeführt.
+Nach einem der Scans ist Pahl -- einem wissenschaftlichen Mitarbeiter der Forschungsgruppe \gls{sns}\cite{sns} -- auf eine
+bisher unentdeckte Schwachstelle im Web-Interface eines in der Hochschule eingesetzten \gls{iot}-Geräts gestoßen.
+Hierbei handelt es sich um eine Path Traversal~\cite{path-traversal} Schwachstelle in der \gls{url} des Web-Interfaces eines
+an der Hochschule verwendeten \gls{iot}-Geräts.
+Genauere Details zu der Arbeit können zum Zeitpunkt der Verfassung dieses Dokuments, aufgrund einer noch nicht
+abgeschlossenen \textit{responsible disclosure}, nicht preisgegeben werden.\\
+\linebreak
+Genau dieser Problematik widmet sich diese Arbeit, in der in den folgenden Kapiteln darauf eingegangen wird, wie es zur Findung von Schwachstellen
+in der Firmware von \gls{iot}-Geräten kommt.
+Sie dient als Anleitung für das methodische Testen von Firmware.
+Die Herangehensweise hierbei ist das automatisierte Testen mithilfe eines Fuzzers, welcher durch Generierung von Input
+Schwachstellen in einem Programm finden soll ~\cite{fuzzing}.
+In dieser Arbeit wird insbesondere auf die Verwendung des Fuzzers \gls{aflpp} eingegangen.\\
+\linebreak
+Zuerst sollen kurz technische Hintergründe erläutert werden, um ein gewisses Grundverständnis der zum Einsatz gebrachten
+Technologien aufzubauen.
+Hierbei wird das Grundlegende Setup und die zugrunde liegende Firmware erklärt und eine grobe Übersicht über
+\gls{afl}\cite{afl} gegeben.
+In dieser Arbeit wird überwiegend die Erweiterung des Fuzzers \gls{aflpp} verwendet.
+\gls{afl} wird nur als Referenz auf die grundlegende Funktionsweise des Fuzzers hergenommen.\\
+\linebreak
+Im Anschluss werden die genaueren Modi und Terminologien des \glstext{aflpp}~\cite{AFLplusplus-Woot20} geklärt, welche in dieser Arbeit Verwendung finden.
+Dazu gehört, wie \gls{aflpp} mit der zu untersuchenden Applikation interagiert und kommuniziert.
+Genauer eingegangen wird zudem auf das Fuzzing von Netzwerkapplikationen, welche den Tester vor Herausforderungen stellt, da diese Funktionalität nicht für \gls{aflpp} implementiert ist.
+Ebenfalls werden die mit dem Fuzzing verbundenen Risiken angesprochen. \\
+\linebreak
+Daraufhin soll auf den Aufbau und die Implementierung der Testumgebung zur Analyse der Firmware für ein tieferes
+Verständnis der Testumgebung eingegangen werden.
+Hierbei wird auf die Funktionalitäten der Firmware eingegangen, welche einen Einblick in den Aufbau der Firmware und der Interaktion mit dem zugrunde liegenden
+Betriebssystem geben.
+Zudem wird erklärt, wie mit der Applikation interagiert werden kann.\\
+\linebreak
+Nachdem ein allgemeines Verständnis der verwendeten Technologien vermittelt wurde, wird die Durchführung des Fuzzing der Applikation beschrieben.
+Dieser Abschnitt ist vor allem für unerfahrene Tester und Schwachstellenforscher, denen hier ein Einblick in die
+Instrumentation und Modifikation zum Lesen von Dateien einer Applikation geboten wird.
+Zudem werden Möglichkeiten zur Optimierung des Fuzzingprozesses sowie deren Anwendung auf eine laufende Fuzzing Kampagne offengelegt. \\
+\linebreak
+Zum Abschluss sollen noch die besonderen Hindernisse bei der Durchführung des Fuzzings genauer betrachtet werden.
+Das soll vor allem bei der Umsetzung späterer Projekte dabei verhelfen, da hierbei auch auf allgemeine Problemstellungen eingegangen wird.
+Anschließend daran soll ein Ausblick zu alternativen Umsetzungen des Fuzzings gegeben werden.
+Abschließend soll das Projekt in seiner Gesamtheit reflektiert werden.
+
+\input{pa/chapters/intro/motivation}
+\input{pa/chapters/intro/zielsetzung}

@@ -1,0 +1,34 @@
+FROM alpine:3.20.2 AS download
+
+WORKDIR /jar
+RUN apk add --no-cache curl
+
+RUN curl -L -o textidote.jar https://github.com/sylvainhalle/textidote/releases/download/v0.8.3/textidote.jar
+
+FROM eclipse-temurin:21-jre-alpine AS check
+
+WORKDIR /tex
+
+COPY --from=download /jar/textidote.jar /tex/textidote.jar
+COPY ../Bachelorarbeit.tex /tex/Bachelorarbeit.tex
+COPY ../ba* /tex/
+COPY ../.textidote.ignore /tex/ignore.txt
+
+RUN mkdir /out
+RUN java -jar textidote.jar \
+    --output singleline \
+    --no-color \
+    --read-all \
+    --firstlang de \
+    --check en \
+    --ci \
+    --quiet \
+    --dict ignore.txt \
+    Bachelorarbeit.tex > /out/errors.txt
+
+RUN java -jar textidote.jar --clean Bachelorarbeit.tex > /out/words.txt
+
+FROM scratch AS result
+
+COPY --from=check /out/errors.txt /check.txt
+COPY --from=check /out/words.txt /words.txt

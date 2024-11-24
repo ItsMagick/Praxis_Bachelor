@@ -1,0 +1,69 @@
+\documentclass[headings=standardclasses, numbers=noenddot, a4paper, oneside, fontsize=12pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[all]{nowidow}
+\usepackage[final]{listings}
+\usepackage{ltablex}
+\usepackage{caption}
+\usepackage[title]{appendix}
+\usepackage{setspace}
+\usepackage[backend=biber,style=numeric-comp, sorting=none, labelnumber=true]{biblatex}
+\usepackage{graphicx}
+\usepackage[german]{csquotes}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{xurl}
+\usepackage[multiple]{footmisc}
+\usepackage[table]{xcolor}
+\usepackage{amssymb}
+\usepackage[letterspace=250]{microtype}
+\usepackage{hhline}
+\usepackage{wrapfig}
+\usepackage{xr-hyper}
+\usepackage{makecell}
+\usepackage[
+  bookmarks=true,
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  colorlinks=true,
+  linkcolor=black,
+  anchorcolor=black,
+  citecolor=black,
+  filecolor=black,
+  menucolor=black,
+  urlcolor=black
+]{hyperref}
+\usepackage{glossaries-extra} % load after hyperref
+\usepackage{mhchem}
+\usepackage{siunitx}
+\usepackage{float}
+\input{abbrev}
+\usepackage{enumitem}
+
+\newcommand{\sectionbreak}{\clearpage}
+\geometry{top=30mm, bottom=30mm, left=30mm,right=25mm}
+
+
+\fancypagestyle{sta}{%
+  \fancyhf{}%clear all headers and footers fields
+  \chead{\thepage} %prints the page number on the right side of the header
+}
+
+\bibliography{src}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{$\hookrightarrow$\space},
+}
+
+\renewcommand{\baselinestretch}{1.3}
+
+\setabbreviationstyle{short-long}
+\newlist{questions}{enumerate}{1}
+\setlist[questions,1]{label=Q\arabic*, labelsep=1em, left=0em, itemsep=0.5em}

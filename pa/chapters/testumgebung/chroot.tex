@@ -1,0 +1,27 @@
+%! Author = charon
+%! Date = 2/8/24
+
+\subsection{Aufbau der Testumgebung mit chroot}\label{subsec: chroot}
+Das Programm chroot ermöglicht das Ändern des aktuellen Wurzelverzeichnisses innerhalb eines bereits laufenden Betriebssystems.
+Unter vielen Linux-Distributionen ist das Wurzelverzeichnis des Dateisystems unter dem Verzeichnispfad \textbf{/} zu finden.
+Die minimale Struktur eines Linux \gls{fs}~\cite{root-fs} beinhaltet die Verzeichnisse \textit{/boot, /dev, /etc, /bin, /sbin}
+und in einigen Fällen \textit{/tmp}.
+Hierbei befinden sich unter \textit{/boot} Informationen zum Starten des Betriebssystems, unter \textit{/dev} Informationen zur verwendeten Hardware,
+unter \textit{/etc} Konfigurationsdateien für das Betriebssystem und unter \textit{/bin} und \textit{/sbin} ausführbare Dateien (Executables). \\
+Im Spezialfall des zu untersuchenden Binarys werden zum Start weitere Verzeichnisse benötigt.
+Dazu gehören die Verzeichnisse \textit{/proc}~\cite{arch-procfs}, mit den darin enthaltenen Informationen zum laufenden System und Kernel,
+\textit{/sys}~\cite{kernel-sysfs} mit enthaltenen Datenstrukturen, welche vom Betriebssystem verwendet werden
+und \textit{/run}~\cite{runfs}, welches Systeminformationen nach dem Bootprozess des Betriebssystems enthält.
+\input{listings/chroot-mounting}
+Das Mounten von \textit{/lib64} dient in diesem Script~\cite{chroot-fuzz} nur als Komfort, um nicht alle Abhängigkeiten für
+\gls{afl} manuell kopieren zu müssen.
+Eine Alternative dazu wäre, das \gls{afl}-Executable \texttt{afl-fuzz} statisch zu linken, damit es ohne Abhängigkeiten
+ausführbar ist.
+Diese Möglichkeit ist bereits im Quellcode von \gls{aflpp} eingebaut.\\
+Bevor das Programm gefuzzt werden kann, muss die Umgebung mit entsprechenden Umgebungsvariablen angepasst werden.
+Hierbei ist die \textit{PATH}-Variable entscheidend.
+Diese ist dafür verantwortlich, dass Programme in der aktuellen \gls{bash}-Session gefunden werden.\\
+Anschließend erfolgt der Wechsel in die erstellte Verzeichnisstruktur.
+Die Syntax von chroot ermöglicht es, nach dem Wechsel in das neue Wurzelverzeichnis, einen \gls{bash}-Befehl auszuführen.
+In diesem werden alle -- für \gls{afl} relevanten -- Umgebungsvariablen gesetzt und mit passender Instrumentierung gestartet.
+\input{listings/chroot-fuzz}

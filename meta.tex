@@ -1,0 +1,22 @@
+\title{\mytitle}
+\author{
+  \myname{} (\mymatrnr)
+}
+\newpage
+{
+  \setstretch{1}
+  \tableofcontents
+  \clearpage
+  \listoffigures
+  \setstretch{0.7}
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+  \clearpage
+  \glsenablehyper
+  \printnoidxglossary[style=listdotted,title=Abkürzungsverzeichnis]
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{3}}
+  \setstretch{1}
+  \clearpage
+  % \addcontentsline{toc}{section}{\lstlistlistingname}
+  \lstlistoflistings
+  \clearpage
+}

@@ -1,0 +1,20 @@
+%! Author = charon
+%! Date = 5/23/24
+\subsubsection{Generierung von Input}\label{subsubsec:generierung-von-input}
+Die Generierung von Input ist ein wichtiger Bestandteil des Fuzzing-Prozesses.
+Hierbei unterscheiden sich die Fuzzer in ihrer Herangehensweise und den Techniken, die sie verwenden, um Eingaben zu generieren.
+Die Generierung von Input kann auf verschiedene Arten erfolgen, die in den folgenden Abschnitten näher erläutert werden.\newline\newline
+\textit{Generationsbasierende}~\cite{iot-fuzzing} Fuzzer generieren Eingaben, indem sie eine Menge von Eingaben in Epochen erstellen.
+Jede Epoche wird als Generation bezeichnet.
+Diese Eingaben basieren auf einem vom Anwender festgelegten Regelwerk.
+Diese Herangehensweise des Generierens von Eingaben ist effektiv, um die Software mit Eingaben zu versorgen, welche nicht
+bereits im Vorfeld von dem \gls{zup} als fehlerhaft befunden werden sollen.
+Beispielsweise ist dies Vorteilhaft, wenn besonders komplexe Syntax des Input vonnöten ist.\newline\newline
+\textit{Mutationsbasierende}~\cite{iot-fuzzing} Fuzzer generieren Eingaben, indem sie vorhandene Eingaben, welche bereits im Vorfeld definiert wurden, verändern.
+Hierbei wird der Aufbau und die Struktur der Eingaben standardmäßig nicht berücksichtigt.
+Diese Veränderung wird Mutation genannt und kann auf verschiedene Arten erfolgen.
+Die Mutation kann beispielsweise durch das Hinzufügen, Entfernen oder Verändern von Bytes in der Eingabe erfolgen.
+Um die Güte der neu generierten Eingaben zu bestimmen, wird die Code Coverage -- also die im Quellcode erreichte Tiefe --
+analysiert.
+Eingaben, die besonders viele Codesegmente erreichen werden als besonders gut gewertet und als bevorzugte Eingabe für
+weitere Mutationen verwendet.

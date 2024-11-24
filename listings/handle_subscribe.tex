@@ -1,0 +1,28 @@
+%! Author = chaorn
+%! Date = 01.09.24
+
+\begin{lstlisting}[language=c,caption={Memory Leak in der Funktion \texttt{connect\_\_on\_authorised} der Quellcodedatei
+\texttt{src/handle\_subscribe.c} des Mosquitto Brokers},label={lst:handle-subscribe}]
+    int handle__on_authorised(struct mosquitto *context){
+        [...]
+        if(!slen){
+                 log__printf(NULL, MOSQ_LOG_INFO,
+                       "Empty subscription string from %s, disconnecting.",
+                       context->address);
+                 mosquitto__free(sub);
+                 mosquitto__free(payload);
+                 return MOSQ_ERR_MALFORMED_PACKET;
+              }
+              if(mosquitto_sub_topic_check(sub)){
+                 log__printf(NULL, MOSQ_LOG_INFO,
+                       "Invalid subscription string from %s, disconnecting.",
+                       context->address);
+                 mosquitto__free(sub);
+                 mosquitto__free(payload);
+    //                FIXME - this is a memory leak use after free
+                 strcpy(sub, "Use After free");
+                 return MOSQ_ERR_MALFORMED_PACKET;
+              }
+        [...]
+    }
+\end{lstlisting}

@@ -1,0 +1,33 @@
+%! Author = chaorn
+%! Date = 08.09.24
+
+\section{Methodik}\label{sec:methodology}
+In diesem Kapitel wird die Methodik zur Analyse der Performance von Netzwerkfuzzern vorgestellt.
+Die Methodik umfasst die Auswahl der Fuzzer, die Definition der Testumgebung, die Auswahl der Testfälle und die
+Durchführung der Tests.\newline\newline
+Um möglichst viele potenzielle Schwachstellen, die das \gls{zup} aufweisen könnte, zu identifizieren, wurde das
+\gls{zup} mit einem Address Sanitizer am Vorbild von Holz~\cite{mutuation-analysis} kompiliert.
+Der Address Sanitizer ist ein Werkzeug, das von der llvm-Toolchain bereitgestellt wird und zur Identifizierung von
+Speicherfehlern in C- und C++-Programmen verwendet wird.
+Der Address Sanitizer überwacht den Speicherzugriff und identifiziert potenzielle Speicherfehler wie Buffer Overflows,
+Memory Leaks, Use-after-free, Use-after-return, Use-after-scope und Double-free Bugs erkennt und das Programm kontrolliert
+mit einem Stoppsignal zum Absturz führt~\cite{asan}.\newline
+Die Tests wurden auf einem Rechner mit einem Intel Core i9-9900K Prozessor und 64 GB RAM durchgeführt.
+Das Betriebssystem des Rechners ist zur Zeit der Tests Parrot Security 6.2 (lorikeet), welches auf Debian basiert.
+Die Tests wurden bis auf Tests mit Pulsar auf der Host Maschine durchgeführt.
+Für Pulsar wurde eine virtuelle Umgebung mit Docker~\cite{pulsar-docker} eingerichtet.\newline\newline
+Alle Kampagnen wurden mit einer Laufzeit von 48 Stunden durchgeführt.
+Zur Analyse der Performance der Fuzzer werden verschiedene Metriken verwendet.
+Die Metriken umfassen die Anzahl der gefundenen potenziellen Schwachstellen, die Ausführungsgeschwindigkeit und die
+Effizienz der generierten Testfälle anhand der erfolgreichen Verbindungen mit dem \gls{mqtt}-Broker.
+Für das Loggen der Metriken wurde ein Skript entwickelt, das die Ausgabe des \gls{zup} von stdout und stderr in eine Datei
+schreibt.
+Anhand dieser Dateien können die aufgetretenen Fehler mit deren Stacktrace des Address Sanitizers und die Anzahl der erfolgreichen
+Verbindungen mit dem \gls{mqtt}-Broker ermittelt werden.
+Da das jedoch nicht unter \gls{afl}Net möglich ist, wurde hierzu eine preloaded library entwickelt, die die Ausgabe des
+Address Sanitizers und des stdin-Streams in eine Datei umleitet.
+Die Metriken werden in Diagrammen visualisiert und miteinander verglichen, um die Performance der Fuzzer zu bewerten.
+Das Ziel der Analyse ist es, die Effektivität der Fuzzer bei der Identifizierung von Schwachstellen in Netzwerkprotokollen
+zu bewerten und die Unterschiede in der Performance der Fuzzer zu identifizieren.
+Die Ergebnisse der Tests werden in Kapitel~\ref{subsec:vergleich-der-erhobenen-metriken} vorgestellt und diskutiert.
+Hierbei wird die Forschungsfrage \textit{Q1}~\ref{researc-questions} aus Kapitel~\ref{sec:einleitung} beantwortet.

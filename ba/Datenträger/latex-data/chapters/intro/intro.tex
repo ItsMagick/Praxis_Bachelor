@@ -1,0 +1,32 @@
+\section{Einleitung}\label{sec:einleitung}
+In der heutigen digital vernetzten Welt sind Netzwerke und ihre Protokolle das Rückgrat zahlreicher kritischer Anwendungen,
+von einfachen Webdiensten bis hin zu komplexen \gls{iot}-Systemen.
+Eine entscheidende Komponente der Netzwerksicherheit ist das Testen und die Absicherung dieser Protokolle gegen potenzielle Schwachstellen.
+Hierbei kommt die Technik des Fuzzing zum Einsatz, die durch die gezielte Überlastung eines Systems mit fehlerhaften oder
+unerwarteten Eingaben mögliche Sicherheitslücken aufdecken soll.
+Besonders relevant ist die Analyse von Netzwerkfuzzern, die speziell für die Sicherheitstests von Netzwerkprotokollen entwickelt wurden.
+Das \gls{mqtt}-Protokoll, ein leichtgewichtiges Messaging-Protokoll für kleine Sensoren und mobile Geräte, stellt in vielen
+\gls{iot}- und \gls{m2m}-Anwendungen einen wichtigen Standard dar.
+Aufgrund seiner weitreichenden Nutzung und der oft sensiblen Natur der übertragenen Daten, ist es essenziell, die Sicherheit
+dieses Protokolls gründlich zu prüfen.
+Netzwerkfuzzer wie Pulsar, \gls{afl}Net und boofuzz bieten unterschiedliche Ansätze zur Durchführung solcher Tests.
+Pulsar fokussiert sich auf eine dynamische und effektive Fehlersuche durch einen Mix aus Netzwerk- und Protokoll-basiertem
+Fuzzing.
+\gls{afl}Net basiert auf dem bewährten Ansatz von \gls{afl} und passt diesen für Netzwerkprotokolle an, um eine effektive
+Testabdeckung zu gewährleisten.
+Boofuzz -- eine Weiterentwicklung des etablierten Sulley-Fuzzers -- bietet spezifische Funktionen für das Testen von
+Netzwerkdiensten und deren Protokollen.
+In dieser Arbeit wird die Performance dieser Netzwerkfuzzer im Kontext des \gls{mqtt}-Protokolls detailliert analysiert.
+Ziel ist es, durch einen Vergleich der Fuzzing-Techniken und deren Effektivität Erkenntnisse zu gewinnen, die über die bloße
+Anwendung hinausgehen und zu einer fundierten Bewertung der getesteten Tools führen.
+Die Untersuchung fokussiert sich auf folgende Forschungsfragen:
+\begin{questions}\label{researc-questions}
+    \item Welche Performanceunterschiede gibt es unter den Netzwerkfuzzern in den Aspekten von gefundenen Bugs, Ausführgeschwindigkeit
+        und Effizienz der generierten Eingaben?
+    \item Sind Fuzzer in der Lage künstlich platzierte Schwachstellen in Netzwerkprotokollen zu identifizieren?
+\end{questions}
+Performance soll hierbei aus den Metriken der Anzahl der gefundenen Bugs, der Ausführungsgeschwindigkeit und der Effizienz
+der generierten Testfälle gemessen werden.
+Die Ergebnisse der Tests werden in Kapitel~\ref{subsec:vergleich-der-erhobenen-metriken} vorgestellt und diskutiert.
+Hierbei wird die Forschungsfrage \textit{Q1} beantwortet.
+Die Forschungsfrage \textit{Q2} wird in Kapitel~\ref{sec:conclusion} beantwortet und diskutiert.

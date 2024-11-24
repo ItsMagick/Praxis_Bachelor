@@ -1,0 +1,18 @@
+%! Author = charon
+%! Date = 2/13/24
+
+\lstdefinelanguage{pdf}{
+  basicstyle=\ttfamily,
+  morekeywords={obj, endobj, stream, endstream, xref, trailer},
+  sensitive=false,
+}
+\begin{lstlisting}[language=xml,caption=\texttt{example.pdf}: Synthax einer PDF Datei,label={lst:example.pdf}]
+%PDF-1.7
+1 0 obj  % entry point
+<<
+  /Type /Catalog
+  /Pages 2 0 R
+>>
+endobj
+%%EOF
+\end{lstlisting}

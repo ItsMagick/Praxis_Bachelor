@@ -1,0 +1,55 @@
+%! Author = charon
+%! Date = 6/4/24
+
+\subsection{Software-Testing Methoden}\label{subsec:software-testing-methoden}
+Das Fuzzing ist eine Software-Testing Methode zum Finden von Bugs und Sicherheitslücken in Applikationen.
+Es gibt verschiedene Arten von Software-Testing Methoden, die in der Software-Entwicklung eingesetzt werden.
+Die drei Kategorien sind White-Box, Black-Box und Grey-Box Testing.
+Sie unterscheiden sich in der Art und Weise, wie sie die Software testen.
+Jede Methode hat ihre eigenen Vor- und Nachteile und wird in verschiedenen Situationen eingesetzt.
+In den folgenden Abschnitten werden die verschiedenen Software-Testing Methoden genauer erläutert.
+\subsubsection{White-Box testing}\label{subsubsec:white-box-testing}
+Es handelt sich um White-Box Testing, wenn der Tester Zugriff auf den Quellcode der Software hat.
+Diese Testingmethode wird auch als \textit{Clear-Box}, \textit{Transparent-Box} oder \textit{Open-Box} Testing bezeichnet.
+Der Tester kann den Quellcode der Software analysieren und die Testfälle basierend auf dem Quellcode erstellen~\cite{white-box-testing}.
+White-Box Testing wird normalerweise von Entwicklern durchgeführt, um sicherzustellen, dass der Code korrekt funktioniert und keine Fehler enthält.
+Es wird auch verwendet, um die Testabdeckung zu messen und sicherzustellen, dass alle Teile des Codes getestet wurden.
+White-Box Testing ist eine sehr effektive Methode, um Fehler in der Software zu finden,
+aber es erfordert auch eine gründliche Kenntnis des Quellcodes und der Software-Architektur.
+Zu White-Box Testing gehören mitunter das \textit{Unit Testing}, bei dem einzelne Komponenten der Software getestet werden
+und \textit{Path Testing} bei dem alle möglichen Programmpfade innerhalb eines zu testenden Abschnittes abgelaufen und überprüft werden sollen.\newline
+Der Vorteil dieser Testmethode besteht darin, dass hierbei komplexe und auch strukturelle Fehler aufgedeckt werden können.
+Die Anwendung einer solchen Testmethode findet im optimalen Fall während der Entwicklung einer Anwendung statt.
+\subsubsection{Black-Box testing}\label{subsubsec:black-box-testing}
+Bei Black-Box Testing wird kein Zugriff auf den Quellcode und die interne Struktur der Application gebraucht.
+Das Ziel dieser Testmethode ist es zunächst mögliche Eingaben von Benutzern einer Software nachzuahmen~\cite{black-box-testing}.
+Somit werden funktionalitäten einer Software getestet, ohne dass der Tester den Quellcode kennt.
+In der Regel werden hierbei nur bereits kompilierte Software-Module oder von außen Zugreifbare Endpunkte getestet.
+Anwendungsfälle einer solchen Herangehensweise entsprechen einem Penetrationstest oder eines Usability-Tests.
+Der Vorteil von Black-Box Testing besteht darin, dass das \gls{zup} aus der Sicht des Answers getestet wird.
+Dabei wird die Software auf ihre Funktionalität und Benutzerfreundlichkeit getestet.
+\newline
+Black-Box Testing ist eine effektive Methode, um sicherzustellen, dass die Software den gestellten Anforderungen
+entspricht und keine offensichtlichen Fehler enthält.
+Es ist jedoch schwierig, komplexe Fehler zu finden, da der Tester keinen Zugriff auf den Quellcode hat und nicht weiß,
+wie die Software intern funktioniert.
+\subsubsection{Grey-Box testing}\label{subsubsec:grey-box-testing}
+Grey-Box Testing kombiniert beide Aspekte der bereits genannten Ansätze.
+Hierbei werden Teile des \gls{zup} offengelegt.
+Während beim White-Box Testing die interne Struktur oder der Code des Systems bekannt und getestet wird und beim Black-Box
+Testing nur die externen Funktionalitäten ohne Wissen über den internen Aufbau geprüft werden,
+ermöglicht Grey-Box Testing eine Balance zwischen diesen Ansätzen.
+Beim Grey-Box Testing hat der Tester teilweise Kenntnisse über die interne Struktur der Anwendung oder des Systems,
+verwendet diese Informationen jedoch hauptsächlich, um die Erstellung und Durchführung von Testszenarien zu optimieren,
+die auf der Benutzeroberfläche basieren~\cite{Coulter2001GrayboxST}.
+Diese Methode erlaubt es, gezielte Testfälle zu entwerfen, die nicht nur auf den sichtbaren Eingaben und Ausgaben basieren,
+sondern auch auf dem Wissen über die zugrundeliegenden Datenflüsse, Algorithmen oder architektonischen Schwächen.
+Grey-Box Testing wird häufig in Szenarien eingesetzt, in denen eine vollständige Kenntnis der internen Struktur nicht
+notwendig oder verfügbar ist, jedoch ein gewisses Maß an Verständnis über die Architektur oder den Code notwendig ist,
+um tiefere Testfälle zu entwickeln.
+Diese Technik kann besonders nützlich sein bei der Validierung von Sicherheitsaspekten, der Integrationstests von komplexen
+Systemen oder der Optimierung der Testabdeckung bei großen Anwendungen.
+In der Praxis findet Grey-Box Testing Anwendung in Bereichen wie Web-Applikationen, APIs und bei sicherheitskritischen
+Systemen, bei denen sowohl die Funktionalität als auch die interne Verarbeitung zuverlässig und sicher getestet werden müssen.
+Die Methode bietet somit eine ausgewogene Teststrategie, die die Vorteile von White-Box und Black-Box Testing vereint,
+um eine effektivere Fehlererkennung zu ermöglichen.
